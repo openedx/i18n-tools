@@ -13,14 +13,13 @@ languages to generate.
 
 """
 
-import argparse
 import logging
 import os
 import sys
 
 from polib import pofile
 
-from i18n.config import BASE_DIR, CONFIGURATION
+from i18n import config, Runner
 from i18n.execute import execute
 
 LOG = logging.getLogger(__name__)
@@ -40,7 +39,7 @@ def merge(locale, target='django.po', sources=('django-partial.po',), fail_if_mi
 
     """
     LOG.info('Merging {target} for locale {locale}'.format(target=target, locale=locale))
-    locale_directory = CONFIGURATION.get_messages_dir(locale)
+    locale_directory = config.CONFIGURATION.get_messages_dir(locale)
     try:
         validate_files(locale_directory, sources)
     except Exception, e:
@@ -65,7 +64,7 @@ def merge_files(locale, fail_if_missing=True):
     """
     Merge all the files in `locale`, as specified in config.yaml.
     """
-    for target, sources in CONFIGURATION.generate_merge.items():
+    for target, sources in config.CONFIGURATION.generate_merge.items():
         merge(locale, target, sources, fail_if_missing)
 
 
@@ -111,32 +110,33 @@ def validate_files(dir, files_to_merge):
             raise Exception("I18N: Cannot generate because file not found: {0}".format(pathname))
 
 
-def main(args=None):
-    """
-    Main entry point for script
-    """
-    logging.basicConfig(stream=sys.stdout, level=logging.INFO)
+class Generate(Runner):
+    def add_args(self):
+        self.parser.description = "Generate merged and compiled message files."
+        self.parser.add_argument("--strict", action='store_true', help="Complain about missing files.")
 
-    # pylint: disable=invalid-name
-    parser = argparse.ArgumentParser(description="Generate merged and compiled message files.")
-    parser.add_argument("--strict", action='store_true', help="Complain about missing files.")
-    parser.add_argument("--verbose", "-v", action="count", default=0)
-    args = parser.parse_args(args)
+    def run(self, args):
+        """
+        Main entry point for script
+        """
+        logging.basicConfig(stream=sys.stdout, level=logging.INFO)
 
-    for locale in CONFIGURATION.translated_locales:
-        merge_files(locale, fail_if_missing=args.strict)
-    # Dummy text is not required. Don't raise exception if files are missing.
-    for locale in CONFIGURATION.dummy_locales:
-        merge_files(locale, fail_if_missing=False)
+        for locale in config.CONFIGURATION.translated_locales:
+            merge_files(locale, fail_if_missing=args.strict)
+        # Dummy text is not required. Don't raise exception if files are missing.
+        for locale in config.CONFIGURATION.dummy_locales:
+            merge_files(locale, fail_if_missing=False)
 
-    compile_cmd = 'django-admin.py compilemessages -v{}'.format(args.verbose)
-    if args.verbose:
-        stderr = None
-    else:
-        stderr = DEVNULL
-    execute(compile_cmd, working_directory=BASE_DIR, stderr=stderr)
+        compile_cmd = 'django-admin.py compilemessages -v{}'.format(args.verbose)
+        if args.verbose:
+            stderr = None
+        else:
+            stderr = DEVNULL
+        execute(compile_cmd, working_directory=config.BASE_DIR, stderr=stderr)
 
+main = Generate()
 
 if __name__ == '__main__':
     main()
+
 

@@ -21,12 +21,11 @@ import os
 import os.path
 import logging
 import sys
-import argparse
 
 from path import path
 from polib import pofile
 
-from i18n.config import BASE_DIR, LOCALE_DIR, CONFIGURATION
+from i18n import config, Runner
 from i18n.execute import execute, remove_file
 from i18n.segment import segment_pofiles
 
@@ -37,107 +36,107 @@ DEVNULL = open(os.devnull, 'wb')
 
 
 def base(path1, *paths):
-    """Return a relative path from BASE_DIR to path1 / paths[0] / ... """
-    return BASE_DIR.relpathto(path1.joinpath(*paths))
+    """Return a relative path from config.BASE_DIR to path1 / paths[0] / ... """
+    return config.BASE_DIR.relpathto(path1.joinpath(*paths))
 
 
-def main(args=None):
-    """
-    Main entry point of script
-    """
-    # pylint: disable=invalid-name
-    parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--verbose', '-v', action='count', default=0)
-    args = parser.parse_args()
+class Extract(Runner):
+    def add_args(self):
+        # pylint: disable=invalid-name
+        self.parser.description = __doc__
 
-    logging.basicConfig(stream=sys.stdout, level=logging.INFO)
-    LOCALE_DIR.parent.makedirs_p()
-    source_msgs_dir = CONFIGURATION.source_messages_dir
-    remove_file(source_msgs_dir.joinpath('django.po'))
+    def run(self, args):
+        """
+        Main entry point of script
+        """
+        logging.basicConfig(stream=sys.stdout, level=logging.INFO)
+        config.LOCALE_DIR.parent.makedirs_p()
+        source_msgs_dir = config.CONFIGURATION.source_messages_dir
+        remove_file(source_msgs_dir.joinpath('django.po'))
 
-    # Extract strings from mako templates.
-    verbosity_map = {
-        0: "-q",
-        1: "",
-        2: "-v",
-    }
-    babel_verbosity = verbosity_map.get(args.verbose, "")
+        # Extract strings from mako templates.
+        verbosity_map = {
+            0: "-q",
+            1: "",
+            2: "-v",
+        }
+        babel_verbosity = verbosity_map.get(args.verbose, "")
 
-    babel_mako_cmd = 'pybabel {verbosity} extract -F {config} -c "Translators:" . -o {output}'
-    babel_mako_cmd = babel_mako_cmd.format(
-        verbosity=babel_verbosity,
-        config=base(LOCALE_DIR, 'babel_mako.cfg'),
-        output=base(CONFIGURATION.source_messages_dir, 'mako.po'),
-    )
-    if args.verbose:
-        stderr = None
-    else:
-        stderr = DEVNULL
-
-    execute(babel_mako_cmd, working_directory=BASE_DIR, stderr=stderr)
-
-    makemessages = "django-admin.py makemessages -l en -v{}".format(args.verbose)
-    ignores = " ".join('--ignore="{}/*"'.format(d) for d in CONFIGURATION.ignore_dirs)
-    if ignores:
-        makemessages += " " + ignores
-
-    # Extract strings from django source files, including .py files.
-    make_django_cmd = makemessages + ' --extension html'
-    execute(make_django_cmd, working_directory=BASE_DIR, stderr=stderr)
-
-    # Extract strings from Javascript source files.
-    make_djangojs_cmd = makemessages + ' -d djangojs --extension js'
-    execute(make_djangojs_cmd, working_directory=BASE_DIR, stderr=stderr)
-
-    # makemessages creates 'django.po'. This filename is hardcoded.
-    # Rename it to django-partial.po to enable merging into django.po later.
-    os.rename(
-        source_msgs_dir.joinpath('django.po'),
-        source_msgs_dir.joinpath('django-partial.po')
-    )
-
-    # makemessages creates 'djangojs.po'. This filename is hardcoded.
-    # Rename it to djangojs-partial.po to enable merging into djangojs.po later.
-    os.rename(
-        source_msgs_dir.joinpath('djangojs.po'),
-        source_msgs_dir.joinpath('djangojs-partial.po')
-    )
-
-    files_to_clean = set()
-
-    # Extract strings from third-party applications.
-    for app_name in CONFIGURATION.third_party:
-        # Import the app to find out where it is.  Then use pybabel to extract
-        # from that directory.
-        app_module = importlib.import_module(app_name)
-        app_dir = path(app_module.__file__).dirname().dirname()
-        output_file = source_msgs_dir / (app_name + ".po")
-        files_to_clean.add(output_file)
-
-        babel_cmd = 'pybabel {verbosity} extract -F {config} -c "Translators:" {app} -o {output}'
-        babel_cmd = babel_cmd.format(
+        babel_mako_cmd = 'pybabel {verbosity} extract -F {config} -c "Translators:" . -o {output}'
+        babel_mako_cmd = babel_mako_cmd.format(
             verbosity=babel_verbosity,
-            config=LOCALE_DIR / 'babel_third_party.cfg',
-            app=app_name,
-            output=output_file,
+            config=base(config.LOCALE_DIR, 'babel_mako.cfg'),
+            output=base(config.CONFIGURATION.source_messages_dir, 'mako.po'),
         )
-        execute(babel_cmd, working_directory=app_dir, stderr=stderr)
+        if args.verbose:
+            stderr = None
+        else:
+            stderr = DEVNULL
 
-    # Segment the generated files.
-    segmented_files = segment_pofiles("en")
-    files_to_clean.update(segmented_files)
+        execute(babel_mako_cmd, working_directory=config.BASE_DIR, stderr=stderr)
 
-    # Finish each file.
-    for filename in files_to_clean:
-        LOG.info('Cleaning %s' % filename)
-        po = pofile(source_msgs_dir.joinpath(filename))
-        # replace default headers with edX headers
-        fix_header(po)
-        # replace default metadata with edX metadata
-        fix_metadata(po)
-        # remove key strings which belong in messages.po
-        strip_key_strings(po)
-        po.save()
+        makemessages = "django-admin.py makemessages -l en -v{}".format(args.verbose)
+        ignores = " ".join('--ignore="{}/*"'.format(d) for d in config.CONFIGURATION.ignore_dirs)
+        if ignores:
+            makemessages += " " + ignores
+
+        # Extract strings from django source files, including .py files.
+        make_django_cmd = makemessages + ' --extension html'
+        execute(make_django_cmd, working_directory=config.BASE_DIR, stderr=stderr)
+
+        # Extract strings from Javascript source files.
+        make_djangojs_cmd = makemessages + ' -d djangojs --extension js'
+        execute(make_djangojs_cmd, working_directory=config.BASE_DIR, stderr=stderr)
+
+        # makemessages creates 'django.po'. This filename is hardcoded.
+        # Rename it to django-partial.po to enable merging into django.po later.
+        os.rename(
+            source_msgs_dir.joinpath('django.po'),
+            source_msgs_dir.joinpath('django-partial.po')
+        )
+
+        # makemessages creates 'djangojs.po'. This filename is hardcoded.
+        # Rename it to djangojs-partial.po to enable merging into djangojs.po later.
+        os.rename(
+            source_msgs_dir.joinpath('djangojs.po'),
+            source_msgs_dir.joinpath('djangojs-partial.po')
+        )
+
+        files_to_clean = set()
+
+        # Extract strings from third-party applications.
+        for app_name in config.CONFIGURATION.third_party:
+            # Import the app to find out where it is.  Then use pybabel to extract
+            # from that directory.
+            app_module = importlib.import_module(app_name)
+            app_dir = path(app_module.__file__).dirname().dirname()
+            output_file = source_msgs_dir / (app_name + ".po")
+            files_to_clean.add(output_file)
+
+            babel_cmd = 'pybabel {verbosity} extract -F {config} -c "Translators:" {app} -o {output}'
+            babel_cmd = babel_cmd.format(
+                verbosity=babel_verbosity,
+                config=config.LOCALE_DIR / 'babel_third_party.cfg',
+                app=app_name,
+                output=output_file,
+            )
+            execute(babel_cmd, working_directory=app_dir, stderr=stderr)
+
+        # Segment the generated files.
+        segmented_files = segment_pofiles("en")
+        files_to_clean.update(segmented_files)
+
+        # Finish each file.
+        for filename in files_to_clean:
+            LOG.info('Cleaning %s' % filename)
+            po = pofile(source_msgs_dir.joinpath(filename))
+            # replace default headers with edX headers
+            fix_header(po)
+            # replace default metadata with edX metadata
+            fix_metadata(po)
+            # remove key strings which belong in messages.po
+            strip_key_strings(po)
+            po.save()
 
 
 def fix_header(po):
@@ -221,6 +220,8 @@ def is_key_string(string):
     """
     return len(string) > 1 and string[0] == '_'
 
+
+main = Extract()
 
 if __name__ == '__main__':
     main()

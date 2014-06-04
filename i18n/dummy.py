@@ -25,12 +25,11 @@ where $DUMMY_LOCALE is the dummy_locale value set in the i18n config
 from __future__ import print_function
 import re
 import sys
-import argparse
 
 import polib
 from path import path
 
-from i18n.config import CONFIGURATION
+from i18n import config, Runner
 from i18n.converter import Converter
 
 
@@ -196,27 +195,28 @@ def new_filename(original_filename, new_locale):
     new_file = f.parent.parent.parent / new_locale / f.parent.name / f.name
     return new_file.abspath()
 
+class DummyCommand(Runner):
+    def add_args(self):
+        # pylint: disable=invalid-name
+        self.parser.description = __doc__
 
-def main(args=None):
-    """
-    Generate dummy strings for all source po files.
-    """
-    # pylint: disable=invalid-name
-    parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--verbose", "-v", action="count", default=0)
-    args = parser.parse_args(args)
+    def run(self, args):
+        """
+        Generate dummy strings for all source po files.
+        """
 
-    SOURCE_MSGS_DIR = CONFIGURATION.source_messages_dir
-    for locale, converter in zip(CONFIGURATION.dummy_locales, [Dummy(), Dummy2()]):
-        if args.verbose:
-            print('Processing source language files into dummy strings, locale "{}"'.format(locale))
-        for source_file in CONFIGURATION.source_messages_dir.walkfiles('*.po'):
+        SOURCE_MSGS_DIR = config.CONFIGURATION.source_messages_dir
+        for locale, converter in zip(config.CONFIGURATION.dummy_locales, [Dummy(), Dummy2()]):
             if args.verbose:
-                print('   ', source_file.relpath())
-            make_dummy(SOURCE_MSGS_DIR.joinpath(source_file), locale, converter)
-    if args.verbose:
-        print()
+                print('Processing source language files into dummy strings, locale "{}"'.format(locale))
+            for source_file in config.CONFIGURATION.source_messages_dir.walkfiles('*.po'):
+                if args.verbose:
+                    print('   ', source_file.relpath())
+                make_dummy(SOURCE_MSGS_DIR.joinpath(source_file), locale, converter)
+        if args.verbose:
+            print()
 
+main = DummyCommand()
 
 if __name__ == '__main__':
     main()

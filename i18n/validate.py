@@ -1,6 +1,5 @@
 """Tests that validate .po files."""
 
-import argparse
 import codecs
 import logging
 import os
@@ -9,10 +8,9 @@ import textwrap
 
 import polib
 
-from i18n.config import LOCALE_DIR
 from i18n.execute import call
 from i18n.converter import Converter
-
+from i18n import Runner, config
 
 log = logging.getLogger(__name__)
 
@@ -39,8 +37,8 @@ def msgfmt_check_po_file(filename):
     Any errors caught by msgfmt are logged to log.
     """
     # Use relative paths to make output less noisy.
-    rfile = os.path.relpath(filename, LOCALE_DIR)
-    out, err = call('msgfmt -c {}'.format(rfile), working_directory=LOCALE_DIR)
+    rfile = os.path.relpath(filename, config.LOCALE_DIR)
+    out, err = call('msgfmt -c {}'.format(rfile), working_directory=config.LOCALE_DIR)
     if err != '':
         log.info('\n' + out)
         log.warn('\n' + err)
@@ -149,70 +147,56 @@ def check_messages(filename, report_empty=False):
         log.info(" No problems found in {0}".format(filename))
 
 
-def get_parser():
-    """
-    Returns an argument parser for this script.
-    """
-    parser = argparse.ArgumentParser(description=(  # pylint: disable=redefined-outer-name
-        "Automatically finds translation errors in all edx-platform *.po files, "
-        "for all languages, unless one or more language(s) is specified to check."
-    ))
 
-    parser.add_argument(
-        '-l', '--language',
-        type=str,
-        nargs='*',
-        help="Specify one or more specific language code(s) to check (eg 'ko_KR')."
-    )
+class Validate(Runner):
+    def add_args(self):
+        self.parser.description = "Automatically finds translation errors in all edx-platform *.po files, "\
+            "for all languages, unless one or more language(s) is specified to check."
 
-    parser.add_argument(
-        '-e', '--empty',
-        action='store_true',
-        help="Includes empty translation strings in .prob files."
-    )
+        self.parser.add_argument(
+            '-l', '--language',
+            type=str,
+            nargs='*',
+            help="Specify one or more specific language code(s) to check (eg 'ko_KR')."
+        )
 
-    parser.add_argument(
-        '-v', '--verbose',
-        action='count', default=0,
-        help="Turns on info-level logging."
-    )
+        self.parser.add_argument(
+            '-e', '--empty',
+            action='store_true',
+            help="Includes empty translation strings in .prob files."
+        )
 
-    return parser
+    def run(self, args):
+        """
+        Main entry point for script
+        """
+        if args.verbose:
+            log_level = logging.INFO
+        else:
+            log_level = logging.WARNING
+        logging.basicConfig(stream=sys.stdout, level=log_level)
+        # pylint: enable=invalid-name
 
+        languages = args.language or []
 
-def main(args=None):  # pylint: disable=unused-argument
-    """
-    Main entry point for script
-    """
-    parser = get_parser()
-    args = parser.parse_args(args)
-    if args.verbose:
-        log_level = logging.INFO
-    else:
-        log_level = logging.WARNING
-    logging.basicConfig(stream=sys.stdout, level=log_level)
-    # pylint: enable=invalid-name
+        if not languages:
+            root = config.LOCALE_DIR
+            validate_po_files(root, args.empty)
+            return
 
-    languages = args.language or []
+        # languages will be a list of language codes; test each language.
+        for language in languages:
+            root = config.LOCALE_DIR / language
+            # Assert that a directory for this language code exists on the system
+            if not root.isdir():
+                log.error(" {0} is not a valid directory.\nSkipping language '{1}'".format(root, language))
+                continue
+            # If we found the language code's directory, validate the files.
+            validate_po_files(root, empty)
 
-    if not languages:
-        root = LOCALE_DIR
-        validate_po_files(root, args.empty)
-        return
-
-    # languages will be a list of language codes; test each language.
-    for language in languages:
-        root = LOCALE_DIR / language
-        # Assert that a directory for this language code exists on the system
-        if not root.isdir():
-            log.error(" {0} is not a valid directory.\nSkipping language '{1}'".format(root, language))
-            continue
-        # If we found the language code's directory, validate the files.
-        validate_po_files(root, empty)
-
+main = Validate()
 
 if __name__ == '__main__':
-    # pylint: disable=invalid-name
     print("Validating languages...")
     main()
     print("Finished validating languages")

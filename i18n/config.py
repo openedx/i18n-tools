@@ -26,7 +26,7 @@ class Configuration(object):
         'third_party': [],
     }
 
-    def __init__(self, filename):
+    def __init__(self, filename=None):
         self._filename = filename
         self._config = self.read_config(filename)
 
@@ -34,6 +34,8 @@ class Configuration(object):
         """
         Returns data found in config file (as dict), or raises exception if file not found
         """
+        if filename is None:
+            return {}
         if not os.path.exists(filename):
             raise Exception("Configuration file cannot be found: %s" % filename)
         with open(filename) as stream:
@@ -66,4 +68,4 @@ class Configuration(object):
         """
         return sorted(set(self.locales) - set([self.source_locale]))
 
-CONFIGURATION = Configuration(LOCALE_DIR.joinpath('config.yaml').normpath())
+CONFIGURATION = Configuration()

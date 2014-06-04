@@ -8,11 +8,10 @@ import copy
 import fnmatch
 import logging
 import sys
-import argparse
 import polib
 import textwrap
 
-from i18n.config import CONFIGURATION
+from i18n import config, Runner
 
 LOG = logging.getLogger(__name__)
 
@@ -24,8 +23,8 @@ def segment_pofiles(locale):
 
     """
     files_written = set()
-    for filename, segments in CONFIGURATION.segment.items():
-        filename = CONFIGURATION.get_messages_dir(locale) / filename
+    for filename, segments in config.CONFIGURATION.segment.items():
+        filename = config.CONFIGURATION.get_messages_dir(locale) / filename
         files_written.update(segment_pofile(filename, segments))
     return files_written
 
@@ -116,34 +115,43 @@ def segment_pofile(filename, segments):
 
     return files_written
 
-
-def main(args=None):  # pylint: disable=unused-argument
-    """
-    Main entry point of script
-    """
-    logging.basicConfig(stream=sys.stdout, level=logging.INFO)
-
-    # pylint: disable=invalid-name
-    description = textwrap.dedent("""
+def get_parser(parser):
+    parser.description = textwrap.dedent("""
         Segment the .po files in LOCALE(s) based on the segmenting rules in
         config.yaml.
 
         Note that segmenting is *not* idempotent: it modifies the input file, so
         be careful that you don't run it twice on the same file.
     """.strip())
-
-    parser = argparse.ArgumentParser(description=description)
     parser.add_argument("locale", nargs="+", help="a locale to segment")
-    parser.add_argument("--verbose", "-v", action="count", default=0)
-    args = parser.parse_args(args)
 
-    # This is used as a tool only to segment translation files when adding a
-    # new segment.  In the regular workflow, the work is done by the extract
-    # phase calling the functions above.
-    locales = args.locale or []
-    for locale in locales:
-        segment_pofiles(locale)
 
+class Segment(Runner):
+    def add_args(self):
+        self.parser.description = textwrap.dedent("""
+        Segment the .po files in LOCALE(s) based on the segmenting rules in
+        config.yaml.
+
+        Note that segmenting is *not* idempotent: it modifies the input file, so
+        be careful that you don't run it twice on the same file.
+        """.strip())
+        self.parser.add_argument("locale", nargs="+", help="a locale to segment")
+
+    def run(self, args):  # pylint: disable=unused-argument
+        """
+        Main entry point of script
+        """
+        logging.basicConfig(stream=sys.stdout, level=logging.INFO)
+
+        # This is used as a tool only to segment translation files when adding a
+        # new segment.  In the regular workflow, the work is done by the extract
+        # phase calling the functions above.
+        locales = args.locale or []
+        for locale in locales:
+            segment_pofiles(locale)
+
+main = Segment()
 
 if __name__ == "__main__":
     main()
+

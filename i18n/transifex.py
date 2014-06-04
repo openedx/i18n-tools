@@ -2,9 +2,8 @@
 from __future__ import print_function
 import sys
 from polib import pofile
-import argparse
 
-from i18n.config import CONFIGURATION
+from i18n import config, Runner
 from i18n.execute import execute
 from i18n.extract import EDX_MARKER
 
@@ -29,7 +28,7 @@ def clean_translated_locales():
     Strips out the warning from all translated po files
     about being an English source file.
     """
-    for locale in CONFIGURATION.translated_locales:
+    for locale in config.CONFIGURATION.translated_locales:
         clean_locale(locale)
 
 
@@ -39,7 +38,7 @@ def clean_locale(locale):
     about being an English source file.
     Iterates over machine-generated files.
     """
-    dirname = CONFIGURATION.get_messages_dir(locale)
+    dirname = config.CONFIGURATION.get_messages_dir(locale)
     for filename in ('django-partial.po', 'djangojs-partial.po', 'mako.po'):
         clean_file(dirname.joinpath(filename))
 
@@ -70,21 +69,20 @@ def get_new_header(po):
     else:
         return TRANSIFEX_HEADER.format(team)
 
-def main(args=None):
-    # pylint: disable=invalid-name
-    parser = argparse.ArgumentParser()
-    parser.add_argument("command", help="push or pull")
-    parser.add_argument("--verbose", "-v")
-    args = parser.parse_args(args)
-    # pylint: enable=invalid-name
 
-    if args.command == "push":
-        push()
-    elif args.command == "pull":
-        pull()
-    else:
-        raise Exception("unknown command ({cmd})".format(cmd=args.command))
+class Transifex(Runner):
+    def add_args(self):
+        self.parser.add_argument("command", help="push or pull")
+
+    def run(self, args):
+        if args.command == "push":
+            push()
+        elif args.command == "pull":
+            pull()
+        else:
+            raise Exception("unknown command ({cmd})".format(cmd=args.command))
+
+main = Transifex()
 
 if __name__ == '__main__':
     main()
-
