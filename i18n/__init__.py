@@ -1,8 +1,10 @@
 import argparse
 from . import config
+import sys
 
 class Runner:
     def __init__(self):
+        self.args = sys.argv[1:]
         self.parser = argparse.ArgumentParser()
         self.parser.add_argument(
             '--config',
@@ -23,7 +25,7 @@ class Runner:
         raise NotImplementedError
 
     def __call__(self, **kwargs):
-        args = self.parser.parse_known_args()[0]
+        args = self.parser.parse_known_args(self.args)[0]
         if args.config:
             config.CONFIGURATION = config.Configuration(args.config)
         else:

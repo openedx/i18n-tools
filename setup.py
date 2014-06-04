@@ -2,12 +2,7 @@
 from setuptools import setup
 import glob, os.path
 
-console_scripts = set()
-
-for mod in glob.glob(os.path.join(os.path.dirname(__file__), 'i18n', '*.py')):
-    name = os.path.split(mod)[1].split('.')[0]
-    if name not in ('config', '__init__', 'converter', 'execute'):
-        console_scripts.add('i18n_{name} = i18n.{name}:main'.format(name=name))
+console_scripts = ['i18n_tool = i18n.main:main']
 
 setup(
     name='i18n_tools',
