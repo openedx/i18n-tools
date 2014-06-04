@@ -21,4 +21,4 @@ Running commands from the edx-platform directory will default to loading the con
 
 Configuration
 -------------
-*(describe yaml file here)*
+Details of the config.yaml file are in [edx-platform/conf/locale/config.yaml](https://github.com/edx/edx-platform/blob/master/conf/locale/config.yaml)
