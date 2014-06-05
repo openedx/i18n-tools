@@ -1,0 +1,12 @@
+language: python
+python:
+  - "2.7"
+install:
+  - python setup.py install
+  - pip install coveralls pylint pep8
+script:
+  - coverage run -m nose
+  - pep8 .
+  - scripts/max_pylint_violations 30
+after_success:
+  - coveralls
