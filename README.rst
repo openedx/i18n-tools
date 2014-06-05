@@ -1,5 +1,5 @@
-i18n Tools
-==========
+i18n Tools |build-status| |coverage-status|
+===========================================
 
 Installing
 ----------
@@ -22,3 +22,8 @@ Running commands from the edx-platform directory will default to loading the con
 Configuration
 -------------
 Details of the config.yaml file are in `edx-platform/conf/locale/config.yaml <https://github.com/edx/edx-platform/blob/master/conf/locale/config.yaml>`_
+
+.. |build-status| image:: https://travis-ci.org/edx/i18n-tools.svg?branch=master
+   :target: https://travis-ci.org/edx/i18n-tools
+.. |coverage-status| image:: https://coveralls.io/repos/edx/i18n-tools/badge.png
+   :target: https://coveralls.io/r/edx/i18n-tools
