@@ -18,6 +18,7 @@ coverage.xml
 cover/
 log/
 reports/
+dist/
 /src/
 \#*\#
 *.egg-info
