@@ -3,7 +3,7 @@ python:
   - "2.7"
 install:
   - python setup.py install
-  - pip install coveralls pylint pep8
+  - pip install coveralls pylint pep8 rednose
 script:
   - coverage run -m nose
   - pep8 .
