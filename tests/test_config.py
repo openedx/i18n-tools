@@ -3,6 +3,7 @@ from unittest import TestCase
 
 from i18n import config
 
+
 class TestConfiguration(TestCase):
     """
     Tests functionality of i18n/config.py

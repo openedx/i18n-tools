@@ -1,4 +1,5 @@
 """Tests that validate .po files."""
+from __future__ import print_function
 
 import codecs
 import logging
@@ -147,7 +148,6 @@ def check_messages(filename, report_empty=False):
         log.info(" No problems found in {0}".format(filename))
 
 
-
 class Validate(Runner):
     def add_args(self):
         self.parser.description = "Automatically finds translation errors in all edx-platform *.po files, "\
@@ -175,7 +175,6 @@ class Validate(Runner):
         else:
             log_level = logging.WARNING
         logging.basicConfig(stream=sys.stdout, level=log_level)
-        # pylint: enable=invalid-name
 
         languages = args.language or []
 
@@ -192,9 +191,9 @@ class Validate(Runner):
                 log.error(" {0} is not a valid directory.\nSkipping language '{1}'".format(root, language))
                 continue
             # If we found the language code's directory, validate the files.
-            validate_po_files(root, empty)
+            validate_po_files(root, args.empty)
 
-main = Validate()
+main = Validate()  # pylint: disable=invalid-name
 
 if __name__ == '__main__':
     print("Validating languages...")

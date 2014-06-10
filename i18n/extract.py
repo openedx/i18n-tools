@@ -21,9 +21,9 @@ import os
 import os.path
 import logging
 import sys
+import polib
 
 from path import path
-from polib import pofile
 
 from i18n import config, Runner
 from i18n.execute import execute, remove_file
@@ -131,18 +131,18 @@ class Extract(Runner):
 
         # Finish each file.
         for filename in files_to_clean:
-            LOG.info('Cleaning %s' % filename)
-            po = pofile(source_msgs_dir.joinpath(filename))
+            LOG.info('Cleaning %s', filename)
+            pofile = polib.pofile(source_msgs_dir.joinpath(filename))
             # replace default headers with edX headers
-            fix_header(po)
+            fix_header(pofile)
             # replace default metadata with edX metadata
-            fix_metadata(po)
+            fix_metadata(pofile)
             # remove key strings which belong in messages.po
-            strip_key_strings(po)
-            po.save()
+            strip_key_strings(pofile)
+            pofile.save()
 
 
-def fix_header(po):
+def fix_header(pofile):
     """
     Replace default headers with edX headers
     """
@@ -154,8 +154,8 @@ def fix_header(po):
     #   This file is distributed under the same license as the PACKAGE package.
     #   FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 
-    po.metadata_is_fuzzy = []   # remove [u'fuzzy']
-    header = po.header
+    pofile.metadata_is_fuzzy = []   # remove [u'fuzzy']
+    header = pofile.header
     fixes = (
         ('SOME DESCRIPTIVE TITLE', EDX_MARKER),
         ('Translations template for PROJECT.', EDX_MARKER),
@@ -174,10 +174,10 @@ def fix_header(po):
     )
     for src, dest in fixes:
         header = header.replace(src, dest)
-    po.header = header
+    pofile.header = header
 
 
-def fix_metadata(po):
+def fix_metadata(pofile):
     """
     Replace default metadata with edX metadata
     """
@@ -203,17 +203,17 @@ def fix_metadata(po):
         'Last-Translator': '',
         'Language-Team': 'openedx-translation <openedx-translation@googlegroups.com>',
     }
-    po.metadata.update(fixes)
+    pofile.metadata.update(fixes)
 
 
-def strip_key_strings(po):
+def strip_key_strings(pofile):
     """
     Removes all entries in PO which are key strings.
     These entries should appear only in messages.po, not in any other po files.
     """
-    newlist = [entry for entry in po if not is_key_string(entry.msgid)]
-    del po[:]
-    po += newlist
+    newlist = [entry for entry in pofile if not is_key_string(entry.msgid)]
+    del pofile[:]
+    pofile += newlist
 
 
 def is_key_string(string):
@@ -223,8 +223,7 @@ def is_key_string(string):
     """
     return len(string) > 1 and string[0] == '_'
 
-
-main = Extract()
+main = Extract()  # pylint: disable=invalid-name
 
 if __name__ == '__main__':
     main()
