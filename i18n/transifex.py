@@ -1,8 +1,7 @@
 #!/usr/bin/env python
 from __future__ import print_function
-import sys
-from polib import pofile
 
+import polib
 from i18n import config, Runner
 from i18n.execute import execute
 from i18n.extract import EDX_MARKER
@@ -49,21 +48,24 @@ def clean_file(filename):
     Replaces warning with a note about coming from Transifex.
     """
     try:
-        po = pofile(filename)
-    except Exception as exc:
+        pofile = polib.pofile(filename)
+    except Exception as exc:  # pylint: disable=broad-except
         # An exception can occur when a language is deleted from Transifex.
         # Don't totally fail here.
-        print("Encountered error {} with filename {} - language project may no longer exist on Transifex".format(exc, filename))
+        print(
+            "Encountered error {} with filename {} - language project may "
+            "no longer exist on Transifex".format(exc, filename)
+        )
         return
-    if po.header.find(EDX_MARKER) != -1:
-        new_header = get_new_header(po)
-        new = po.header.replace(EDX_MARKER, new_header)
-        po.header = new
-        po.save()
+    if pofile.header.find(EDX_MARKER) != -1:
+        new_header = get_new_header(pofile)
+        new = pofile.header.replace(EDX_MARKER, new_header)
+        pofile.header = new
+        pofile.save()
 
 
-def get_new_header(po):
-    team = po.metadata.get('Language-Team', None)
+def get_new_header(pofile):
+    team = pofile.metadata.get('Language-Team', None)
     if not team:
         return TRANSIFEX_HEADER.format(TRANSIFEX_URL)
     else:
@@ -82,7 +84,7 @@ class Transifex(Runner):
         else:
             raise Exception("unknown command ({cmd})".format(cmd=args.command))
 
-main = Transifex()
+main = Transifex()  # pylint: disable=invalid-name
 
 if __name__ == '__main__':
     main()

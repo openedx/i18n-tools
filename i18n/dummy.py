@@ -24,7 +24,6 @@ where $DUMMY_LOCALE is the dummy_locale value set in the i18n config
 """
 from __future__ import print_function
 import re
-import sys
 
 import polib
 from path import path
@@ -191,8 +190,8 @@ def make_dummy(filename, locale, converter):
 
 def new_filename(original_filename, new_locale):
     """Returns a filename derived from original_filename, using new_locale as the locale"""
-    f = path(original_filename)
-    new_file = f.parent.parent.parent / new_locale / f.parent.name / f.name
+    orig_file = path(original_filename)
+    new_file = orig_file.parent.parent.parent / new_locale / orig_file.parent.name / orig_file.name
     return new_file.abspath()
 
 
@@ -206,18 +205,18 @@ class DummyCommand(Runner):
         Generate dummy strings for all source po files.
         """
 
-        SOURCE_MSGS_DIR = config.CONFIGURATION.source_messages_dir
+        source_messages_dir = config.CONFIGURATION.source_messages_dir
         for locale, converter in zip(config.CONFIGURATION.dummy_locales, [Dummy(), Dummy2()]):
             if args.verbose:
                 print('Processing source language files into dummy strings, locale "{}"'.format(locale))
             for source_file in config.CONFIGURATION.source_messages_dir.walkfiles('*.po'):
                 if args.verbose:
                     print('   ', source_file.relpath())
-                make_dummy(SOURCE_MSGS_DIR.joinpath(source_file), locale, converter)
+                make_dummy(source_messages_dir.joinpath(source_file), locale, converter)
         if args.verbose:
             print()
 
-main = DummyCommand()
+main = DummyCommand()  # pylint: disable=invalid-name
 
 if __name__ == '__main__':
     main()

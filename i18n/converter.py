@@ -62,9 +62,9 @@ class Converter(object):
 
     def retag_string(self, string, tags):
         """substitutes each tag back into string, into occurrences of <0>, <1> etc"""
-        for (i, tag) in enumerate(tags):
-            p = '<%s>' % i
-            string = re.sub(p, tag, string, 1)
+        for i, tag in enumerate(tags):
+            bracketed = '<%s>' % i
+            string = re.sub(bracketed, tag, string, 1)
         return string
 
     # ------------------------------

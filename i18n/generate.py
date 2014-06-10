@@ -42,7 +42,7 @@ def merge(locale, target='django.po', sources=('django-partial.po',), fail_if_mi
     locale_directory = config.CONFIGURATION.get_messages_dir(locale)
     try:
         validate_files(locale_directory, sources)
-    except Exception, e:
+    except Exception:  # pylint: disable=broad-except
         if not fail_if_missing:
             return
         raise
@@ -68,7 +68,7 @@ def merge_files(locale, fail_if_missing=True):
         merge(locale, target, sources, fail_if_missing)
 
 
-def clean_pofile(file):
+def clean_pofile(path):
     """
     Clean various aspect of a .po file.
 
@@ -86,26 +86,26 @@ def clean_pofile(file):
 
     """
     # Reading in the .po file and saving it again fixes redundancies.
-    pomsgs = pofile(file)
+    pomsgs = pofile(path)
     # The msgcat tool marks the metadata as fuzzy, but it's ok as it is.
     pomsgs.metadata_is_fuzzy = False
     for entry in pomsgs:
         # Remove line numbers
-        entry.occurrences = [(filename, None) for (filename, lineno) in entry.occurrences]
+        entry.occurrences = [(filename, None) for filename, __ in entry.occurrences]
         # Remove -format flags
         entry.flags = [f for f in entry.flags if not f.endswith("-format")]
     pomsgs.save()
 
 
-def validate_files(dir, files_to_merge):
+def validate_files(directory, files_to_merge):
     """
     Asserts that the given files exist.
     files_to_merge is a list of file names (no directories).
-    dir is the directory (a path object from path.py) in which the files should appear.
+    directory is the directory (a path object from path.py) in which the files should appear.
     raises an Exception if any of the files are not in dir.
     """
     for path in files_to_merge:
-        pathname = dir.joinpath(path)
+        pathname = directory.joinpath(path)
         if not pathname.exists():
             raise Exception("I18N: Cannot generate because file not found: {0}".format(pathname))
 
@@ -134,7 +134,7 @@ class Generate(Runner):
             stderr = DEVNULL
         execute(compile_cmd, working_directory=config.BASE_DIR, stderr=stderr)
 
-main = Generate()
+main = Generate()  # pylint: disable=invalid-name
 
 if __name__ == '__main__':
     main()

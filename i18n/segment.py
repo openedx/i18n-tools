@@ -151,7 +151,7 @@ class Segment(Runner):
         for locale in locales:
             segment_pofiles(locale)
 
-main = Segment()
+main = Segment()  # pylint: disable=invalid-name
 
 if __name__ == "__main__":
     main()
