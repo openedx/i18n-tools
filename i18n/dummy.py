@@ -195,6 +195,7 @@ def new_filename(original_filename, new_locale):
     new_file = f.parent.parent.parent / new_locale / f.parent.name / f.name
     return new_file.abspath()
 
+
 class DummyCommand(Runner):
     def add_args(self):
         # pylint: disable=invalid-name

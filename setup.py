@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 from setuptools import setup
-import glob, os.path
 
 console_scripts = ['i18n_tool = i18n.main:main']
 

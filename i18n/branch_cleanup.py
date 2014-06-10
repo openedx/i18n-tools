@@ -5,7 +5,6 @@ branches with different translation levels (eg master branch, with only
 reviewed translations, versus dev branch, with all translations)
 """
 from __future__ import print_function
-import os
 
 from i18n import config, Runner
 from i18n.execute import execute
@@ -30,6 +29,7 @@ def clean_configuration_directory():
     """
     for locale in config.CONFIGURATION.translated_locales:
         clean_conf_folder(locale)
+
 
 class BranchCleanup(Runner):
     def run(self, args):

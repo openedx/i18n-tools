@@ -3,6 +3,7 @@ import importlib
 import sys
 from path import path
 
+
 def get_valid_commands():
     modules = [m.basename().split('.')[0] for m in path(__file__).dirname().files('*.py')]
     commands = []
@@ -13,6 +14,7 @@ def get_valid_commands():
         if hasattr(mod, 'main'):
             commands.append(modname)
     return commands
+
 
 def error_message():
     sys.stderr.write('valid commands:\n')

@@ -6,6 +6,7 @@ import ddt
 
 from i18n import converter
 
+
 class UpcaseConverter(converter.Converter):
     """
     Converts a string to uppercase. Just used for testing.

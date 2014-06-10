@@ -115,6 +115,7 @@ def segment_pofile(filename, segments):
 
     return files_written
 
+
 def get_parser(parser):
     parser.description = textwrap.dedent("""
         Segment the .po files in LOCALE(s) based on the segmenting rules in
@@ -154,4 +155,3 @@ main = Segment()
 
 if __name__ == "__main__":
     main()
-

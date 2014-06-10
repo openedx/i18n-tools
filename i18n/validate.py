@@ -147,7 +147,6 @@ def check_messages(filename, report_empty=False):
         log.info(" No problems found in {0}".format(filename))
 
 
-
 class Validate(Runner):
     def add_args(self):
         self.parser.description = "Automatically finds translation errors in all edx-platform *.po files, "\

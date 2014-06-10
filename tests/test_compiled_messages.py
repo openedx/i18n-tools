@@ -13,6 +13,7 @@ from unittest import TestCase
 
 from i18n.config import CONFIGURATION, LOCALE_DIR
 
+
 @ddt.ddt
 class TestCompiledMessages(TestCase):
     """

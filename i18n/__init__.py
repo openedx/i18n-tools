@@ -2,6 +2,7 @@ import argparse
 from . import config
 import sys
 
+
 class Runner:
     def __init__(self):
         self.args = sys.argv[1:]
@@ -33,4 +34,3 @@ class Runner:
         else:
             config.CONFIGURATION = config.Configuration(config.LOCALE_DIR.joinpath('config.yaml').normpath())
         self.run(args)
-
