@@ -12,6 +12,7 @@ setup(
         'i18n',
     ],
     install_requires=["polib", "ddt", "path.py", "pyYaml", "pytz"],
+    tests_require=["rednose"],
     test_suite='nose.collector',
     entry_points={
         'console_scripts': console_scripts

@@ -26,11 +26,11 @@ class Runner:
 
     def __call__(self, **kwargs):
         args = self.parser.parse_known_args(self.args)[0]
+        for k, v in kwargs.items():
+            setattr(args, k, v)
         if args.config:
             config.CONFIGURATION = config.Configuration(args.config)
         else:
             config.CONFIGURATION = config.Configuration(config.LOCALE_DIR.joinpath('config.yaml').normpath())
-        for k, v in kwargs.items():
-            setattr(args, k, v)
         self.run(args)
 

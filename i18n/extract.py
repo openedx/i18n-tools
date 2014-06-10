@@ -62,18 +62,21 @@ class Extract(Runner):
         }
         babel_verbosity = verbosity_map.get(args.verbose, "")
 
-        babel_mako_cmd = 'pybabel {verbosity} extract -F {config} -c "Translators:" . -o {output}'
-        babel_mako_cmd = babel_mako_cmd.format(
-            verbosity=babel_verbosity,
-            config=base(config.LOCALE_DIR, 'babel_mako.cfg'),
-            output=base(config.CONFIGURATION.source_messages_dir, 'mako.po'),
-        )
+        babel_mako_cfg = base(config.LOCALE_DIR, 'babel_mako.cfg')
         if args.verbose:
             stderr = None
         else:
             stderr = DEVNULL
 
-        execute(babel_mako_cmd, working_directory=config.BASE_DIR, stderr=stderr)
+        if babel_mako_cfg.exists():
+            babel_mako_cmd = 'pybabel {verbosity} extract -F {config} -c "Translators:" . -o {output}'
+            babel_mako_cmd = babel_mako_cmd.format(
+                verbosity=babel_verbosity,
+                config=babel_mako_cfg,
+                output=base(config.CONFIGURATION.source_messages_dir, 'mako.po'),
+            )
+
+            execute(babel_mako_cmd, working_directory=config.BASE_DIR, stderr=stderr)
 
         makemessages = "django-admin.py makemessages -l en -v{}".format(args.verbose)
         ignores = " ".join('--ignore="{}/*"'.format(d) for d in config.CONFIGURATION.ignore_dirs)
