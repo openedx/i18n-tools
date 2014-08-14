@@ -67,7 +67,7 @@ class Extract(Runner):
         else:
             stderr = DEVNULL
 
-        babel_cmd_template = 'pybabel {verbosity} extract -F {config} -c "Translators:" . -o {output}'
+        babel_cmd_template = 'pybabel {verbosity} extract -F {config} -c "Translators:" -k "interpolate" . -o {output}'
 
         babel_mako_cfg = base(config.LOCALE_DIR, 'babel_mako.cfg')
         if babel_mako_cfg.exists():
