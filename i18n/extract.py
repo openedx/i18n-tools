@@ -67,7 +67,15 @@ class Extract(Runner):
         else:
             stderr = DEVNULL
 
-        babel_cmd_template = 'pybabel {verbosity} extract -F {config} -c "Translators:" -k "interpolate" . -o {output}'
+        # --keyword informs Babel that `interpolate()` is an expected
+        # gettext function, which is necessary because the `tokenize` function
+        # in the `markey` module marks it as such and passes it to Babel.
+        # (These functions are called in the django-babel-underscore module.)
+        babel_cmd_template = (
+            'pybabel {verbosity} extract --mapping={config} '
+            '--add-comments="Translators:" --keyword="interpolate" '
+            '. --output={output}'
+        )
 
         babel_mako_cfg = base(config.LOCALE_DIR, 'babel_mako.cfg')
         if babel_mako_cfg.exists():
