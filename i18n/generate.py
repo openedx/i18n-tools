@@ -114,6 +114,8 @@ class Generate(Runner):
     def add_args(self):
         self.parser.description = "Generate merged and compiled message files."
         self.parser.add_argument("--strict", action='store_true', help="Complain about missing files.")
+        self.parser.add_argument("--ltr", action='store_true', help="Only generate for LTR languages.")
+        self.parser.add_argument("--rtl", action='store_true', help="Only generate for RTL languages.")
 
     def run(self, args):
         """
@@ -121,7 +123,14 @@ class Generate(Runner):
         """
         logging.basicConfig(stream=sys.stdout, level=logging.INFO)
 
-        for locale in config.CONFIGURATION.translated_locales:
+        if args.ltr:
+            langs = config.CONFIGURATION.ltr_langs
+        elif args.rtl:
+            langs = config.CONFIGURATION.rtl_langs
+        else:
+            langs = config.CONFIGURATION.translated_locales
+
+        for locale in langs:
             merge_files(locale, fail_if_missing=args.strict)
         # Dummy text is not required. Don't raise exception if files are missing.
         for locale in config.CONFIGURATION.dummy_locales:

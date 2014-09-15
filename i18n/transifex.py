@@ -22,12 +22,36 @@ def pull():
     clean_translated_locales()
 
 
-def clean_translated_locales():
+def pull_all_ltr():
+    """
+    Pulls all translations - reviewed or not - for LTR languages
+    """
+    print("Pulling all translated LTR languages from transifex...")
+    for lang in config.CONFIGURATION.ltr_langs:
+        print ('rm -rf conf/locale/' + lang)
+        execute('rm -rf conf/locale/' + lang)
+        execute('tx pull -l ' + lang)
+    clean_translated_locales(langs=config.CONFIGURATION.ltr_langs)
+
+
+def pull_all_rtl():
+    """
+    Pulls all translations - reviewed or not - for RTL languages
+    """
+    print("Pulling all translated RTL languages from transifex...")
+    for lang in config.CONFIGURATION.rtl_langs:
+        print ('rm -rf conf/locale/' + lang)
+        execute('rm -rf conf/locale/' + lang)
+        execute('tx pull -l ' + lang)
+    clean_translated_locales(langs=config.CONFIGURATION.rtl_langs)
+
+
+def clean_translated_locales(langs=config.CONFIGURATION.translated_locales):
     """
     Strips out the warning from all translated po files
     about being an English source file.
     """
-    for locale in config.CONFIGURATION.translated_locales:
+    for locale in langs:
         clean_locale(locale)
 
 
@@ -81,6 +105,10 @@ class Transifex(Runner):
             push()
         elif args.command == "pull":
             pull()
+        elif args.command == "ltr":
+            pull_all_ltr()
+        elif args.command == "rtl":
+            pull_all_rtl()
         else:
             raise Exception("unknown command ({cmd})".format(cmd=args.command))
 

@@ -68,4 +68,27 @@ class Configuration(object):
         """
         return sorted(set(self.locales) - set([self.source_locale]))
 
+    @property
+    def rtl_langs(self):
+        """
+        Returns the set of translated RTL language codes present in self.locales.
+        Ignores source locale.
+        """
+        def is_rtl(lang):
+            # Base RTL langs are Arabic, Farsi, Hebrew, and Urdu
+            base_rtl = ['ar', 'fa', 'he', 'ur']
+
+            # do this to capture both 'fa' and 'fa_IR'
+            return any([lang.startswith(base_code) for base_code in base_rtl])
+
+        return sorted(set([lang for lang in self.translated_locales if is_rtl(lang)]))
+
+    @property
+    def ltr_langs(self):
+        """
+        Returns the set of translated LTR language codes present in self.locales.
+        Ignores source locale.
+        """
+        return sorted(set(self.translated_locales) - set(self.rtl_langs))
+
 CONFIGURATION = Configuration()
