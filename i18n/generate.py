@@ -108,6 +108,8 @@ def validate_files(directory, files_to_merge):
         pathname = directory.joinpath(path)
         if not pathname.exists():
             raise Exception("I18N: Cannot generate because file not found: {0}".format(pathname))
+        # clean sources
+        clean_pofile(pathname)
 
 
 class Generate(Runner):
