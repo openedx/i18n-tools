@@ -23,7 +23,8 @@ import logging
 import sys
 import polib
 
-from path import path
+# Possibly a Pylint bug in the most recent version that causes it to not recognize module members
+from path import path  # pylint: disable=no-name-in-module
 
 from i18n import config, Runner
 from i18n.execute import execute, remove_file
@@ -37,7 +38,7 @@ DEVNULL = open(os.devnull, 'wb')
 
 def base(path1, *paths):
     """Return a relative path from config.BASE_DIR to path1 / paths[0] / ... """
-    return config.BASE_DIR.relpathto(path1.joinpath(*paths))
+    return config.BASE_DIR.relpathto(path1.joinpath(*paths))  # pylint: disable=no-value-for-parameter
 
 
 class Extract(Runner):
@@ -131,7 +132,7 @@ class Extract(Runner):
             # Import the app to find out where it is.  Then use pybabel to extract
             # from that directory.
             app_module = importlib.import_module(app_name)
-            app_dir = path(app_module.__file__).dirname().dirname()
+            app_dir = path(app_module.__file__).dirname().dirname()  # pylint: disable=no-value-for-parameter
             output_file = source_msgs_dir / (app_name + ".po")
             files_to_clean.add(output_file)
 

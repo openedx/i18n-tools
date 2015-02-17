@@ -27,8 +27,8 @@ class Runner:
 
     def __call__(self, **kwargs):
         args = self.parser.parse_known_args(self.args)[0]
-        for k, v in kwargs.items():
-            setattr(args, k, v)
+        for key, val in kwargs.items():
+            setattr(args, key, val)
         if args.config:
             config.CONFIGURATION = config.Configuration(args.config)
         else:

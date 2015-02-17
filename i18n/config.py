@@ -1,7 +1,8 @@
 import os
 
 import yaml
-from path import path
+# Possibly a Pylint bug in the most recent version that causes it to not recognize module members
+from path import path  # pylint: disable=no-name-in-module
 
 # BASE_DIR is the working directory to execute django-admin commands from.
 # Typically this should be the 'edx-platform' directory.
