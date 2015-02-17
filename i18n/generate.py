@@ -38,7 +38,7 @@ def merge(locale, target='django.po', sources=('django-partial.po',), fail_if_mi
     just return silently.
 
     """
-    LOG.info('Merging {target} for locale {locale}'.format(target=target, locale=locale))
+    LOG.info('Merging %s locale %s', target, locale)
     locale_directory = config.CONFIGURATION.get_messages_dir(locale)
     try:
         validate_files(locale_directory, sources)
@@ -113,6 +113,7 @@ def validate_files(directory, files_to_merge):
 
 
 class Generate(Runner):
+    """Generate merged and compiled message files."""
     def add_args(self):
         self.parser.description = "Generate merged and compiled message files."
         self.parser.add_argument("--strict", action='store_true', help="Complain about missing files.")

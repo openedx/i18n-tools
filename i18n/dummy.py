@@ -26,10 +26,12 @@ from __future__ import print_function
 import re
 
 import polib
-from path import path
+# Possibly a Pylint bug in the most recent version that causes it to not recognize module members
+from path import path  # pylint: disable=no-name-in-module
 
 from i18n import config, Runner
 from i18n.converter import Converter
+from i18n.generate import clean_pofile
 
 
 class BaseDummyConverter(Converter):
@@ -186,6 +188,7 @@ def make_dummy(filename, locale, converter):
     new_file = new_filename(filename, locale)
     new_file.parent.makedirs_p()
     pofile.save(new_file)
+    clean_pofile(new_file)
 
 
 def new_filename(original_filename, new_locale):

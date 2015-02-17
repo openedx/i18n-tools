@@ -143,9 +143,9 @@ def check_messages(filename, report_empty=False):
                     prob_file.write(u"{}\n".format(tx_filler.fill(translation)))
                 prob_file.write(u"\n")
 
-        log.error(" {0} problems in {1}, details in .prob file".format(len(problems), filename))
+        log.error(" %s problems in %s, details in .prob file", len(problems), filename)
     else:
-        log.info(" No problems found in {0}".format(filename))
+        log.info(" No problems found in %s", filename)
 
 
 class Validate(Runner):
@@ -188,7 +188,7 @@ class Validate(Runner):
             root = config.LOCALE_DIR / language
             # Assert that a directory for this language code exists on the system
             if not root.isdir():
-                log.error(" {0} is not a valid directory.\nSkipping language '{1}'".format(root, language))
+                log.error(" %s is not a valid directory.\nSkipping language '%s'", root, language)
                 continue
             # If we found the language code's directory, validate the files.
             validate_po_files(root, args.empty)

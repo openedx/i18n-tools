@@ -1,7 +1,8 @@
 #!/usr/bin/env python
 import importlib
 import sys
-from path import path
+# Possibly a Pylint bug in the most recent version that causes it to not recognize module members
+from path import path  # pylint: disable=no-name-in-module
 
 
 def get_valid_commands():
