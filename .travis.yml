@@ -10,3 +10,6 @@ script:
   - scripts/max_pylint_violations 30
 after_success:
   - coveralls
+branches:
+    only:
+      - master
