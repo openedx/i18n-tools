@@ -138,18 +138,14 @@ class Dummy(BaseDummyConverter):
         """.split()
     )
 
-    # To simulate more verbose languages (like German), pad the length of a string
-    # by a multiple of PAD_FACTOR
-    PAD_FACTOR = 1.33
-
     def pad(self, string):
-        """add some lorem ipsum text to the end of string"""
+        """
+        Add some lorem ipsum text to the end of string to simulate more verbose languages (like German).
+        Padding factor extrapolated by guidelines at http://www.w3.org/International/articles/article-text-size.en
+        """
         size = len(string)
-        if size < 7:
-            target = size * 3
-        else:
-            target = int(size * self.PAD_FACTOR)
-        pad_len = target - size - 1
+        target = size * (4.75 - size ** 0.27)
+        pad_len = int(target) - size
         return string + self.LOREM[:pad_len] + "#"
 
 
