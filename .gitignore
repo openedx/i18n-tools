@@ -15,6 +15,7 @@ flushdb.sh
 build
 .coverage
 coverage.xml
+nosetests.xml
 cover/
 log/
 reports/
