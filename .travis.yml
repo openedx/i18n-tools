@@ -7,7 +7,7 @@ install:
 script:
   - coverage run -m nose
   - pep8 .
-  - scripts/max_pylint_violations 30
+  - scripts/max_pylint_violations 20
 after_success:
   - coveralls
 branches:

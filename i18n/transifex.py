@@ -1,4 +1,7 @@
 #!/usr/bin/env python
+"""
+Functions to pull down & push up .po files from/to transifex
+"""
 from __future__ import print_function
 
 import polib
@@ -11,14 +14,32 @@ TRANSIFEX_URL = 'https://www.transifex.com/projects/p/edx-platform/'
 
 
 def push():
+    """
+    Push translation source English files to Transifex
+    """
     execute('tx push -s')
 
 
 def pull():
-    print("Pulling languages from transifex...")
-    # Pull translations from all languages where there is
-    # at least 10% reviewed translations
-    execute('tx pull --mode=reviewed --all')
+    """
+    Pull translations from all languages listed in conf/locale/config.yaml
+    where there is at least 10% reviewed translations
+    """
+    print("Pulling conf/locale/config.yaml:locales from Transifex...")
+
+    for lang in config.CONFIGURATION.translated_locales:
+        execute('tx pull --mode=reviewed -l ' + lang)
+    clean_translated_locales()
+
+
+def pull_all():
+    """
+    Pulls all translations - reviewed or not - for all languages.
+
+    Only cleans locales: listed in conf/locale/config.yaml
+    """
+    print("Pulling all translations for all languages, reviewed or not, from transifex...")
+    execute('tx pull --all')
     clean_translated_locales()
 
 
@@ -89,6 +110,9 @@ def clean_file(filename):
 
 
 def get_new_header(pofile):
+    """
+    Insert info about edX into the po file headers
+    """
     team = pofile.metadata.get('Language-Team', None)
     if not team:
         return TRANSIFEX_HEADER.format(TRANSIFEX_URL)
@@ -97,6 +121,7 @@ def get_new_header(pofile):
 
 
 class Transifex(Runner):
+    """Define the command class"""
     def add_args(self):
         self.parser.add_argument("command", help="push or pull")
 
