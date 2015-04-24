@@ -15,10 +15,11 @@ def push():
 
 
 def pull():
-    print("Pulling languages from transifex...")
-    # Pull translations from all languages where there is
-    # at least 10% reviewed translations
-    execute('tx pull --mode=reviewed --all')
+    print("Pulling conf/locale/config.yaml:locales from Transifex...")
+    # Pull translations from all languages listed in conf/locale/config.yaml
+    # where there is at least 10% reviewed translations
+    for lang in config.CONFIGURATION.translated_locales:
+        execute('tx pull --mode=reviewed -l ' + lang)
     clean_translated_locales()
 
 
