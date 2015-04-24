@@ -130,6 +130,8 @@ class Transifex(Runner):
             push()
         elif args.command == "pull":
             pull()
+        elif args.command == "pull_all":
+            pull_all()
         elif args.command == "ltr":
             pull_all_ltr()
         elif args.command == "rtl":
