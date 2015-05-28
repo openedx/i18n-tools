@@ -162,6 +162,16 @@ class Dummy2(BaseDummyConverter):
     ))
 
 
+class ArabicDummy(BaseDummyConverter):
+    """
+    A dummy converter for an RTL-like language.
+    """
+    TABLE = dict(zip(
+        u"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
+        u"شزذيثبلاهتنمورخحضقسفعدصطغظشزذيثبلاهتنمورخحضقسفعدصطغظ"
+    ))
+
+
 def make_dummy(filename, locale, converter):
     """
     Takes a source po file, reads it, and writes out a new po file
@@ -205,9 +215,8 @@ class DummyCommand(Runner):
         """
 
         source_messages_dir = config.CONFIGURATION.source_messages_dir
-        for locale, converter in zip(config.CONFIGURATION.dummy_locales, [Dummy(), Dummy2()]):
-            if args.verbose:
-                print('Processing source language files into dummy strings, locale "{}"'.format(locale))
+        for locale, converter in zip(config.CONFIGURATION.dummy_locales, [Dummy(), Dummy2(), ArabicDummy()]):
+            print('Processing source language files into dummy strings, locale "{}"'.format(locale))
             for source_file in config.CONFIGURATION.source_messages_dir.walkfiles('*.po'):
                 if args.verbose:
                     print('   ', source_file.relpath())
