@@ -34,3 +34,7 @@ msgstr "ɯnsʇ ɥɐʌǝ ɐʇ lǝɐsʇ ønǝ ƃɹønd"
 #: cms/djangoapps/contentstore/course_info_model.py
 msgid "Invalid course update id."
 msgstr "Ɨnʌɐlᴉd ɔønɹsǝ nddɐʇǝ ᴉd."
+
+#: cms/djangoapps/contentstore/views/component.py
+msgid "Problem"
+msgstr "Ṗṛöḅḷëṁ"

@@ -26,6 +26,5 @@ msgid "Discussion"
 msgstr "Đᴉsɔnssᴉøn"
 
 #: cms/djangoapps/contentstore/views/component.py
-#: lms/djangoapps/class_dashboard/dashboard_data.py
 msgid "Problem"
 msgstr "Ᵽɹøblǝɯ"

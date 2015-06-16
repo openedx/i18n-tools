@@ -6,15 +6,16 @@ import os
 import random
 import re
 import sys
+import shutil
 import string
 import subprocess
 from unittest import TestCase
 
 from mock import patch
+from path import path
 from polib import pofile
 from pytz import UTC
 
-from i18n import extract
 from i18n import generate
 from i18n.config import CONFIGURATION
 
@@ -23,7 +24,6 @@ class TestGenerate(TestCase):
     """
     Tests functionality of i18n/generate.py
     """
-    generated_files = ('django-partial.po', 'djangojs-partial.po', 'mako.po')
 
     @classmethod
     def tearDownClass(cls):
@@ -98,6 +98,21 @@ class TestGenerate(TestCase):
             num_headers,
             msg="Found %s (should be %s) merge comments in the header for %s" % (len(match), num_headers, file_path)
         )
+
+    def test_resolve_merge_conflicts(self):
+        django_po_path = os.path.join(CONFIGURATION.get_messages_dir('fake2'), 'django.po')
+        # File ought to have been generated in test_main
+        if not os.path.exists(django_po_path):
+            generate.main(verbose=0, strict=False)
+
+        django_po_file = open(django_po_path, 'r')
+        po_lines = django_po_file.read()
+
+        # check that there are no merge conflicts present
+        # "#-#-#-#-#  django-partial.po (edx-platform)  #-#-#-#-#\n"
+        pattern = re.compile('\"#-#-#-#-#.*#-#-#-#-#', re.M)
+        match = pattern.findall(po_lines)
+        self.assertEqual(len(match), 0, msg="Error, found merge conflicts in django.po: %s" % match)
 
 
 def random_name(size=6):

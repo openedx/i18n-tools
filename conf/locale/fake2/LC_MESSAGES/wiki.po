@@ -37,3 +37,7 @@ msgstr "Ɨnᴉʇᴉɐl ʇᴉʇlǝ øɟ ʇɥǝ ɐɹʇᴉɔlǝ. Mɐʎ bǝ øʌǝɹ
 #: wiki/forms.py
 msgid "Type in some contents"
 msgstr "Ŧʎdǝ ᴉn søɯǝ ɔønʇǝnʇs"
+
+#: wiki/forms.py
+msgid "Problem"
+msgstr "Рѓоъlэм"
