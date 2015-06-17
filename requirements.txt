@@ -1,0 +1,5 @@
+coveralls
+pylint
+pep8
+rednose
+django
