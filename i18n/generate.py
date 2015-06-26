@@ -65,8 +65,9 @@ def merge(locale, target='django.po', sources=('django-partial.po',), fail_if_mi
     if duplicate_entries:
         dup_file = target_filename.replace(".po", ".dup")
         with codecs.open(dup_file, "w", encoding="utf8") as dfile:
-            for entry in duplicate_entries:
+            for (entry, translations) in duplicate_entries:
                 dfile.write(u"{}\n".format(entry))
+                dfile.write(u"Translations found were:\n\t{}\n\n".format(translations))
         LOG.warn(" %s duplicates in %s, details in .dup file", len(duplicate_entries), target_filename)
 
 
@@ -116,7 +117,7 @@ def clean_pofile(path):
                 entry.msgid,
                 [f for (f, __) in entry.occurrences]
             )
-            duplicate_entries.append(dup_msg)
+            duplicate_entries.append((dup_msg, entry.msgstr))
 
             # Pick the first entry
             for msgstr in DUPLICATE_ENTRY_PATTERN.split(entry.msgstr):
