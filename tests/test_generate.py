@@ -11,10 +11,10 @@ import subprocess
 from unittest import TestCase
 
 from mock import patch
+from path import path
 from polib import pofile
 from pytz import UTC
 
-from i18n import extract
 from i18n import generate
 from i18n.config import CONFIGURATION
 
@@ -23,7 +23,6 @@ class TestGenerate(TestCase):
     """
     Tests functionality of i18n/generate.py
     """
-    generated_files = ('django-partial.po', 'djangojs-partial.po', 'mako.po')
 
     @classmethod
     def tearDownClass(cls):
@@ -73,9 +72,7 @@ class TestGenerate(TestCase):
                     datetime.fromtimestamp(os.path.getmtime(file_path), UTC) >= self.start_time,
                     msg='File not recently modified: %s' % file_path
                 )
-            # Segmenting means that the merge headers don't work they way they
-            # used to, so don't make this check for now. I'm not sure if we'll
-            # get the merge header back eventually, or delete this code eventually.
+            # Assert merge headers look right
             file_path = os.path.join(CONFIGURATION.get_messages_dir(locale), filename + '.po')
             self.assert_merge_headers(file_path, num_headers)
 
@@ -97,6 +94,29 @@ class TestGenerate(TestCase):
             len(match),
             num_headers,
             msg="Found %s (should be %s) merge comments in the header for %s" % (len(match), num_headers, file_path)
+        )
+
+    @patch('i18n.generate.LOG')
+    def test_resolve_merge_conflicts(self, mock_log):
+        django_po_path = os.path.join(CONFIGURATION.get_messages_dir('fake2'), 'django.po')
+        # File ought to have been generated in test_main
+        # if not os.path.exists(django_po_path):
+        generate.main(verbose=0, strict=False)
+
+        with open(django_po_path, 'r') as django_po_file:
+            po_lines = django_po_file.read()
+
+        # check that there are no merge conflicts present
+        # "#-#-#-#-#  django-partial.po (edx-platform)  #-#-#-#-#\n"
+        pattern = re.compile('\"#-#-#-#-#.*#-#-#-#-#', re.M)
+        match = pattern.findall(po_lines)
+        self.assertEqual(len(match), 0, msg="Error, found merge conflicts in django.po: %s" % match)
+        # Validate that the appropriate log warnings were shown
+        self.assertTrue(mock_log.error.called)
+        self.assertIn(
+            " %s duplicates in %s, details in .dup file",
+            # the first item of call_args is the call arguments themselves as a tuple
+            mock_log.error.call_args[0]
         )
 
 

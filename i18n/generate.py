@@ -12,9 +12,10 @@ The configuration file (in edx-platform/conf/locale/config.yaml) specifies which
 languages to generate.
 
 """
-
+import codecs
 import logging
 import os
+import re
 import sys
 
 from polib import pofile
@@ -24,6 +25,7 @@ from i18n.execute import execute
 
 LOG = logging.getLogger(__name__)
 DEVNULL = open(os.devnull, "wb")
+DUPLICATE_ENTRY_PATTERN = re.compile('#-#-#-#-#.*#-#-#-#-#')
 
 
 def merge(locale, target='django.po', sources=('django-partial.po',), fail_if_missing=True):
@@ -89,12 +91,51 @@ def clean_pofile(path):
     pomsgs = pofile(path)
     # The msgcat tool marks the metadata as fuzzy, but it's ok as it is.
     pomsgs.metadata_is_fuzzy = False
+    duplicate_entries = []
+
     for entry in pomsgs:
         # Remove line numbers
         entry.occurrences = [(filename, None) for filename, __ in entry.occurrences]
         # Remove -format flags
         entry.flags = [f for f in entry.flags if not f.endswith("-format")]
+        # Check for merge conflicts. Pick the first, and emit a warning.
+        if 'fuzzy' in entry.flags:
+            # Remove fuzzy from flags
+            entry.flags = [f for f in entry.flags if f != 'fuzzy']
+            # Save a warning message
+            dup_msg = 'Multiple translations found for single string.\n\tString "{0}"\n\tPresent in files {1}'.format(
+                entry.msgid,
+                [f for (f, __) in entry.occurrences]
+            )
+            LOG.warn(dup_msg)
+            duplicate_entries.append(dup_msg)
+
+            # Pick the first entry
+            for msgstr in DUPLICATE_ENTRY_PATTERN.split(entry.msgstr):
+                # Ignore any empty strings that may result from the split call
+                if msgstr:
+                    # Set the first one we find to be the right one. Strip to remove extraneous
+                    # new lines that exist.
+                    entry.msgstr = msgstr.strip()
+
+                    # Raise error if there's new lines starting or ending the id string.
+                    if entry.msgid.startswith('\n') or entry.msgid.endswith('\n'):
+                        raise ValueError(
+                            u'{} starts or ends with a new line character, which is not allowed. '
+                            'Please fix before continuing. Source string is found in {}'.format(
+                                entry.msgid, entry.occurrences
+                            ).encode('utf-8')
+                        )
+                    break
+
     pomsgs.save()
+    # Write duplicate messages to a file
+    if duplicate_entries:
+        dup_file = path.replace(".po", ".dup")
+        with codecs.open(dup_file, "w", encoding="utf8") as dfile:
+            for entry in duplicate_entries:
+                dfile.write(u"{}\n".format(entry))
+        LOG.error(" %s duplicates in %s, details in .dup file", len(duplicate_entries), path)
 
 
 def validate_files(directory, files_to_merge):

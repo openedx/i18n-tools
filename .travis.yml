@@ -6,7 +6,7 @@ install:
   - pip install -r requirements.txt
 script:
   - coverage run -m nose
-  - pep8 .
+  - pep8 i18n
   - scripts/max_pylint_violations 20
 after_success:
   - coveralls
