@@ -112,11 +112,11 @@ class TestGenerate(TestCase):
         match = pattern.findall(po_lines)
         self.assertEqual(len(match), 0, msg="Error, found merge conflicts in django.po: %s" % match)
         # Validate that the appropriate log warnings were shown
-        self.assertTrue(mock_log.error.called)
+        self.assertTrue(mock_log.warn.called)
         self.assertIn(
             " %s duplicates in %s, details in .dup file",
             # the first item of call_args is the call arguments themselves as a tuple
-            mock_log.error.call_args[0]
+            mock_log.warn.call_args[0]
         )
 
 
