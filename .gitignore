@@ -23,6 +23,6 @@ dist/
 /src/
 \#*\#
 *.egg-info
-conf/locale/fake2/LC_MESSAGES/*.mo
+*.mo
 *.prob
 *.dup

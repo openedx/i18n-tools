@@ -55,11 +55,19 @@ def merge(locale, target='django.po', sources=('django-partial.po',), fail_if_mi
 
     # clean up redunancies in the metadata
     merged_filename = locale_directory.joinpath('merged.po')
-    clean_pofile(merged_filename)
+    duplicate_entries = clean_pofile(merged_filename)
 
     # rename merged.po -> django.po (default)
     target_filename = locale_directory.joinpath(target)
     os.rename(merged_filename, target_filename)
+
+    # Write duplicate messages to a file
+    if duplicate_entries:
+        dup_file = target_filename.replace(".po", ".dup")
+        with codecs.open(dup_file, "w", encoding="utf8") as dfile:
+            for entry in duplicate_entries:
+                dfile.write(u"{}\n".format(entry))
+        LOG.warn(" %s duplicates in %s, details in .dup file", len(duplicate_entries), target_filename)
 
 
 def merge_files(locale, fail_if_missing=True):
@@ -86,6 +94,7 @@ def clean_pofile(path):
           removing them, we reduce the unimportant differences that clutter
           diffs as different developers work on the files.
 
+    Returns a list of any duplicate entries found.
     """
     # Reading in the .po file and saving it again fixes redundancies.
     pomsgs = pofile(path)
@@ -107,7 +116,6 @@ def clean_pofile(path):
                 entry.msgid,
                 [f for (f, __) in entry.occurrences]
             )
-            LOG.warn(dup_msg)
             duplicate_entries.append(dup_msg)
 
             # Pick the first entry
@@ -129,13 +137,7 @@ def clean_pofile(path):
                     break
 
     pomsgs.save()
-    # Write duplicate messages to a file
-    if duplicate_entries:
-        dup_file = path.replace(".po", ".dup")
-        with codecs.open(dup_file, "w", encoding="utf8") as dfile:
-            for entry in duplicate_entries:
-                dfile.write(u"{}\n".format(entry))
-        LOG.error(" %s duplicates in %s, details in .dup file", len(duplicate_entries), path)
+    return duplicate_entries
 
 
 def validate_files(directory, files_to_merge):

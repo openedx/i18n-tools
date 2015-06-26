@@ -145,6 +145,9 @@ def check_messages(filename, report_empty=False):
 
         log.error(" %s problems in %s, details in .prob file", len(problems), filename)
     else:
+        dup_filename = filename.replace('.po', '.dup')
+        if os.path.exists(dup_filename):
+            log.warn(" Duplicates found in %s, details in .dup file", dup_filename)
         log.info(" No problems found in %s", filename)
 
 
