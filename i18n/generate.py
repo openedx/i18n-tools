@@ -90,11 +90,6 @@ def clean_pofile(path):
         - Removes occurrence line numbers so that the generated files don't
           generate a lot of line noise when they're committed.
 
-        - Removes any flags ending with "-format".  Mac gettext seems to add
-          these flags, Linux does not, and we don't seem to need them.  By
-          removing them, we reduce the unimportant differences that clutter
-          diffs as different developers work on the files.
-
     Returns a list of any duplicate entries found.
     """
     # Reading in the .po file and saving it again fixes redundancies.
@@ -106,8 +101,6 @@ def clean_pofile(path):
     for entry in pomsgs:
         # Remove line numbers
         entry.occurrences = [(filename, None) for filename, __ in entry.occurrences]
-        # Remove -format flags
-        entry.flags = [f for f in entry.flags if not f.endswith("-format")]
         # Check for merge conflicts. Pick the first, and emit a warning.
         if 'fuzzy' in entry.flags:
             # Remove fuzzy from flags
