@@ -78,7 +78,18 @@ ignore_dirs:
     - docs
     - src
     - i18n
-    - test_root
 
+segment:
+    django-partial.po:          # This .po file..
+        django-studio.po:       #  produces this .po file..
+            - cms/*             #   by segregating strings from these files.
+        # Anything that doesn't match a pattern stays in the original file.
+    djangojs-partial.po:
+        djangojs-studio.po:
+            - cms/*
 
-
+generate_merge:
+    django.po:
+        - django-partial.po
+    djangojs.po:
+        - djangojs-partial.po

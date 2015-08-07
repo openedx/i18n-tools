@@ -23,6 +23,7 @@ def segment_pofiles(locale):
 
     """
     files_written = set()
+    LOG.info(config.CONFIGURATION.segment.items())
     for filename, segments in config.CONFIGURATION.segment.items():
         filename = config.CONFIGURATION.get_messages_dir(locale) / filename
         files_written.update(segment_pofile(filename, segments))
@@ -60,11 +61,9 @@ def segment_pofile(filename, segments):
         a set of path objects, all the segment files written.
 
     """
-    reading_msg = "Reading {num} entries from {file}"
-    writing_msg = "Writing {num} entries to {file}"
-
+    LOG.info('Reading from file %s', filename)
     source_po = polib.pofile(filename)
-    LOG.info(reading_msg.format(file=filename, num=len(source_po)))  # pylint: disable=logging-format-interpolation
+    LOG.info('Reading %d entries from file %s', len(source_po), filename)
 
     # A new pofile just like the source, but with no messages. We'll put
     # anything not segmented into this file.
@@ -109,7 +108,7 @@ def segment_pofile(filename, segments):
         if len(pofile) == 0:
             LOG.error("No messages to write to %s, did you run segment twice?", out_file)
         else:
-            LOG.info(writing_msg.format(file=out_file, num=len(pofile)))  # pylint: disable=logging-format-interpolation
+            LOG.info("Writing %d entries to %s", len(pofile), out_file)
             pofile.save(out_file)
             files_written.add(out_file)
 

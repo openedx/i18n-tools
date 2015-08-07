@@ -51,6 +51,7 @@ class Extract(Runner):
         Main entry point of script
         """
         logging.basicConfig(stream=sys.stdout, level=logging.INFO)
+        LOG.info('config.LOCALE_DIR: %s', config.LOCALE_DIR)
         config.LOCALE_DIR.parent.makedirs_p()
         source_msgs_dir = config.CONFIGURATION.source_messages_dir
         remove_file(source_msgs_dir.joinpath('django.po'))
@@ -135,6 +136,7 @@ class Extract(Runner):
             app_dir = path(app_module.__file__).dirname().dirname()  # pylint: disable=no-value-for-parameter
             output_file = source_msgs_dir / (app_name + ".po")
             files_to_clean.add(output_file)
+            print('Added file: %s', output_file)
 
             babel_cmd = 'pybabel {verbosity} extract -F {config} -c "Translators:" {app} -o {output}'
             babel_cmd = babel_cmd.format(
@@ -146,8 +148,10 @@ class Extract(Runner):
             execute(babel_cmd, working_directory=app_dir, stderr=stderr)
 
         # Segment the generated files.
+        LOG.info(config.CONFIGURATION.segment.items())
         segmented_files = segment_pofiles("en")
         files_to_clean.update(segmented_files)
+        print('Added files: %s', segmented_files)
 
         # Finish each file.
         for filename in files_to_clean:
