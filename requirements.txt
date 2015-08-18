@@ -1,5 +1,11 @@
 coveralls
-pylint
-pep8
-rednose
+ddt
 django
+mock
+nose
+path.py
+pep8
+polib
+pylint
+pytz
+rednose
