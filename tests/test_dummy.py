@@ -46,11 +46,14 @@ class TestDummy(TestCase):
 
         (u"don't convert %(name)s tags on %(date)s",
          u"dön't çönvért %(name)s tägs ön %(date)s Ⱡ'σяєм ιρѕυм ∂σłσя ѕιт αмєт, ¢σηѕє¢#"),
+
+        (u"don't convert %s tags on %s",
+         u"dön't çönvért %s tägs ön %s Ⱡ'σяєм ιρѕυм ∂σłσя ѕιт αмєт, ¢σηѕє¢#"),
     )
     def test_dummy(self, data):
         """
         Tests with a dummy converter (adds spurious accents to strings).
-        Assert that embedded HTML and python tags are not converted.
+        Assert that embedded HTML and Python tags are not converted.
         """
         source, expected = data
         result = self.converter.convert(source)
