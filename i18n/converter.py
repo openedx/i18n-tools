@@ -26,6 +26,7 @@ class Converter(object):
         (<[^>]+>)           |       # <tag>
         ({[^}]+})           |       # {tag}
         (%\([\w]+\)\w)      |       # %(tag)s
+        (%[sdrxf])          |       # %s
         (&\w+;)             |       # &entity;
         (&\#\d+;)           |       # &#1234;
         (&\#x[0-9a-f]+;)            # &#xABCD;

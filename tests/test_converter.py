@@ -48,6 +48,9 @@ class TestConverter(TestCase):
         # .format-style tags
         ('The {0} barn is {1!r}.',
          'THE {0} BARN IS {1!r}.'),
+        # Not-as-useful Python tags
+        ('A string (%s) and a number (%d)',
+         'A STRING (%s) AND A NUMBER (%d)'),
         # HTML entities
         ('<b>&copy; 2013 edX, &#xa0;</b>',
          '<b>&copy; 2013 EDX, &#xa0;</b>'),
