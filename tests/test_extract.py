@@ -1,40 +1,51 @@
 from datetime import datetime, timedelta
 import os
+import subprocess
 from unittest import TestCase
 
 from nose.plugins.skip import SkipTest
+from mock import patch
 import polib
 from pytz import UTC
+import yaml
 
-from i18n import extract
-from i18n.config import CONFIGURATION
+from i18n import extract, config
+
 
 # Make sure setup runs only once
 SETUP_HAS_RUN = False
-
 
 class TestExtract(TestCase):
     """
     Tests functionality of i18n/extract.py
     """
-    generated_files = ('django-partial.po', 'djangojs-partial.po', 'mako.po')
+    generated_files = ('django-partial.po', 'djangojs-partial.po')
 
     def setUp(self):
-        # Skip this test because it takes too long (>1 minute)
-        # TODO: figure out how to declare a "long-running" test suite
-        # and add this test to it.
-        raise SkipTest()
-
-        global SETUP_HAS_RUN
-
         # Subtract 1 second to help comparisons with file-modify time succeed,
         # since os.path.getmtime() is not millisecond-accurate
-        self.start_time = datetime.now(UTC) - timedelta(seconds=1)
+        self.start_time = datetime.now() - timedelta(seconds=1)
         super(TestExtract, self).setUp()
+
+        global SETUP_HAS_RUN
         if not SETUP_HAS_RUN:
-            # Run extraction script. Warning, this takes 1 minute or more
+            test_config_filename = os.path.normpath(os.path.join('tests', 'data', 'config.yaml'))
+            real_config_filename = os.path.normpath(os.path.join('conf', 'locale', 'config.yaml'))
+            saved_loc = os.path.normpath(os.path.join('conf', 'locale', 'real_config.yaml'))
+
+            subprocess.call('cp {real} {save}'.format(real=real_config_filename, save=saved_loc), shell=True)
+            subprocess.call('cp {test} {real}'.format(test=test_config_filename, real=real_config_filename), shell=True)
             extract.main(verbosity=0)
+
             SETUP_HAS_RUN = True
+
+    @classmethod
+    def tearDownClass(cls):
+        saved_loc = os.path.normpath(os.path.join('conf', 'locale', 'real_config.yaml'))
+        real_config_filename = os.path.normpath(os.path.join('conf', 'locale', 'config.yaml'))
+        subprocess.call('mv {saved} {real}'.format(saved=saved_loc, real=real_config_filename), shell=True)
+
+        super(TestExtract, cls).tearDownClass()
 
     def get_files(self):
         """
@@ -43,7 +54,7 @@ class TestExtract(TestCase):
         Fails assertion if one of the files doesn't exist.
         """
         for filename in self.generated_files:
-            path = os.path.join(CONFIGURATION.source_messages_dir, filename)
+            path = os.path.join(config.CONFIGURATION.source_messages_dir, filename)
             exists = os.path.exists(path)
             self.assertTrue(exists, msg='Missing file: %s' % filename)
             if exists:

@@ -26,3 +26,4 @@ dist/
 *.mo
 *.prob
 *.dup
+conf/locale/en/*
