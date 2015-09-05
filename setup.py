@@ -5,7 +5,7 @@ console_scripts = ['i18n_tool = i18n.main:main']
 
 setup(
     name='i18n_tools',
-    version='0.1.3',
+    version='0.1.4',
     description='edX i18n tools',
     packages=[
         'i18n',
