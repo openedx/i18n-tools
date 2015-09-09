@@ -103,12 +103,12 @@ class Extract(Runner):
         if ignores:
             makemessages += " " + ignores
 
-        # Extract strings from django source files, including .py files.
-        make_django_cmd = makemessages + ' --extension html'
+        # Extract strings from django source files (*.py, *.html, *.txt).
+        make_django_cmd = makemessages + ' -d django'
         execute(make_django_cmd, working_directory=config.BASE_DIR, stderr=stderr)
 
-        # Extract strings from Javascript source files.
-        make_djangojs_cmd = makemessages + ' -d djangojs --extension js'
+        # Extract strings from Javascript source files (*.js).
+        make_djangojs_cmd = makemessages + ' -d djangojs'
         execute(make_djangojs_cmd, working_directory=config.BASE_DIR, stderr=stderr)
 
         # makemessages creates 'django.po'. This filename is hardcoded.
