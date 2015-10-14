@@ -26,8 +26,7 @@ from __future__ import print_function
 import re
 
 import polib
-# Possibly a Pylint bug in the most recent version that causes it to not recognize module members
-from path import path  # pylint: disable=no-name-in-module
+from path import Path
 
 from i18n import config, Runner
 from i18n.converter import Converter
@@ -177,7 +176,7 @@ def make_dummy(filename, locale, converter):
     Takes a source po file, reads it, and writes out a new po file
     in :param locale: containing a dummy translation.
     """
-    if not path(filename).exists():
+    if not Path(filename).exists():
         raise IOError('File does not exist: %r' % filename)
     pofile = polib.pofile(filename)
     for msg in pofile:
@@ -199,7 +198,7 @@ def make_dummy(filename, locale, converter):
 
 def new_filename(original_filename, new_locale):
     """Returns a filename derived from original_filename, using new_locale as the locale"""
-    orig_file = path(original_filename)
+    orig_file = Path(original_filename)
     new_file = orig_file.parent.parent.parent / new_locale / orig_file.parent.name / orig_file.name
     return new_file.abspath()
 

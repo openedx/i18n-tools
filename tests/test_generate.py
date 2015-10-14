@@ -11,7 +11,6 @@ import subprocess
 from unittest import TestCase
 
 from mock import patch
-from path import path
 from polib import pofile
 from pytz import UTC
 

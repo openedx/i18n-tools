@@ -4,13 +4,13 @@ import os.path
 import shutil
 import unittest
 
-from path import path
+from path import Path
 import polib
 
 from i18n.segment import segment_pofile
 
 
-HERE = path(__file__).dirname()
+HERE = Path(__file__).dirname()
 TEST_DATA = HERE / "data"
 WORK = HERE / "work"
 
