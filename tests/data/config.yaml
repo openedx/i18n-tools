@@ -1,4 +1,6 @@
+# ********* TEST DATA FOR USE IN TESTS *********
 # Configuration for i18n workflow.
+TRANSIFEX_URL: 'https://www.transifex.com/open-edx-releases/cypress-release/'
 
 locales:
     - en  # English - Source Language
