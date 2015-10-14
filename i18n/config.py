@@ -1,12 +1,11 @@
 import os
 
 import yaml
-# Possibly a Pylint bug in the most recent version that causes it to not recognize module members
-from path import path  # pylint: disable=no-name-in-module
+from path import Path
 
 # BASE_DIR is the working directory to execute django-admin commands from.
 # Typically this should be the 'edx-platform' directory.
-BASE_DIR = path('.').abspath()  # pylint: disable=invalid-name
+BASE_DIR = Path('.').abspath()  # pylint: disable=invalid-name
 
 # LOCALE_DIR contains the locale files.
 # Typically this should be 'edx-platform/conf/locale'

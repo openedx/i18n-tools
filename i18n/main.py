@@ -1,12 +1,12 @@
 #!/usr/bin/env python
 import importlib
 import sys
-# Possibly a Pylint bug in the most recent version that causes it to not recognize module members
-from path import path  # pylint: disable=no-name-in-module
+
+from path import Path
 
 
 def get_valid_commands():
-    modules = [m.basename().split('.')[0] for m in path(__file__).dirname().files('*.py')]
+    modules = [m.basename().split('.')[0] for m in Path(__file__).dirname().files('*.py')]
     commands = []
     for modname in modules:
         if modname == 'main':
