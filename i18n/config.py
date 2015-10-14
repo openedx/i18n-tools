@@ -25,6 +25,7 @@ class Configuration(object):
         'segment': {},
         'source_locale': 'en',
         'third_party': [],
+        'TRANSIFEX_URL': 'https://www.transifex.com/open-edx/edx-platform/',
     }
 
     def __init__(self, filename=None):

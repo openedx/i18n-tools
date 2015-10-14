@@ -10,7 +10,6 @@ from i18n.execute import execute
 from i18n.extract import EDX_MARKER
 
 TRANSIFEX_HEADER = u'edX community translations have been downloaded from {}'
-TRANSIFEX_URL = 'https://www.transifex.com/projects/p/edx-platform/'
 
 
 def push():
@@ -115,7 +114,7 @@ def get_new_header(pofile):
     """
     team = pofile.metadata.get('Language-Team', None)
     if not team:
-        return TRANSIFEX_HEADER.format(TRANSIFEX_URL)
+        return TRANSIFEX_HEADER.format(config.CONFIGURATION.TRANSIFEX_URL)
     else:
         return TRANSIFEX_HEADER.format(team)
 
