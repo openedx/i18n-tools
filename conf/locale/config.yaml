@@ -4,6 +4,8 @@ TRANSIFEX_URL: 'https://www.transifex.com/open-edx/edx-platform/'
 
 locales:
     - en  # English - Source Language
+    - fr
+    - zh_CN
 
 # The locales used for fake-accented English, for testing.
 dummy_locales:
