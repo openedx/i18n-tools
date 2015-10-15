@@ -43,7 +43,7 @@ class TestConfiguration(TestCase):
         config.CONFIGURATION = config.Configuration(config_filename)
         locales = config.CONFIGURATION.locales
 
-        self.assertIn('en', locales)
+        self.assertIn('ar', locales)
         self.assertEqual('eo', config.CONFIGURATION.dummy_locales[0])
         self.assertEqual('en', config.CONFIGURATION.source_locale)
         self.assertEqual(
