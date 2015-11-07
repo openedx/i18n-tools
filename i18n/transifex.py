@@ -19,6 +19,21 @@ def push():
     execute('tx push -s')
 
 
+def push_all():
+    """
+    Push translation source English files and all translations to Transifex
+    """
+    print("\n\nWARNING! This command pushes source AND translations files. Use with caution.\n")
+    proceed = raw_input("Are you sure you want to proceed? (Y/n) ")
+    if proceed.lower() == 'y':
+        # http://docs.transifex.com/client/push/
+        # Push source & translation files. Force new resources, continue on errors.
+        # Don't require user input (it does it for each resource, so we ask above)
+        execute('tx push -s -t --force --skip --no-interactive')
+    else:
+        print("\n")
+
+
 def pull():
     """
     Pull translations from all languages listed in conf/locale/config.yaml
@@ -135,6 +150,8 @@ class Transifex(Runner):
             pull_all_ltr()
         elif args.command == "rtl":
             pull_all_rtl()
+        elif args.command == "push_all":
+            push_all()
         else:
             raise Exception("unknown command ({cmd})".format(cmd=args.command))
 
