@@ -1,6 +1,6 @@
 coveralls
 ddt
-django
+django>=1.8,<1.9
 mock
 nose
 path.py
