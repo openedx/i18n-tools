@@ -81,6 +81,3 @@ ignore_dirs:
     - src
     - i18n
     - test_root
-
-
-
