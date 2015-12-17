@@ -10,6 +10,7 @@ import textwrap
 
 import polib
 
+from i18n.dummy import is_format_message
 from i18n.execute import call
 from i18n.converter import Converter
 from i18n import Runner, config
@@ -99,6 +100,10 @@ def check_messages(filename, report_empty=False):
         # https://code.djangoproject.com/ticket/21725
         if astral(msg.msgstr):
             problems.append(("Non-BMP char", msg.msgid, msg.msgstr))
+
+        if is_format_message(msg):
+            # LONG_DATE_FORMAT, etc, have %s etc in them, and that's ok.
+            continue
 
         if msg.msgid_plural:
             # Plurals: two strings in, N strings out.
