@@ -22,7 +22,9 @@ $ ./dummy.py
 generates output conf/locale/$DUMMY_LOCALE/LC_MESSAGES,
 where $DUMMY_LOCALE is the dummy_locale value set in the i18n config
 """
+
 from __future__ import print_function
+
 import re
 
 import polib
@@ -31,6 +33,11 @@ from path import Path
 from i18n import config, Runner
 from i18n.converter import Converter
 from i18n.generate import clean_pofile
+
+
+def is_format_message(msg):
+    """Is this message a _FORMAT string? These are often treated specially."""
+    return re.match(r"^[A-Z_]+_FORMAT$", msg.msgid)
 
 
 class BaseDummyConverter(Converter):
@@ -182,7 +189,7 @@ def make_dummy(filename, locale, converter):
     for msg in pofile:
         # Some strings are actually formatting strings, don't dummy-ify them,
         # or dates will look like "DÀTÉ_TÌMÉ_FÖRMÀT Ⱡ'σ# EST"
-        if re.match(r"^[A-Z_]+_FORMAT$", msg.msgid):
+        if is_format_message(msg):
             continue
         converter.convert_msg(msg)
 

@@ -49,3 +49,17 @@ msgstr[1] "2. Estas {num} objectos"
 # msgid_plural "3. There are {num} things"
 # msgstr[0] "3. Estas num objectos"
 # msgstr[1] "3. Estas {num} objectos"
+
+# These should not raise a validation error, because LONG_DATE_FORMAT and
+# friends are special.
+msgid "LONG_DATE_FORMAT"
+msgstr "%A %d %B %Y"
+
+msgid "DATE_TIME_FORMAT"
+msgstr "%d %b %Y, à %H:%M"
+
+msgid "SHORT_DATE_FORMAT"
+msgstr "%d %b %Y"
+
+msgid "TIME_FORMAT"
+msgstr "%H:%M:%S"
