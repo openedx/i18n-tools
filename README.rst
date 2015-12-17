@@ -9,7 +9,9 @@ Installing
 Running
 -------
 
-Running commands from the edx-platform directory will default to loading the configuration at ``./conf/locale/config.yaml``. You can specify a different configuration file with the ``--config`` argument.
+Running commands from the edx-platform directory will default to loading the
+configuration at ``./conf/locale/config.yaml``. You can specify a different
+configuration file with the ``--config`` argument.
 
  * ``i18n_tool dummy``
  * ``i18n_tool extract``
@@ -21,7 +23,30 @@ Running commands from the edx-platform directory will default to loading the con
 
 Configuration
 -------------
-Details of the config.yaml file are in `edx-platform/conf/locale/config.yaml <https://github.com/edx/edx-platform/blob/master/conf/locale/config.yaml>`_
+
+Details of the config.yaml file are in `edx-platform/conf/locale/config.yaml
+<https://github.com/edx/edx-platform/blob/master/conf/locale/config.yaml>`_
+
+
+Development
+-----------
+
+To work on this code:
+
+#. Install the requirements::
+
+   $ pip install -r requirements.txt
+
+#. Run tests::
+
+   $ nosestests
+
+   If you have failures because ``msgcat`` failed, you may need to install it,
+   and adjust your PATH to include it.  On a Mac::
+
+   $ brew install gettext
+   $ PATH=/usr/local/Cellar/gettext/0.19.3/bin/:$PATH nosetests
+
 
 .. |build-status| image:: https://travis-ci.org/edx/i18n-tools.svg?branch=master
    :target: https://travis-ci.org/edx/i18n-tools

@@ -1,4 +1,5 @@
 """Tests that validate .po files."""
+
 from __future__ import print_function
 
 import codecs
@@ -26,10 +27,15 @@ def validate_po_files(root, report_empty=False):
             __, ext = os.path.splitext(name)
             if ext.lower() == '.po':
                 filename = os.path.join(dirpath, name)
+
                 # First validate the format of this file
                 msgfmt_check_po_file(filename)
-                # Now, check that the translated strings are valid, and optionally check for empty translations
-                check_messages(filename, report_empty)
+
+                # Check that the translated strings are valid, and optionally
+                # check for empty translations. But don't check English.
+                if "/locale/en/" not in filename:
+                    problems = check_messages(filename, report_empty)
+                    report_problems(filename, problems)
 
 
 def msgfmt_check_po_file(filename):
@@ -74,20 +80,18 @@ def astral(msg):
 
 def check_messages(filename, report_empty=False):
     """
-    Checks messages in various ways:
+    Checks messages in `filename` in various ways:
 
-    Translations must have the same slots as the English. Messages can't have astral
-    characters in them.
+    * Translations must have the same slots as the English.
 
-    If report_empty is True, will also report empty translation strings.
+    * Messages can't have astral characters in them.
+
+    If `report_empty` is True, will also report empty translation strings.
+
+    Returns the problems, a list of tuples. Each is a description, a msgid, and
+    then zero or more translations.
 
     """
-    # Don't check English files.
-    if "/locale/en/" in filename:
-        return
-
-    # problems will be a list of tuples.  Each is a description, and a msgid,
-    # and then zero or more translations.
     problems = []
     pomsgs = polib.pofile(filename)
     for msg in pomsgs:
@@ -131,6 +135,16 @@ def check_messages(filename, report_empty=False):
                     diff
                 ))
 
+    return problems
+
+
+def report_problems(filename, problems):
+    """
+    Report on the problems found in `filename`.
+
+    `problems` is a list of tuples as returned by `check_messages`.
+
+    """
     if problems:
         problem_file = filename.replace(".po", ".prob")
         id_filler = textwrap.TextWrapper(width=79, initial_indent="  msgid: ", subsequent_indent=" " * 9)
