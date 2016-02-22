@@ -1,6 +1,7 @@
 import argparse
-from . import config
 import sys
+
+from . import config
 
 
 class Runner:

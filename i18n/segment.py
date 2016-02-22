@@ -8,8 +8,9 @@ import copy
 import fnmatch
 import logging
 import sys
-import polib
 import textwrap
+
+import polib
 
 from i18n import config, Runner
 
