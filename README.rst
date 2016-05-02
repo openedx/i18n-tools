@@ -28,6 +28,15 @@ Details of the config.yaml file are in `edx-platform/conf/locale/config.yaml
 <https://github.com/edx/edx-platform/blob/master/conf/locale/config.yaml>`_
 
 
+Changes
+=======
+
+Unreleased
+----------
+
+* ``i18n_tool validate`` no longer leaves an unneeded messages.mo file behind.
+
+
 Development
 ===========
 
