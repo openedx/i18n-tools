@@ -175,6 +175,9 @@ class Generate(Runner):
         # Dummy text is not required. Don't raise exception if files are missing.
         for locale in config.CONFIGURATION.dummy_locales:
             merge_files(locale, fail_if_missing=False)
+        # Merge the source locale, so we have the canonical .po files.
+        if config.CONFIGURATION.source_locale not in langs:
+            merge_files(config.CONFIGURATION.source_locale, fail_if_missing=args.strict)
 
         compile_cmd = 'django-admin.py compilemessages -v{}'.format(args.verbose)
         if args.verbose:
