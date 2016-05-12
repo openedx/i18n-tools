@@ -31,8 +31,8 @@ Details of the config.yaml file are in `edx-platform/conf/locale/config.yaml
 Changes
 =======
 
-Unreleased
-----------
+v0.2.1
+------
 
 * ``i18n_tool validate`` no longer leaves an unneeded messages.mo file behind.
 
