@@ -1,35 +1,44 @@
-i18n Tools |build-status| |coverage-status|
-===========================================
+edX i18n Tools |build-status| |coverage-status|
+###############################################
 
 Installing
-----------
+==========
 
 ``python setup.py install``
 
 Running
--------
+=======
 
 Running commands from the edx-platform directory will default to loading the
 configuration at ``./conf/locale/config.yaml``. You can specify a different
 configuration file with the ``--config`` argument.
 
- * ``i18n_tool dummy``
- * ``i18n_tool extract``
- * ``i18n_tool generate``
- * ``i18n_tool segment``
- * ``i18n_tool transifex``
- * ``i18n_tool validate``
+* ``i18n_tool dummy``
+* ``i18n_tool extract``
+* ``i18n_tool generate``
+* ``i18n_tool segment``
+* ``i18n_tool transifex``
+* ``i18n_tool validate``
 
 
 Configuration
--------------
+=============
 
 Details of the config.yaml file are in `edx-platform/conf/locale/config.yaml
 <https://github.com/edx/edx-platform/blob/master/conf/locale/config.yaml>`_
 
 
+Changes
+=======
+
+Unreleased
+----------
+
+* ``i18n_tool validate`` no longer leaves an unneeded messages.mo file behind.
+
+
 Development
------------
+===========
 
 To work on this code:
 
@@ -42,7 +51,7 @@ To work on this code:
    $ nosestests
 
    If you have failures because ``msgcat`` failed, you may need to install it,
-   and adjust your PATH to include it.  On a Mac::
+   and adjust your PATH to include it.  On a Mac, for example::
 
    $ brew install gettext
    $ PATH=/usr/local/Cellar/gettext/0.19.3/bin/:$PATH nosetests
