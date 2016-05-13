@@ -48,7 +48,7 @@ To work on this code:
 
 #. Run tests::
 
-   $ nosestests
+   $ nosetests
 
    If you have failures because ``msgcat`` failed, you may need to install it,
    and adjust your PATH to include it.  On a Mac, for example::
