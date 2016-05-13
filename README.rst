@@ -31,6 +31,13 @@ Details of the config.yaml file are in `edx-platform/conf/locale/config.yaml
 Changes
 =======
 
+v0.3
+----
+
+* ``i18n_tool transifex push`` and ``i18n_tool transifex pull`` now can take
+  optional resource names on the command line.  If not provided, all resources
+  are pushed/pulled.
+
 v0.2.1
 ------
 
