@@ -31,6 +31,13 @@ Details of the config.yaml file are in `edx-platform/conf/locale/config.yaml
 Changes
 =======
 
+v0.3
+----
+
+* ``i18n_tool transifex push`` and ``i18n_tool transifex pull`` now can take
+  optional resource names on the command line.  If not provided, all resources
+  are pushed/pulled.
+
 v0.2.1
 ------
 
@@ -48,7 +55,7 @@ To work on this code:
 
 #. Run tests::
 
-   $ nosestests
+   $ nosetests
 
    If you have failures because ``msgcat`` failed, you may need to install it,
    and adjust your PATH to include it.  On a Mac, for example::

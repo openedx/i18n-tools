@@ -35,6 +35,19 @@ class TestTransifex(TestCase):
             self.mock_execute.call_args[0][0]
         )
 
+    def test_push_command_with_resources(self):
+        # Call the push command
+        transifex.push("foo.1", "foo.2")
+
+        call_args = [
+            ('tx push -s -r foo.1',),
+            ('tx push -s -r foo.2',),
+        ]
+        self.assertEqual(
+            call_args,
+            [callarg[0] for callarg in self.mock_execute.call_args_list]
+        )
+
     def test_push_all_command(self):
         # Call the push_all command
         with mockRawInput('Y'):
@@ -48,10 +61,28 @@ class TestTransifex(TestCase):
     def test_pull_command(self):
         # Call the pull command
         transifex.pull()
-        # conf/locale/config.yaml specifies two non-source locales, 'fr' and 'zh_CN'
-        self.assertEqual(2, self.mock_execute.call_count)
 
-        call_args = [('tx pull --mode=reviewed -l fr',), ('tx pull --mode=reviewed -l zh_CN',)]
+        # conf/locale/config.yaml specifies two non-source locales, 'fr' and 'zh_CN'
+        call_args = [
+            ('tx pull -f --mode=reviewed -l fr',),
+            ('tx pull -f --mode=reviewed -l zh_CN',),
+        ]
+        self.assertEqual(
+            call_args,
+            [callarg[0] for callarg in self.mock_execute.call_args_list]
+        )
+
+    def test_pull_command_with_resources(self):
+        # Call the pull command
+        transifex.pull("foo.1", "foo.2")
+
+        # conf/locale/config.yaml specifies two non-source locales, 'fr' and 'zh_CN'
+        call_args = [
+            ('tx pull -f --mode=reviewed -l fr -r foo.1',),
+            ('tx pull -f --mode=reviewed -l fr -r foo.2',),
+            ('tx pull -f --mode=reviewed -l zh_CN -r foo.1',),
+            ('tx pull -f --mode=reviewed -l zh_CN -r foo.2',),
+        ]
         self.assertEqual(
             call_args,
             [callarg[0] for callarg in self.mock_execute.call_args_list]

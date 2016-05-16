@@ -12,11 +12,19 @@ from i18n.extract import EDX_MARKER
 TRANSIFEX_HEADER = u'edX community translations have been downloaded from {}'
 
 
-def push():
+def push(*resources):
     """
-    Push translation source English files to Transifex
+    Push translation source English files to Transifex.
+
+    Arguments name specific resources to push. Otherwise, push all the source
+    files.
     """
-    execute('tx push -s')
+    cmd = 'tx push -s'
+    if resources:
+        for resource in resources:
+            execute(cmd + ' -r {resource}'.format(resource=resource))
+    else:
+        execute(cmd)
 
 
 def push_all():
@@ -34,15 +42,24 @@ def push_all():
         print("\n")
 
 
-def pull():
+def pull(*resources):
     """
     Pull translations from all languages listed in conf/locale/config.yaml
-    where there is at least 10% reviewed translations
+    where there is at least 10% reviewed translations.
+
+    If arguments are provided, they are specific resources to pull.  Otherwise,
+    all resources are pulled.
+
     """
     print("Pulling conf/locale/config.yaml:locales from Transifex...")
 
     for lang in config.CONFIGURATION.translated_locales:
-        execute('tx pull --mode=reviewed -l ' + lang)
+        cmd = 'tx pull -f --mode=reviewed -l {lang}'.format(lang=lang)
+        if resources:
+            for resource in resources:
+                execute(cmd + ' -r {resource}'.format(resource=resource))
+        else:
+            execute(cmd)
     clean_translated_locales()
 
 
@@ -138,12 +155,13 @@ class Transifex(Runner):
     """Define the command class"""
     def add_args(self):
         self.parser.add_argument("command", help="push or pull")
+        self.parser.add_argument("arg", nargs="*")
 
     def run(self, args):
         if args.command == "push":
-            push()
+            push(*args.arg)
         elif args.command == "pull":
-            pull()
+            pull(*args.arg)
         elif args.command == "pull_all":
             pull_all()
         elif args.command == "ltr":

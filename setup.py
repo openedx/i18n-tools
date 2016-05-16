@@ -1,11 +1,10 @@
 #!/usr/bin/env python
-from setuptools import setup
 
-console_scripts = ['i18n_tool = i18n.main:main']
+from setuptools import setup
 
 setup(
     name='i18n_tools',
-    version='0.2.1',
+    version='0.3',
     description='edX i18n tools',
     packages=[
         'i18n',
@@ -14,6 +13,8 @@ setup(
     tests_require=["rednose"],
     test_suite='nose.collector',
     entry_points={
-        'console_scripts': console_scripts
-    }
+        'console_scripts': [
+            'i18n_tool = i18n.main:main',
+        ],
+    },
 )
