@@ -31,6 +31,12 @@ Details of the config.yaml file are in `edx-platform/conf/locale/config.yaml
 Changes
 =======
 
+v0.3.1
+------
+
+* ``i18n_tool extract`` will preserve existing django.po and djangojs.po files
+  in the source directory.
+
 v0.3
 ----
 
