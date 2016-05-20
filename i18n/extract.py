@@ -26,7 +26,7 @@ import polib
 from path import Path
 
 from i18n import config, Runner
-from i18n.execute import execute, remove_file
+from i18n.execute import execute
 from i18n.segment import segment_pofiles
 
 
@@ -45,14 +45,24 @@ class Extract(Runner):
         # pylint: disable=invalid-name
         self.parser.description = __doc__
 
+    def rename_source_file(self, src, dst):
+        """
+        Rename a file in the source directory.
+        """
+        os.rename(self.source_msgs_dir.joinpath(src), self.source_msgs_dir.joinpath(dst))
+
     def run(self, args):
         """
         Main entry point of script
         """
         logging.basicConfig(stream=sys.stdout, level=logging.INFO)
         config.LOCALE_DIR.parent.makedirs_p()
-        source_msgs_dir = config.CONFIGURATION.source_messages_dir
-        remove_file(source_msgs_dir.joinpath('django.po'))
+        self.source_msgs_dir = config.CONFIGURATION.source_messages_dir
+
+        # The extraction process clobbers django.po and djangojs.po.
+        # Save them so that it won't do that.
+        self.rename_source_file('django.po', 'django-saved.po')
+        self.rename_source_file('djangojs.po', 'djangojs-saved.po')
 
         # Extract strings from mako templates.
         verbosity_map = {
@@ -112,17 +122,11 @@ class Extract(Runner):
 
         # makemessages creates 'django.po'. This filename is hardcoded.
         # Rename it to django-partial.po to enable merging into django.po later.
-        os.rename(
-            source_msgs_dir.joinpath('django.po'),
-            source_msgs_dir.joinpath('django-partial.po')
-        )
+        self.rename_source_file('django.po', 'django-partial.po')
 
         # makemessages creates 'djangojs.po'. This filename is hardcoded.
         # Rename it to djangojs-partial.po to enable merging into djangojs.po later.
-        os.rename(
-            source_msgs_dir.joinpath('djangojs.po'),
-            source_msgs_dir.joinpath('djangojs-partial.po')
-        )
+        self.rename_source_file('djangojs.po', 'djangojs-partial.po')
 
         files_to_clean = set()
 
@@ -132,7 +136,7 @@ class Extract(Runner):
             # from that directory.
             app_module = importlib.import_module(app_name)
             app_dir = Path(app_module.__file__).dirname().dirname()  # pylint: disable=no-value-for-parameter
-            output_file = source_msgs_dir / (app_name + ".po")
+            output_file = self.source_msgs_dir / (app_name + ".po")
             files_to_clean.add(output_file)
 
             babel_cmd = 'pybabel {verbosity} extract -F {config} -c "Translators:" {app} -o {output}'
@@ -151,7 +155,7 @@ class Extract(Runner):
         # Finish each file.
         for filename in files_to_clean:
             LOG.info('Cleaning %s', filename)
-            pofile = polib.pofile(source_msgs_dir.joinpath(filename))
+            pofile = polib.pofile(self.source_msgs_dir.joinpath(filename))
             # replace default headers with edX headers
             fix_header(pofile)
             # replace default metadata with edX metadata
@@ -159,6 +163,10 @@ class Extract(Runner):
             # remove key strings which belong in messages.po
             strip_key_strings(pofile)
             pofile.save()
+
+        # Restore the saved .po files.
+        self.rename_source_file('django-saved.po', 'django.po')
+        self.rename_source_file('djangojs-saved.po', 'djangojs.po')
 
 
 def fix_header(pofile):
