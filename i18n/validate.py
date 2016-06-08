@@ -20,14 +20,19 @@ log = logging.getLogger(__name__)
 
 def validate_po_files(root, report_empty=False):
     """
-    Validate all of the po files found in the root directory.
+    Validate all of the po files found in the root directory that are not product of a merge.
     """
+    # List of .po files that are the product of a merge (see generate.py).
+    merged_files = config.CONFIGURATION.generate_merge.keys()
 
     for dirpath, __, filenames in os.walk(root):
         for name in filenames:
             __, ext = os.path.splitext(name)
-            if ext.lower() == '.po':
-                filename = os.path.join(dirpath, name)
+            filename = os.path.join(dirpath, name)
+
+            # Validate only .po files that are not product of a merge (see generate.py).
+            # If django-partial.po has a problem, then django.po will also, so don't report it.
+            if ext.lower() == '.po' and os.path.basename(filename) not in merged_files:
 
                 # First validate the format of this file
                 msgfmt_check_po_file(filename)
@@ -171,6 +176,10 @@ def report_problems(filename, problems):
 
 
 class Validate(Runner):
+    """
+    The `validate` command for checking that .po files have no errors.
+    """
+
     def add_args(self):
         self.parser.description = "Automatically finds translation errors in all edx-platform *.po files, "\
             "for all languages, unless one or more language(s) is specified to check."
