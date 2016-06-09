@@ -4,7 +4,7 @@ from setuptools import setup
 
 setup(
     name='i18n_tools',
-    version='0.3.1',
+    version='0.3.2',
     description='edX i18n tools',
     packages=[
         'i18n',

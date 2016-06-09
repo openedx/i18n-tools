@@ -31,6 +31,12 @@ Details of the config.yaml file are in `edx-platform/conf/locale/config.yaml
 Changes
 =======
 
+v0.3.2
+------
+
+* ``i18n_tool validate`` no longer complains about problems in both the
+  component .po files and the combined .po files.
+
 v0.3.1
 ------
 
