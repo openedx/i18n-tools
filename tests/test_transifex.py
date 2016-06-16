@@ -9,11 +9,14 @@ from i18n import transifex
 
 
 @contextmanager
-def mockRawInput(mock_name):
+def mock_raw_input(mock_input):
+    """Make raw_input return the text we want, for tests."""
     original_raw_input = __builtins__['raw_input']
-    __builtins__['raw_input'] = lambda _: mock_name
-    yield
-    __builtins__['raw_input'] = original_raw_input
+    __builtins__['raw_input'] = lambda _: mock_input
+    try:
+        yield
+    finally:
+        __builtins__['raw_input'] = original_raw_input
 
 
 class TestTransifex(TestCase):
@@ -50,7 +53,7 @@ class TestTransifex(TestCase):
 
     def test_push_all_command(self):
         # Call the push_all command
-        with mockRawInput('Y'):
+        with mock_raw_input('Y'):
             transifex.push_all()
         self.assertTrue(self.mock_execute.called)
         self.assertEqual(
