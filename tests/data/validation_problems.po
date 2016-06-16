@@ -27,8 +27,8 @@ msgstr "Two tags: {one} and {two}"
 # problem?
 # https://openedx.atlassian.net/browse/LOC-99
 #
-# msgid "Astral character (pile of poo), bad for JavaScript: 💩"
-# msgstr "Astral character (pile of poo), bad for JavaScript: 💩"
+msgid "Astral character (pile of poo), bad for JavaScript: 💩"
+msgstr "Astral character (pile of poo), bad for JavaScript: 💩"
 
 msgid "1. There are {num} things"
 msgid_plural "1. There are {num} things"
