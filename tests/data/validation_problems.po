@@ -63,3 +63,7 @@ msgstr "%d %b %Y"
 
 msgid "TIME_FORMAT"
 msgstr "%H:%M:%S"
+
+# An empty translation, which is problem
+msgid "This string should not be empty"
+msgstr ""
