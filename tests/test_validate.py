@@ -1,7 +1,10 @@
+# coding: utf8
 """
 Tests for validate.py
 """
 
+import os
+import textwrap
 from unittest import TestCase
 
 from path import Path
@@ -69,3 +72,21 @@ class TestValidate(TestCase):
         problems = validate.check_messages(TEST_DATA / "validation_problems.po", report_empty=False)
         without_empty = [p for p in VALIDATION_PROBLEMS if p[0] != 'Empty translation']
         self.assertEqual(problems, without_empty)
+
+    def test_report_problems(self):
+        self.addCleanup(os.remove, "foo.prob")
+        validate.report_problems("foo.po", [
+            ('Silly text', u'¿This is silly?'),
+            ('Problematic', u'ƧƬЯIПG 1', u'ŚŤŔĨŃĞ 2'),
+        ])
+        expected_output = textwrap.dedent("""\
+            Silly text
+              msgid: ¿This is silly?
+
+            Problematic
+              msgid: ƧƬЯIПG 1
+              -----> ŚŤŔĨŃĞ 2
+
+            """)
+        with open("foo.prob") as f:
+            self.assertEqual(f.read(), expected_output)
