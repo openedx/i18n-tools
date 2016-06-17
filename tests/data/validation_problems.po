@@ -67,3 +67,10 @@ msgstr "%H:%M:%S"
 # An empty translation, which is problem
 msgid "This string should not be empty"
 msgstr ""
+
+# Try some tags that are not really tags.
+msgid "Look &mdash; a dog!"
+msgstr "Look -- a dog!"
+
+msgid "The <abbr>CIA</abbr> said so"
+msgstr "The secret agency said so"
