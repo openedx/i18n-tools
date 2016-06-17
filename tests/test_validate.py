@@ -36,6 +36,11 @@ VALIDATION_PROBLEMS = [
         u'"{two}" added',
     ),
     (
+        'Non-BMP char',
+        u'Astral character (pile of poo), bad for JavaScript: \U0001f4a9',
+        u'Astral character (pile of poo), bad for JavaScript: \U0001f4a9',
+    ),
+    (
         'Different tags in source and translation',
         u'1. There are {num} things | 1. There are {num} things',
         u'1. Estas {num} objectos | 1. Estas {nomx} objectos',
