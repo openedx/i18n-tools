@@ -5,6 +5,7 @@ from __future__ import print_function
 import codecs
 import logging
 import os
+import struct
 import sys
 import textwrap
 
@@ -81,7 +82,12 @@ def tags_in_string(msg):
 
 def astral(msg):
     """Does `msg` have characters outside the Basic Multilingual Plane?"""
-    return any(ord(c) > 0xFFFF for c in msg)
+    # Python2 narrow builds present astral characters as surrogate pairs.
+    # By encoding as utf32, and decoding DWORDS, we can get at the real code
+    # points.
+    utf32 = msg.encode("utf32")[4:]         # [4:] to drop the bom
+    code_points = struct.unpack("%dI" % (len(utf32) / 4), utf32)
+    return any(cp > 0xFFFF for cp in code_points)
 
 
 def check_messages(filename, report_empty=False):

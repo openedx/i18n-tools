@@ -53,7 +53,7 @@ class Converter(object):
            list: list of the removed tags ('<BR>', '<I>', '</I>')
         """
         counter = itertools.count(0)
-        count = lambda m: '<%s>' % counter.next()
+        count = lambda m: '<%s>' % next(counter)
         tags = self.tag_pattern.findall(string)
         tags = [''.join(tag) for tag in tags]
         (new, nfound) = self.tag_pattern.subn(count, string)

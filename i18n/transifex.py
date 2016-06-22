@@ -5,6 +5,8 @@ Functions to pull down & push up .po files from/to transifex
 from __future__ import print_function
 
 import polib
+from six.moves import input         # pylint: disable=redefined-builtin
+
 from i18n import config, Runner
 from i18n.execute import execute
 from i18n.extract import EDX_MARKER
@@ -32,7 +34,7 @@ def push_all():
     Push translation source English files and all translations to Transifex
     """
     print("\n\nWARNING! This command pushes source AND translations files. Use with caution.\n")
-    proceed = raw_input("Are you sure you want to proceed? (Y/n) ")
+    proceed = input("Are you sure you want to proceed? (Y/n) ")
     if proceed.lower() == 'y':
         # http://docs.transifex.com/client/push/
         # Push source & translation files. Force new resources, continue on errors.

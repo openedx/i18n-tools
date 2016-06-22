@@ -36,7 +36,7 @@ class TestCompiledMessages(TestCase):
             # Check that there are no entries in po that aren't in mo, and vice-versa
             self.assertEquals(po_entries.viewkeys(), mo_entries.viewkeys())
 
-            for entry_id, po_entry in po_entries.iteritems():
+            for entry_id, po_entry in po_entries.items():
                 mo_entry = mo_entries[entry_id]
                 for attr in ('msgstr', 'msgid_plural', 'msgstr_plural', 'msgctxt', 'obsolete', 'encoding'):
                     po_attr = getattr(po_entry, attr)

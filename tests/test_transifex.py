@@ -1,19 +1,12 @@
 """
 This test tests that calls to Transifex work as expected.
 """
-from contextlib import contextmanager
-from mock import patch
+
 from unittest import TestCase
 
+import mock
+
 from i18n import transifex
-
-
-@contextmanager
-def mockRawInput(mock_name):
-    original_raw_input = __builtins__['raw_input']
-    __builtins__['raw_input'] = lambda _: mock_name
-    yield
-    __builtins__['raw_input'] = original_raw_input
 
 
 class TestTransifex(TestCase):
@@ -22,7 +15,7 @@ class TestTransifex(TestCase):
     because Ned is making me write tests.
     """
     def setUp(self):
-        self.patcher = patch('i18n.transifex.execute')
+        self.patcher = mock.patch('i18n.transifex.execute')
         self.addCleanup(self.patcher.stop)
         self.mock_execute = self.patcher.start()
 
@@ -50,7 +43,7 @@ class TestTransifex(TestCase):
 
     def test_push_all_command(self):
         # Call the push_all command
-        with mockRawInput('Y'):
+        with mock.patch('i18n.transifex.input', return_value="Y"):
             transifex.push_all()
         self.assertTrue(self.mock_execute.called)
         self.assertEqual(
@@ -89,7 +82,7 @@ class TestTransifex(TestCase):
         )
 
     def test_clean_translated_locales(self):
-        with patch('i18n.transifex.clean_locale') as patched:
+        with mock.patch('i18n.transifex.clean_locale') as patched:
             transifex.clean_translated_locales(langs=['fr', 'zh_CN'])
             self.assertEqual(2, patched.call_count)
             call_args = [('fr',), ('zh_CN',)]
@@ -99,7 +92,7 @@ class TestTransifex(TestCase):
             )
 
     def test_clean_locale(self):
-        with patch('i18n.transifex.clean_file') as patched:
+        with mock.patch('i18n.transifex.clean_file') as patched:
             transifex.clean_locale('fr')
             self.assertEqual(3, patched.call_count)
             call_args = ['django-partial.po', 'djangojs-partial.po', 'mako.po']

@@ -5,3 +5,4 @@ source = .
 omit =
     setup.py
     conf/*
+    .tox/*
