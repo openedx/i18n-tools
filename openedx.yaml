@@ -4,6 +4,6 @@
 hidden-contributors: [sarina, wedaly, straz, adampalay, cpennington]
 nick: i18n
 oeps: {}
-owner: MUST FILL IN OWNER
+owner: edx/openedx-tooling
 tags: [tools]
 track-pulls: true
