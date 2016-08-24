@@ -57,6 +57,7 @@ class Extract(Runner):
         """
         logging.basicConfig(stream=sys.stdout, level=logging.INFO)
         config.LOCALE_DIR.parent.makedirs_p()
+        # pylint: disable=attribute-defined-outside-init
         self.source_msgs_dir = config.CONFIGURATION.source_messages_dir
 
         # The extraction process clobbers django.po and djangojs.po.

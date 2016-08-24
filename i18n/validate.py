@@ -55,7 +55,7 @@ def msgfmt_check_po_file(filename):
     out, err = call('msgfmt -c -o /dev/null {}'.format(rfile), working_directory=config.LOCALE_DIR)
     if err != '':
         log.info('\n' + out)
-        log.warn('\n' + err)
+        log.warning('\n' + err)
 
 
 def tags_in_string(msg):
@@ -177,7 +177,7 @@ def report_problems(filename, problems):
     else:
         dup_filename = filename.replace('.po', '.dup')
         if os.path.exists(dup_filename):
-            log.warn(" Duplicates found in %s, details in .dup file", dup_filename)
+            log.warning(" Duplicates found in %s, details in .dup file", dup_filename)
         log.info(" No problems found in %s", filename)
 
 

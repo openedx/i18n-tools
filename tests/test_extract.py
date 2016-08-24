@@ -1,8 +1,7 @@
 from datetime import datetime, timedelta
 import os
-from unittest import TestCase
+from unittest import TestCase, skip
 
-from nose.plugins.skip import SkipTest
 import polib
 from pytz import UTC
 
@@ -13,6 +12,10 @@ from i18n.config import CONFIGURATION
 SETUP_HAS_RUN = False
 
 
+# Skip this test because it takes too long (>1 minute)
+# TODO: figure out how to declare a "long-running" test suite
+# and add this test to it.
+@skip('Long running test')
 class TestExtract(TestCase):
     """
     Tests functionality of i18n/extract.py
@@ -20,11 +23,6 @@ class TestExtract(TestCase):
     generated_files = ('django-partial.po', 'djangojs-partial.po', 'mako.po')
 
     def setUp(self):
-        # Skip this test because it takes too long (>1 minute)
-        # TODO: figure out how to declare a "long-running" test suite
-        # and add this test to it.
-        raise SkipTest()
-
         global SETUP_HAS_RUN
 
         # Subtract 1 second to help comparisons with file-modify time succeed,

@@ -1,20 +1,31 @@
 sudo: false
+
 language: python
+
 python:
-  - "2.7"
+  - 2.7
+  - 3.5
+
+env:
+  - TOXENV=django18
+  - TOXENV=django19
+  - TOXENV=django110
+
+matrix:
+ include:
+  - python: 3.5
+    env: TOXENV=quality
+
 cache:
     directories:
         - $HOME/.cache/pip
+
 install:
   - pip install coveralls
-  - python setup.py install
   - pip install -r test_requirements.txt
+
 script:
-  - coverage run -m nose
-  - pep8 i18n
-  - scripts/max_pylint_violations 20
+  - tox
+
 after_success:
   - coveralls
-branches:
-    only:
-      - master

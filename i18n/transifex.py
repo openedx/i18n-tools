@@ -82,7 +82,7 @@ def pull_all_ltr():
     """
     print("Pulling all translated LTR languages from transifex...")
     for lang in config.CONFIGURATION.ltr_langs:
-        print ('rm -rf conf/locale/' + lang)
+        print('rm -rf conf/locale/' + lang)
         execute('rm -rf conf/locale/' + lang)
         execute('tx pull -l ' + lang)
     clean_translated_locales(langs=config.CONFIGURATION.ltr_langs)
@@ -94,7 +94,7 @@ def pull_all_rtl():
     """
     print("Pulling all translated RTL languages from transifex...")
     for lang in config.CONFIGURATION.rtl_langs:
-        print ('rm -rf conf/locale/' + lang)
+        print('rm -rf conf/locale/' + lang)
         execute('rm -rf conf/locale/' + lang)
         execute('tx pull -l ' + lang)
     clean_translated_locales(langs=config.CONFIGURATION.rtl_langs)

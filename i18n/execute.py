@@ -44,6 +44,6 @@ def remove_file(filename, verbose=True):
     if verbose:
         LOG.info('Deleting file %s', os.path.relpath(filename, config.BASE_DIR))
     if not os.path.exists(filename):
-        LOG.warn("File does not exist: %s", os.path.relpath(filename, config.BASE_DIR))
+        LOG.warning("File does not exist: %s", os.path.relpath(filename, config.BASE_DIR))
     else:
         os.remove(filename)

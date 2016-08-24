@@ -68,7 +68,7 @@ def merge(locale, target='django.po', sources=('django-partial.po',), fail_if_mi
             for (entry, translations) in duplicate_entries:
                 dfile.write(u"{}\n".format(entry))
                 dfile.write(u"Translations found were:\n\t{}\n\n".format(translations))
-        LOG.warn(" %s duplicates in %s, details in .dup file", len(duplicate_entries), target_filename)
+        LOG.warning(" %s duplicates in %s, details in .dup file", len(duplicate_entries), target_filename)
 
 
 def merge_files(locale, fail_if_missing=True):

@@ -16,7 +16,8 @@ setup(
         'django>=1.8,<1.11',
         'polib',
         'path.py',
-        'pyYaml'
+        'pyYaml',
+        'six',
     ],
     entry_points={
         'console_scripts': [
