@@ -29,3 +29,12 @@ script:
 
 after_success:
   - coveralls
+
+deploy:
+  provider: pypi
+  user: edx
+  password:
+    secure: jgyVFcFq9imTV7DRxGk5hy11UAgsaOjPr3xrKg3iQxJXi1w24JJ/0Uvt5yBeuDHFo7IqkZ38bNVWFcpuoS467rFw2JhX5leUD1tpCWQhL59V72Ht5bC5udQ9OGi0tY2HIjpkpUlIh1xYbyKw60iXa4wk7Bt2+gfg+Q48UfBHDc8=
+  distributions: sdist bdist_wheel
+  on:
+    tags: true

@@ -2,9 +2,11 @@
 
 from setuptools import setup
 
+import i18n
+
 setup(
-    name='i18n_tools',
-    version='0.3.2',
+    name='edx-i18n-tools',
+    version=i18n.__version__,
     description='edX Internationalization Tools',
     author='edX',
     author_email='oscm@edx.org',
@@ -29,7 +31,7 @@ setup(
         'Development Status :: 5 - Production/Stable',
         'Environment :: Web Environment',
         'Intended Audience :: Developers',
-        'License :: Apache License 2.0',
+        'License :: OSI Approved :: Apache Software License',
         'Operating System :: OS Independent',
         'Programming Language :: Python',
         'Programming Language :: Python :: 2.7',
@@ -37,6 +39,5 @@ setup(
         'Framework :: Django',
         'Framework :: Django :: 1.8',
         'Framework :: Django :: 1.9',
-        'Framework :: Django :: 1.10',
     ],
 )

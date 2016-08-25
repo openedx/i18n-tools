@@ -23,10 +23,8 @@ class TestGenerate(TestCase):
     Tests functionality of i18n/generate.py
     """
 
-    """
-    This method is suspected of making tests fail as the returncode is happening in a subprocess causing
-    some concurrency issues. If this fails, you can try rerunning the tests.
-    """
+    # This method is suspected of making tests fail as the returncode is happening in a subprocess causing
+    # some concurrency issues. If this fails, you can try rerunning the tests.
     @classmethod
     def tearDownClass(cls):
         # Clear the fake2 directory of any test artifacts
