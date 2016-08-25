@@ -2,19 +2,42 @@
 
 from setuptools import setup
 
+import i18n
+
 setup(
-    name='i18n_tools',
-    version='0.3.2',
-    description='edX i18n tools',
+    name='edx-i18n-tools',
+    version=i18n.__version__,
+    description='edX Internationalization Tools',
+    author='edX',
+    author_email='oscm@edx.org',
+    url='https://github.com/edx/i18n-tools',
     packages=[
         'i18n',
     ],
-    install_requires=["polib", "ddt", "path.py", "pyYaml", "pytz"],
-    tests_require=["rednose"],
-    test_suite='nose.collector',
+    install_requires=[
+        'django>=1.8,<1.11',
+        'polib',
+        'path.py',
+        'pyYaml',
+        'six',
+    ],
     entry_points={
         'console_scripts': [
             'i18n_tool = i18n.main:main',
         ],
     },
+    license='Apache License 2.0',
+    classifiers=[
+        'Development Status :: 5 - Production/Stable',
+        'Environment :: Web Environment',
+        'Intended Audience :: Developers',
+        'License :: OSI Approved :: Apache Software License',
+        'Operating System :: OS Independent',
+        'Programming Language :: Python',
+        'Programming Language :: Python :: 2.7',
+        'Programming Language :: Python :: 3.5',
+        'Framework :: Django',
+        'Framework :: Django :: 1.8',
+        'Framework :: Django :: 1.9',
+    ],
 )

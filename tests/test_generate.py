@@ -23,6 +23,8 @@ class TestGenerate(TestCase):
     Tests functionality of i18n/generate.py
     """
 
+    # This method is suspected of making tests fail as the returncode is happening in a subprocess causing
+    # some concurrency issues. If this fails, you can try rerunning the tests.
     @classmethod
     def tearDownClass(cls):
         # Clear the fake2 directory of any test artifacts
@@ -111,11 +113,11 @@ class TestGenerate(TestCase):
         match = pattern.findall(po_lines)
         self.assertEqual(len(match), 0, msg="Error, found merge conflicts in django.po: %s" % match)
         # Validate that the appropriate log warnings were shown
-        self.assertTrue(mock_log.warn.called)
+        self.assertTrue(mock_log.warning.called)
         self.assertIn(
             " %s duplicates in %s, details in .dup file",
             # the first item of call_args is the call arguments themselves as a tuple
-            mock_log.warn.call_args[0]
+            mock_log.warning.call_args[0]
         )
 
 

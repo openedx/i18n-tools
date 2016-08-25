@@ -1,19 +1,40 @@
 sudo: false
+
 language: python
+
 python:
-  - "2.7"
+  - 2.7
+  - 3.5
+
+env:
+  - TOXENV=django18
+  - TOXENV=django19
+  - TOXENV=django110
+
+matrix:
+ include:
+  - python: 3.5
+    env: TOXENV=quality
+
 cache:
     directories:
         - $HOME/.cache/pip
+
 install:
-  - python setup.py install
-  - pip install -r requirements.txt
+  - pip install coveralls
+  - pip install -r test_requirements.txt
+
 script:
-  - coverage run -m nose
-  - pep8 i18n
-  - scripts/max_pylint_violations 20
+  - tox
+
 after_success:
   - coveralls
-branches:
-    only:
-      - master
+
+deploy:
+  provider: pypi
+  user: edx
+  password:
+    secure: jgyVFcFq9imTV7DRxGk5hy11UAgsaOjPr3xrKg3iQxJXi1w24JJ/0Uvt5yBeuDHFo7IqkZ38bNVWFcpuoS467rFw2JhX5leUD1tpCWQhL59V72Ht5bC5udQ9OGi0tY2HIjpkpUlIh1xYbyKw60iXa4wk7Bt2+gfg+Q48UfBHDc8=
+  distributions: sdist bdist_wheel
+  on:
+    tags: true
