@@ -41,7 +41,13 @@ def base(path1, *paths):
 
 
 class Extract(Runner):
+    """
+    Class used to extract source files
+    """
     def add_args(self):
+        """
+        Adds arguments
+        """
         # pylint: disable=invalid-name
         self.parser.description = __doc__
 
