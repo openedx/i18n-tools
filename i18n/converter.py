@@ -1,3 +1,6 @@
+"""
+Converter is an abstract class that transforms strings.
+"""
 import re
 import itertools
 
@@ -72,4 +75,12 @@ class Converter(object):
     # Customize this in subclasses of Converter
 
     def inner_convert_string(self, string):
+        """
+        Does nothing by default. Implement in subclasses.
+        args:
+            string (str): the string to inner convert
+
+        Returns:
+            String
+        """
         return string  # do nothing by default

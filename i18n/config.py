@@ -1,3 +1,6 @@
+"""
+Reads configuration specifications.
+"""
 import os
 
 import yaml
@@ -76,6 +79,15 @@ class Configuration(object):
         Ignores source locale.
         """
         def is_rtl(lang):
+            """
+            Returns True if lang is a RTL language
+
+            args:
+                lang (str): The language to be checked
+
+            Returns:
+                True if lang is an RTL language.
+            """
             # Base RTL langs are Arabic, Farsi, Hebrew, and Urdu
             base_rtl = ['ar', 'fa', 'he', 'ur']
 

@@ -1,3 +1,6 @@
+"""
+Tool to be used by other IDAs for internationalization.
+"""
 import argparse
 import sys
 
@@ -5,6 +8,9 @@ __version__ = '0.3.3'
 
 
 class Runner:
+    """
+    Runner class for internationalization.
+    """
     def __init__(self):
         self.args = sys.argv[1:]
         self.parser = argparse.ArgumentParser()
@@ -21,9 +27,16 @@ class Runner:
         self.add_args()
 
     def add_args(self):
+        """
+        Add arguments
+        """
         pass
 
     def run(self, args):
+        """
+        Runs the runner with the given args.
+        :param args: Arguments for the runner
+        """
         raise NotImplementedError
 
     def __call__(self, **kwargs):
