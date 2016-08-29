@@ -118,6 +118,12 @@ def segment_pofile(filename, segments):
 
 
 def get_parser(parser):
+    """
+    Grabs the parser.
+
+    args:
+        parser: The parser
+    """
     parser.description = textwrap.dedent("""
         Segment the .po files in LOCALE(s) based on the segmenting rules in
         config.yaml.
@@ -129,7 +135,13 @@ def get_parser(parser):
 
 
 class Segment(Runner):
+    """
+    Class for segmenting the .po files
+    """
     def add_args(self):
+        """
+        Adds arguments
+        """
         self.parser.description = textwrap.dedent("""
         Segment the .po files in LOCALE(s) based on the segmenting rules in
         config.yaml.
