@@ -61,19 +61,19 @@ Development
 
 To work on this code:
 
-#. Install the requirements::
+#. Install Tox::
 
-   $ pip install -r requirements.txt
+   $ pip install tox
 
 #. Run tests::
 
-   $ nosetests
+   $ tox
 
    If you have failures because ``msgcat`` failed, you may need to install it,
    and adjust your PATH to include it.  On a Mac, for example::
 
    $ brew install gettext
-   $ PATH=/usr/local/Cellar/gettext/0.19.3/bin/:$PATH nosetests
+   $ PATH=/usr/local/Cellar/gettext/0.19.3/bin/:$PATH tox
 
 
 .. |build-status| image:: https://travis-ci.org/edx/i18n-tools.svg?branch=master

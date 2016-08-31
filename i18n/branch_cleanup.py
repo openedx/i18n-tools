@@ -25,6 +25,9 @@ def clean_configuration_directory():
 
 
 class BranchCleanup(Runner):
+    """
+    Class to clean up the branch
+    """
     def run(self, args):
         clean_configuration_directory()
 

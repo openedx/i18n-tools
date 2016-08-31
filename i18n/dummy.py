@@ -54,6 +54,15 @@ class BaseDummyConverter(Converter):
         return self.pad(string)
 
     def pad(self, string):
+        """
+        Returns the string
+
+        args:
+            string (str): String to be returned
+
+        Returns:
+            string that was input
+        """
         return string
 
     def convert_msg(self, msg):
@@ -211,7 +220,13 @@ def new_filename(original_filename, new_locale):
 
 
 class DummyCommand(Runner):
+    """
+    Class to run dummy commands.
+    """
     def add_args(self):
+        """
+        Adds arguments
+        """
         # pylint: disable=invalid-name
         self.parser.description = __doc__
 
