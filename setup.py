@@ -6,7 +6,7 @@ import i18n
 
 setup(
     name='edx-i18n-tools',
-    version='0.3.3',
+    version=i18n.__version__,
     description='edX Internationalization Tools',
     author='edX',
     author_email='oscm@edx.org',
