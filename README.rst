@@ -13,6 +13,7 @@ Running commands from the edx-platform directory will default to loading the
 configuration at ``./conf/locale/config.yaml``. You can specify a different
 configuration file with the ``--config`` argument.
 
+* ``i18n_tool changed``
 * ``i18n_tool dummy``
 * ``i18n_tool extract``
 * ``i18n_tool generate``
@@ -30,6 +31,12 @@ Details of the config.yaml file are in `edx-platform/conf/locale/config.yaml
 
 Changes
 =======
+
+v0.3.4
+------
+
+* ``i18n_tool changed`` command added. This command determines if the source translation
+  files are up-to-date. If they are not it returns a non-zero exit code.
 
 v0.3.2
 ------

@@ -4,7 +4,7 @@ Tool to be used by other IDAs for internationalization.
 import argparse
 import sys
 
-__version__ = '0.3.3'
+__version__ = '0.3.4'
 
 
 class Runner:
@@ -49,4 +49,4 @@ class Runner:
             config.CONFIGURATION = config.Configuration(args.config)
         else:
             config.CONFIGURATION = config.Configuration(config.LOCALE_DIR.joinpath('config.yaml').normpath())
-        self.run(args)
+        return self.run(args)
