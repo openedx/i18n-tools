@@ -17,7 +17,7 @@ setup(
     install_requires=[
         'django>=1.8,<1.11',
         'polib',
-        'path.py',
+        'path.py>=7.0',
         'pyYaml',
         'six',
     ],

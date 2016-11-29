@@ -4,7 +4,7 @@ Tool to be used by other IDAs for internationalization.
 import argparse
 import sys
 
-__version__ = '0.3.4'
+__version__ = '0.3.5'
 
 
 class Runner:
