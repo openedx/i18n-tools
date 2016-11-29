@@ -32,11 +32,17 @@ Details of the config.yaml file are in `edx-platform/conf/locale/config.yaml
 Changes
 =======
 
+v0.3.5
+------
+
+* Pinned a requirement to prevent failures when used with other applications.
+
 v0.3.4
 ------
 
-* ``i18n_tool changed`` command added. This command determines if the source translation
-  files are up-to-date. If they are not it returns a non-zero exit code.
+* ``i18n_tool changed`` command added. This command determines if the source
+  translation files are up-to-date. If they are not it returns a non-zero exit
+  code.
 
 v0.3.2
 ------
