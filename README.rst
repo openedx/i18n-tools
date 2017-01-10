@@ -4,6 +4,10 @@ edX i18n Tools |build-status| |coverage-status|
 Installing
 ==========
 
+edX i18n tools are set of commands useful for developers and translators to extract,
+compile and validate translations. edX i18n tools can be installed running following
+command inside the extracted directory.
+
 ``python setup.py install``
 
 Running
@@ -13,14 +17,59 @@ Running commands from the edx-platform directory will default to loading the
 configuration at ``./conf/locale/config.yaml``. You can specify a different
 configuration file with the ``--config`` argument.
 
-* ``i18n_tool changed``
-* ``i18n_tool dummy``
-* ``i18n_tool extract``
-* ``i18n_tool generate``
-* ``i18n_tool segment``
-* ``i18n_tool transifex``
-* ``i18n_tool validate``
 
+General Commands
+================
+
+* To extract source strings and populate *.po* translation files with them
+
+  * ``i18n_tool extract``
+
+* To generate test language(eo) translation files from source *.po* files
+
+  * ``i18n_tool dummy``
+
+* To compile *.po* translation files into *.mo* message files
+
+  * ``i18n_tool generate``
+
+* To find translation errors in *.po* files
+
+  * ``i18n_tool validate``
+
+* To determine if the source translation files(*.po*) are up-to-date
+
+  * ``i18n_tool changed``
+
+* To segment a *.po* file into smaller files based on the locations of the messages
+
+  * ``i18n_tool segment``
+
+
+Transifex Commands
+==================
+
+Developers or Translators can use commands provided by edX  i18n tools to upload
+translations to transifex or download them. Before using these commands one should
+have an account on `transifex.com <https://www.transifex.com/>`_ to create *~/.transifexrc* file.
+Once transifex account has been setup create a *~/.transifexrc* file having these contents.::
+
+   [https://www.transifex.com]
+   hostname = https://www.transifex.com
+   password = YOURPASSWORD
+   token =
+   username = YOURUSERNAME(EMAIL)
+
+
+Also make sure you have transifex configuration file .tx/config present under project directory.
+
+* To upload translations to transifex
+
+  * ``i18n_tool transifex push``
+
+* To download translations from transifex
+
+  * ``i18n_tool transifex pull``
 
 Configuration
 =============
