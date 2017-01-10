@@ -21,27 +21,27 @@ configuration file with the ``--config`` argument.
 General Commands
 ================
 
-* To extract source strings and populate `.po` translation files with them
+* To extract source strings and populate ``.po`` translation files with them
 
   * ``i18n_tool extract``
 
-* To generate test language(eo) translation files from source `.po` files
+* To generate test language(eo) translation files from source ``.po`` files
 
   * ``i18n_tool dummy``
 
-* To compile `.po` translation files into `.mo` message files
+* To compile ``.po`` translation files into ``.mo`` message files
 
   * ``i18n_tool generate``
 
-* To find translation errors in `.po` files
+* To find translation errors in ``.po`` files
 
   * ``i18n_tool validate``
 
-* To determine if the source translation files(`.po`) are up-to-date
+* To determine if the source translation files(``.po``) are up-to-date
 
   * ``i18n_tool changed``
 
-* To segment a `.po` file into smaller files based on the locations of the messages
+* To segment a ``.po`` file into smaller files based on the locations of the messages
 
   * ``i18n_tool segment``
 
@@ -52,8 +52,8 @@ Transifex Commands
 Developers or translators can use commands provided by edX i18n tools to upload
 translations to Transifex or download them. Before using these commands one
 should have an account on `transifex.com <https://www.transifex.com/>`_ to
-create a `~/.transifexrc` file.  Once the Transifex account has been set up,
-create a `~/.transifexrc` file having these contents::
+create a ``~/.transifexrc`` file.  Once the Transifex account has been set up,
+create a ``~/.transifexrc`` file having these contents::
 
    [https://www.transifex.com]
    hostname = https://www.transifex.com
@@ -62,7 +62,7 @@ create a `~/.transifexrc` file having these contents::
    username = YOURUSERNAME(EMAIL)
 
 
-Also make sure you have a Transifex configuration file `.tx/config` present
+Also make sure you have a Transifex configuration file ``.tx/config`` present
 under the project directory.
 
 * To upload translations to Transifex
