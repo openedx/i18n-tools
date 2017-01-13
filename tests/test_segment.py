@@ -2,12 +2,13 @@
 
 import os.path
 import shutil
-import unittest
 
 from path import Path
 import polib
 
 from i18n.segment import segment_pofile
+
+from . import I18nToolTestCase
 
 
 HERE = Path(__file__).dirname()
@@ -15,10 +16,11 @@ TEST_DATA = HERE / "data"
 WORK = HERE / "work"
 
 
-class SegmentTest(unittest.TestCase):
+class SegmentTest(I18nToolTestCase):
     """Test segment_pofile."""
 
     def setUp(self):
+        super(SegmentTest, self).setUp()
         if not os.path.exists(WORK):
             os.mkdir(WORK)
         self.addCleanup(shutil.rmtree, WORK)

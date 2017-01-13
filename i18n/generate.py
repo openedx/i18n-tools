@@ -20,7 +20,7 @@ import sys
 
 from polib import pofile
 
-from i18n import config, Runner
+from i18n import Runner
 from i18n.execute import execute
 
 LOG = logging.getLogger(__name__)
@@ -28,7 +28,7 @@ DEVNULL = open(os.devnull, "wb")
 DUPLICATE_ENTRY_PATTERN = re.compile('#-#-#-#-#.*#-#-#-#-#')
 
 
-def merge(locale, target='django.po', sources=('django-partial.po',), fail_if_missing=True):
+def merge(configuration, locale, target='django.po', sources=('django-partial.po',), fail_if_missing=True):
     """
     For the given locale, merge the `sources` files to become the `target`
     file.  Note that the target file might also be one of the sources.
@@ -41,7 +41,7 @@ def merge(locale, target='django.po', sources=('django-partial.po',), fail_if_mi
 
     """
     LOG.info('Merging %s locale %s', target, locale)
-    locale_directory = config.CONFIGURATION.get_messages_dir(locale)
+    locale_directory = configuration.get_messages_dir(locale)
     try:
         validate_files(locale_directory, sources)
     except Exception:  # pylint: disable=broad-except
@@ -71,12 +71,12 @@ def merge(locale, target='django.po', sources=('django-partial.po',), fail_if_mi
         LOG.warning(" %s duplicates in %s, details in .dup file", len(duplicate_entries), target_filename)
 
 
-def merge_files(locale, fail_if_missing=True):
+def merge_files(configuration, locale, fail_if_missing=True):
     """
     Merge all the files in `locale`, as specified in config.yaml.
     """
-    for target, sources in config.CONFIGURATION.generate_merge.items():
-        merge(locale, target, sources, fail_if_missing)
+    for target, sources in configuration.generate_merge.items():
+        merge(configuration, locale, target, sources, fail_if_missing)
 
 
 def clean_pofile(path):
@@ -163,28 +163,30 @@ class Generate(Runner):
         """
         logging.basicConfig(stream=sys.stdout, level=logging.INFO)
 
+        configuration = self.configuration
+        root_dir = args.root_dir
         if args.ltr:
-            langs = config.CONFIGURATION.ltr_langs
+            langs = configuration.ltr_langs
         elif args.rtl:
-            langs = config.CONFIGURATION.rtl_langs
+            langs = configuration.rtl_langs
         else:
-            langs = config.CONFIGURATION.translated_locales
+            langs = configuration.translated_locales
 
         for locale in langs:
-            merge_files(locale, fail_if_missing=args.strict)
+            merge_files(configuration, locale, fail_if_missing=args.strict)
         # Dummy text is not required. Don't raise exception if files are missing.
-        for locale in config.CONFIGURATION.dummy_locales:
-            merge_files(locale, fail_if_missing=False)
+        for locale in configuration.dummy_locales:
+            merge_files(configuration, locale, fail_if_missing=False)
         # Merge the source locale, so we have the canonical .po files.
-        if config.CONFIGURATION.source_locale not in langs:
-            merge_files(config.CONFIGURATION.source_locale, fail_if_missing=args.strict)
+        if configuration.source_locale not in langs:
+            merge_files(configuration, configuration.source_locale, fail_if_missing=args.strict)
 
         compile_cmd = 'django-admin.py compilemessages -v{}'.format(args.verbose)
         if args.verbose:
             stderr = None
         else:
             stderr = DEVNULL
-        execute(compile_cmd, working_directory=config.BASE_DIR, stderr=stderr)
+        execute(compile_cmd, working_directory=root_dir, stderr=stderr)
 
 main = Generate()  # pylint: disable=invalid-name
 

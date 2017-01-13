@@ -14,19 +14,19 @@ import polib
 from i18n.dummy import is_format_message
 from i18n.execute import call
 from i18n.converter import Converter
-from i18n import Runner, config
+from i18n import Runner
 
 log = logging.getLogger(__name__)
 
 
-def validate_po_files(root, report_empty=False):
+def validate_po_files(configuration, locale_dir, root_dir=None, report_empty=False):
     """
     Validate all of the po files found in the root directory that are not product of a merge.
     """
     # List of .po files that are the product of a merge (see generate.py).
-    merged_files = config.CONFIGURATION.generate_merge.keys()
+    merged_files = configuration.generate_merge.keys()
 
-    for dirpath, __, filenames in os.walk(root):
+    for dirpath, __, filenames in os.walk(root_dir if root_dir else locale_dir):
         for name in filenames:
             __, ext = os.path.splitext(name)
             filename = os.path.join(dirpath, name)
@@ -36,7 +36,7 @@ def validate_po_files(root, report_empty=False):
             if ext.lower() == '.po' and os.path.basename(filename) not in merged_files:
 
                 # First validate the format of this file
-                msgfmt_check_po_file(filename)
+                msgfmt_check_po_file(locale_dir, filename)
 
                 # Check that the translated strings are valid, and optionally
                 # check for empty translations. But don't check English.
@@ -45,14 +45,14 @@ def validate_po_files(root, report_empty=False):
                     report_problems(filename, problems)
 
 
-def msgfmt_check_po_file(filename):
+def msgfmt_check_po_file(locale_dir, filename):
     """
     Call GNU msgfmt -c on each .po file to validate its format.
     Any errors caught by msgfmt are logged to log.
     """
     # Use relative paths to make output less noisy.
-    rfile = os.path.relpath(filename, config.LOCALE_DIR)
-    out, err = call('msgfmt -c -o /dev/null {}'.format(rfile), working_directory=config.LOCALE_DIR)
+    rfile = os.path.relpath(filename, locale_dir)
+    out, err = call('msgfmt -c -o /dev/null {}'.format(rfile), working_directory=locale_dir)
     if err != '':
         log.info('\n' + out)
         log.warning('\n' + err)
@@ -214,21 +214,20 @@ class Validate(Runner):
         logging.basicConfig(stream=sys.stdout, level=log_level)
 
         languages = args.language or []
-
+        locale_dir = self.configuration.locale_dir
         if not languages:
-            root = config.LOCALE_DIR
-            validate_po_files(root, args.empty)
-            return
-
-        # languages will be a list of language codes; test each language.
-        for language in languages:
-            root = config.LOCALE_DIR / language
-            # Assert that a directory for this language code exists on the system
-            if not root.isdir():
-                log.error(" %s is not a valid directory.\nSkipping language '%s'", root, language)
-                continue
-            # If we found the language code's directory, validate the files.
-            validate_po_files(root, args.empty)
+            # validate all languages
+            validate_po_files(self.configuration, locale_dir, args.empty)
+        else:
+            # languages will be a list of language codes; test each language.
+            for language in languages:
+                root_dir = self.configuration.locale_dir / language
+                # Assert that a directory for this language code exists on the system
+                if not root_dir.isdir():
+                    log.error(" %s is not a valid directory.\nSkipping language '%s'", root_dir, language)
+                    continue
+                # If we found the language code's directory, validate the files.
+                validate_po_files(self.configuration, locale_dir, root_dir=root_dir, report_empty=args.empty)
 
 main = Validate()  # pylint: disable=invalid-name
 

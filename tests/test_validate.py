@@ -5,11 +5,12 @@ Tests for validate.py
 
 import os
 import textwrap
-from unittest import TestCase
 
 from path import Path
 
 from i18n import validate
+
+from . import I18nToolTestCase
 
 
 HERE = Path(__file__).dirname()
@@ -56,7 +57,7 @@ VALIDATION_PROBLEMS = [
 ]
 
 
-class TestValidate(TestCase):
+class TestValidate(I18nToolTestCase):
     """
     Tests functionality in i18n/validate.py, because if Sarina weren't
     quitting, she'd be making me write tests.

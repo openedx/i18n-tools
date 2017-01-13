@@ -25,7 +25,7 @@ import polib
 
 from path import Path
 
-from i18n import config, Runner
+from i18n import Runner
 from i18n.execute import execute
 from i18n.segment import segment_pofiles
 
@@ -35,15 +35,16 @@ LOG = logging.getLogger(__name__)
 DEVNULL = open(os.devnull, 'wb')
 
 
-def base(path1, *paths):
-    """Return a relative path from config.BASE_DIR to path1 / paths[0] / ... """
-    return config.BASE_DIR.relpathto(path1.joinpath(*paths))  # pylint: disable=no-value-for-parameter
-
-
 class Extract(Runner):
     """
     Class used to extract source files
     """
+
+    def base(self, path1, *paths):
+        """Return a relative path from config.BASE_DIR to path1 / paths[0] / ... """
+        root_dir = self.configuration.root_dir
+        return root_dir.relpathto(path1.joinpath(*paths))  # pylint: disable=no-value-for-parameter
+
     def add_args(self):
         """
         Adds arguments
@@ -62,9 +63,10 @@ class Extract(Runner):
         Main entry point of script
         """
         logging.basicConfig(stream=sys.stdout, level=logging.INFO)
-        config.LOCALE_DIR.parent.makedirs_p()
+        configuration = self.configuration
+        configuration.locale_dir.parent.makedirs_p()
         # pylint: disable=attribute-defined-outside-init
-        self.source_msgs_dir = config.CONFIGURATION.source_messages_dir
+        self.source_msgs_dir = configuration.source_messages_dir
 
         # The extraction process clobbers django.po and djangojs.po.
         # Save them so that it won't do that.
@@ -94,38 +96,38 @@ class Extract(Runner):
             '. --output={output}'
         )
 
-        babel_mako_cfg = base(config.LOCALE_DIR, 'babel_mako.cfg')
+        babel_mako_cfg = self.base(configuration.locale_dir, 'babel_mako.cfg')
         if babel_mako_cfg.exists():
             babel_mako_cmd = babel_cmd_template.format(
                 verbosity=babel_verbosity,
                 config=babel_mako_cfg,
-                output=base(config.CONFIGURATION.source_messages_dir, 'mako.po'),
+                output=self.base(configuration.CONFIGURATION.source_messages_dir, 'mako.po'),
             )
 
-            execute(babel_mako_cmd, working_directory=config.BASE_DIR, stderr=stderr)
+            execute(babel_mako_cmd, working_directory=configuration.root_dir, stderr=stderr)
 
-        babel_underscore_cfg = base(config.LOCALE_DIR, 'babel_underscore.cfg')
+        babel_underscore_cfg = self.base(configuration.locale_dir, 'babel_underscore.cfg')
         if babel_underscore_cfg.exists():
             babel_underscore_cmd = babel_cmd_template.format(
                 verbosity=babel_verbosity,
                 config=babel_underscore_cfg,
-                output=base(config.CONFIGURATION.source_messages_dir, 'underscore.po'),
+                output=self.base(configuration.source_messages_dir, 'underscore.po'),
             )
 
-            execute(babel_underscore_cmd, working_directory=config.BASE_DIR, stderr=stderr)
+            execute(babel_underscore_cmd, working_directory=configuration.root_dir, stderr=stderr)
 
         makemessages = "django-admin.py makemessages -l en -v{}".format(args.verbose)
-        ignores = " ".join('--ignore="{}/*"'.format(d) for d in config.CONFIGURATION.ignore_dirs)
+        ignores = " ".join('--ignore="{}/*"'.format(d) for d in configuration.ignore_dirs)
         if ignores:
             makemessages += " " + ignores
 
         # Extract strings from django source files (*.py, *.html, *.txt).
         make_django_cmd = makemessages + ' -d django'
-        execute(make_django_cmd, working_directory=config.BASE_DIR, stderr=stderr)
+        execute(make_django_cmd, working_directory=configuration.root_dir, stderr=stderr)
 
         # Extract strings from Javascript source files (*.js).
         make_djangojs_cmd = makemessages + ' -d djangojs'
-        execute(make_djangojs_cmd, working_directory=config.BASE_DIR, stderr=stderr)
+        execute(make_djangojs_cmd, working_directory=configuration.root_dir, stderr=stderr)
 
         # makemessages creates 'django.po'. This filename is hardcoded.
         # Rename it to django-partial.po to enable merging into django.po later.
@@ -138,7 +140,7 @@ class Extract(Runner):
         files_to_clean = set()
 
         # Extract strings from third-party applications.
-        for app_name in config.CONFIGURATION.third_party:
+        for app_name in configuration.third_party:
             # Import the app to find out where it is.  Then use pybabel to extract
             # from that directory.
             app_module = importlib.import_module(app_name)
@@ -149,14 +151,14 @@ class Extract(Runner):
             babel_cmd = 'pybabel {verbosity} extract -F {config} -c "Translators:" {app} -o {output}'
             babel_cmd = babel_cmd.format(
                 verbosity=babel_verbosity,
-                config=config.LOCALE_DIR / 'babel_third_party.cfg',
+                config=configuration.locale_dir / 'babel_third_party.cfg',
                 app=app_name,
                 output=output_file,
             )
             execute(babel_cmd, working_directory=app_dir, stderr=stderr)
 
         # Segment the generated files.
-        segmented_files = segment_pofiles("en")
+        segmented_files = segment_pofiles(configuration, "en")
         files_to_clean.update(segmented_files)
 
         # Finish each file.

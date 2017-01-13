@@ -30,7 +30,7 @@ import re
 import polib
 from path import Path
 
-from i18n import config, Runner
+from i18n import Runner
 from i18n.converter import Converter
 from i18n.generate import clean_pofile
 
@@ -234,11 +234,11 @@ class DummyCommand(Runner):
         """
         Generate dummy strings for all source po files.
         """
-
-        source_messages_dir = config.CONFIGURATION.source_messages_dir
-        for locale, converter in zip(config.CONFIGURATION.dummy_locales, [Dummy(), Dummy2(), ArabicDummy()]):
+        configuration = self.configuration
+        source_messages_dir = configuration.source_messages_dir
+        for locale, converter in zip(configuration.dummy_locales, [Dummy(), Dummy2(), ArabicDummy()]):
             print('Processing source language files into dummy strings, locale "{}"'.format(locale))
-            for source_file in config.CONFIGURATION.source_messages_dir.walkfiles('*.po'):
+            for source_file in configuration.source_messages_dir.walkfiles('*.po'):
                 if args.verbose:
                     print('   ', source_file.relpath())
                 make_dummy(source_messages_dir.joinpath(source_file), locale, converter)

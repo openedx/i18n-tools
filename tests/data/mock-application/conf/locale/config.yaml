@@ -9,7 +9,7 @@ locales:
 
 # The locales used for fake-accented English, for testing.
 dummy_locales:
-    - fake2
+    - mock
 
 # How should .po files be segmented?  See i18n/segment.py for details. Strings
 # that are only found in a particular segment are segregated into that .po file
