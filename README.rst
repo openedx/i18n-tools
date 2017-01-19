@@ -13,9 +13,12 @@ running the following command inside the extracted directory.
 Running
 =======
 
-Running commands from the edx-platform directory will default to loading the
-configuration at ``./conf/locale/config.yaml``. You can specify a different
-configuration file with the ``--config`` argument.
+For Django projects, commands should be run from the root directory, and
+the default configuration will be found at ``./conf/locale/config.yaml``.
+For Django apps, commands should be run from the app's directory, and
+the default configuration will be found at ``./locale/config.yaml``.
+
+You can specify a different configuration file with the ``--config`` argument.
 
 
 General Commands

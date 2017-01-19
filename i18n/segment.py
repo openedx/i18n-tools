@@ -12,20 +12,20 @@ import textwrap
 
 import polib
 
-from i18n import config, Runner
+from i18n import Runner
 
 LOG = logging.getLogger(__name__)
 
 
-def segment_pofiles(locale):
+def segment_pofiles(configuration, locale):
     """Segment all the pofiles for `locale`.
 
     Returns a set of filenames, all the segment files written.
 
     """
     files_written = set()
-    for filename, segments in config.CONFIGURATION.segment.items():
-        filename = config.CONFIGURATION.get_messages_dir(locale) / filename
+    for filename, segments in configuration.segment.items():
+        filename = configuration.get_messages_dir(locale) / filename
         files_written.update(segment_pofile(filename, segments))
     return files_written
 
@@ -162,7 +162,7 @@ class Segment(Runner):
         # phase calling the functions above.
         locales = args.locale or []
         for locale in locales:
-            segment_pofiles(locale)
+            segment_pofiles(self.configuration, locale)
 
 main = Segment()  # pylint: disable=invalid-name
 

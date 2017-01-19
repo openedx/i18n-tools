@@ -2,19 +2,21 @@
 This test tests that calls to Transifex work as expected.
 """
 
-from unittest import TestCase
-
 import mock
 
 from i18n import transifex
 
+from . import I18nToolTestCase
 
-class TestTransifex(TestCase):
+
+class TestTransifex(I18nToolTestCase):
     """
     Tests functionality of i18n/transifex.py
     because Ned is making me write tests.
     """
+
     def setUp(self):
+        super(TestTransifex, self).setUp()
         self.patcher = mock.patch('i18n.transifex.execute')
         self.addCleanup(self.patcher.stop)
         self.mock_execute = self.patcher.start()
@@ -53,7 +55,7 @@ class TestTransifex(TestCase):
 
     def test_pull_command(self):
         # Call the pull command
-        transifex.pull()
+        transifex.pull(self.configuration)
 
         # conf/locale/config.yaml specifies two non-source locales, 'fr' and 'zh_CN'
         call_args = [
@@ -67,7 +69,7 @@ class TestTransifex(TestCase):
 
     def test_pull_command_with_resources(self):
         # Call the pull command
-        transifex.pull("foo.1", "foo.2")
+        transifex.pull(self.configuration, "foo.1", "foo.2")
 
         # conf/locale/config.yaml specifies two non-source locales, 'fr' and 'zh_CN'
         call_args = [
@@ -83,9 +85,12 @@ class TestTransifex(TestCase):
 
     def test_clean_translated_locales(self):
         with mock.patch('i18n.transifex.clean_locale') as patched:
-            transifex.clean_translated_locales(langs=['fr', 'zh_CN'])
+            transifex.clean_translated_locales(self.configuration, langs=['fr', 'zh_CN'])
             self.assertEqual(2, patched.call_count)
-            call_args = [('fr',), ('zh_CN',)]
+            call_args = [
+                (self.configuration, 'fr'),
+                (self.configuration, 'zh_CN'),
+            ]
             self.assertEqual(
                 call_args,
                 [callarg[0] for callarg in patched.call_args_list]
@@ -93,11 +98,11 @@ class TestTransifex(TestCase):
 
     def test_clean_locale(self):
         with mock.patch('i18n.transifex.clean_file') as patched:
-            transifex.clean_locale('fr')
+            transifex.clean_locale(self.configuration, 'fr')
             self.assertEqual(3, patched.call_count)
             call_args = ['django-partial.po', 'djangojs-partial.po', 'mako.po']
             for callarg, expected in zip(patched.call_args_list, call_args):
                 self.assertEqual(
-                    callarg[0][0].name,
+                    callarg[0][1].name,
                     expected
                 )

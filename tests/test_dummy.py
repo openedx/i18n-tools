@@ -1,16 +1,16 @@
 # -*- coding: utf-8 -*-
 """Tests of i18n/dummy.py"""
 
-from unittest import TestCase
-
 import ddt
 from polib import POEntry
 
 from i18n import dummy
 
+from . import I18nToolTestCase
+
 
 @ddt.ddt
-class TestDummy(TestCase):
+class TestDummy(I18nToolTestCase):
     """
     Tests functionality of i18n/dummy.py
     """

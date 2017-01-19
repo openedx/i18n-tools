@@ -1,12 +1,13 @@
 from datetime import datetime, timedelta
 import os
-from unittest import TestCase, skip
+from unittest import skip
 
 import polib
 from pytz import UTC
 
 from i18n import extract
-from i18n.config import CONFIGURATION
+
+from . import I18nToolTestCase
 
 # Make sure setup runs only once
 SETUP_HAS_RUN = False
@@ -16,7 +17,7 @@ SETUP_HAS_RUN = False
 # TODO: figure out how to declare a "long-running" test suite
 # and add this test to it.
 @skip('Long running test')
-class TestExtract(TestCase):
+class TestExtract(I18nToolTestCase):
     """
     Tests functionality of i18n/extract.py
     """
@@ -41,7 +42,7 @@ class TestExtract(TestCase):
         Fails assertion if one of the files doesn't exist.
         """
         for filename in self.generated_files:
-            path = os.path.join(CONFIGURATION.source_messages_dir, filename)
+            path = os.path.join(self.configuration.source_messages_dir, filename)
             exists = os.path.exists(path)
             self.assertTrue(exists, msg='Missing file: %s' % filename)
             if exists:

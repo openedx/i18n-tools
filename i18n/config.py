@@ -10,9 +10,8 @@ from path import Path
 # Typically this should be the 'edx-platform' directory.
 BASE_DIR = Path('.').abspath()  # pylint: disable=invalid-name
 
-# LOCALE_DIR contains the locale files.
-# Typically this should be 'edx-platform/conf/locale'
-LOCALE_DIR = BASE_DIR.joinpath('conf', 'locale')
+# The base filename for the configuration file.
+BASE_CONFIG_FILENAME = 'config.yaml'
 
 
 class Configuration(object):
@@ -30,16 +29,33 @@ class Configuration(object):
         'TRANSIFEX_URL': 'https://www.transifex.com/open-edx/edx-platform/',
     }
 
-    def __init__(self, filename=None):
-        self._filename = filename
-        self._config = self.read_config(filename)
+    def __init__(self, filename=None, root_dir=None):
+        self.root_dir = Path(root_dir) if root_dir else Path('.')
+        self._filename = (Path(filename) if filename else Configuration.default_config_filename(root_dir=root_dir))
+        self._config = self.read_config(self._filename)
+
+    @property
+    def locale_dir(self):
+        """
+        Returns the locale directory for this configuration.
+        """
+        return self._filename.parent
+
+    @staticmethod
+    def default_config_filename(root_dir=None):
+        """
+        Returns the default name of the configuration file.
+        """
+        root_dir = Path(root_dir) if root_dir else Path('.').abspath()
+        locale_dir = root_dir / 'locale'
+        if not os.path.exists(locale_dir):
+            locale_dir = root_dir / 'conf' / 'locale'
+        return locale_dir / BASE_CONFIG_FILENAME
 
     def read_config(self, filename):
         """
         Returns data found in config file (as dict), or raises exception if file not found
         """
-        if filename is None:
-            return {}
         if not os.path.exists(filename):
             raise Exception("Configuration file cannot be found: %s" % filename)
         with open(filename) as stream:
@@ -55,7 +71,7 @@ class Configuration(object):
         Returns the name of the directory holding the po files for locale.
         Example: edx-platform/conf/locale/fr/LC_MESSAGES
         """
-        return LOCALE_DIR.joinpath(locale, 'LC_MESSAGES')
+        return self.locale_dir.joinpath(locale, 'LC_MESSAGES')
 
     @property
     def source_messages_dir(self):
@@ -104,4 +120,4 @@ class Configuration(object):
         """
         return sorted(set(self.translated_locales) - set(self.rtl_langs))
 
-CONFIGURATION = Configuration()
+CONFIGURATION = None

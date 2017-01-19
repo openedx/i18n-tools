@@ -8,17 +8,17 @@ import re
 import sys
 import string
 import subprocess
-from unittest import TestCase
 
 from mock import patch
 from polib import pofile
 from pytz import UTC
 
-from i18n import generate
-from i18n.config import CONFIGURATION
+from i18n import config, generate
+
+from . import I18nToolTestCase, MOCK_APPLICATION_DIR, MOCK_DJANGO_APP_DIR
 
 
-class TestGenerate(TestCase):
+class TestGenerate(I18nToolTestCase):
     """
     Tests functionality of i18n/generate.py
     """
@@ -27,8 +27,11 @@ class TestGenerate(TestCase):
     # some concurrency issues. If this fails, you can try rerunning the tests.
     @classmethod
     def tearDownClass(cls):
-        # Clear the fake2 directory of any test artifacts
-        cmd = "rm conf/locale/fake2/LC_MESSAGES/django.po; rm conf/locale/fake2/LC_MESSAGES/djangojs.po"
+        # Clear the mock locale directory of any test artifacts
+        fake_locale_dir = MOCK_APPLICATION_DIR / 'conf' / 'locale' / 'mock'
+        cmd = "rm {fake_locale_dir}/LC_MESSAGES/django.po; rm {fake_locale_dir}/LC_MESSAGES/djangojs.po".format(
+            fake_locale_dir=fake_locale_dir
+        )
         sys.stderr.write("\nCleaning up dummy language directories: {}\n".format(cmd))
         sys.stderr.flush()
         returncode = subprocess.call(cmd, shell=True)
@@ -36,24 +39,22 @@ class TestGenerate(TestCase):
         super(TestGenerate, cls).tearDownClass()
 
     def setUp(self):
+        super(TestGenerate, self).setUp()
         # Subtract 1 second to help comparisons with file-modify time succeed,
         # since os.path.getmtime() is not millisecond-accurate
         self.start_time = datetime.now(UTC) - timedelta(seconds=1)
 
-    # Patch source_language to be the fake files we already have
-    @patch.object(CONFIGURATION, 'source_locale', 'fake2')
     def test_merge(self):
         """
         Tests merge script on English source files.
         """
-        filename = os.path.join(CONFIGURATION.source_messages_dir, random_name())
-        generate.merge(CONFIGURATION.source_locale, target=filename)
+        test_configuration = config.Configuration(root_dir=MOCK_DJANGO_APP_DIR)
+        filename = os.path.join(test_configuration.source_messages_dir, random_name())
+        generate.merge(test_configuration, test_configuration.source_locale, target=filename)
         self.assertTrue(os.path.exists(filename))
         os.remove(filename)
 
     # Patch dummy_locales to not have esperanto present
-    @patch.object(CONFIGURATION, 'locales', ['fake2'])
-    @patch.object(CONFIGURATION, 'source_locale', 'en')
     def test_main(self):
         """
         Runs generate.main() which should merge source files,
@@ -62,19 +63,19 @@ class TestGenerate(TestCase):
         .mo files should exist, and be recently created (modified
         after start of test suite)
         """
-        generate.main(verbose=0, strict=False)
-        for locale in CONFIGURATION.translated_locales:
+        generate.main(verbose=0, strict=False, root_dir=MOCK_APPLICATION_DIR)
+        for locale in ['mock',]:
             for (filename, num_headers) in zip(('django', 'djangojs'), (6, 4)):
                 mofile = filename + '.mo'
-                file_path = os.path.join(CONFIGURATION.get_messages_dir(locale), mofile)
+                file_path = os.path.join(self.configuration.get_messages_dir(locale), mofile)
                 exists = os.path.exists(file_path)
                 self.assertTrue(exists, msg='Missing file in locale %s: %s' % (locale, mofile))
                 self.assertTrue(
                     datetime.fromtimestamp(os.path.getmtime(file_path), UTC) >= self.start_time,
-                    msg='File not recently modified: %s' % file_path
+                    msg='File should be recently modified: %s' % file_path
                 )
             # Assert merge headers look right
-            file_path = os.path.join(CONFIGURATION.get_messages_dir(locale), filename + '.po')
+            file_path = os.path.join(self.configuration.get_messages_dir(locale), filename + '.po')
             self.assert_merge_headers(file_path, num_headers)
 
     def assert_merge_headers(self, file_path, num_headers):
@@ -99,10 +100,10 @@ class TestGenerate(TestCase):
 
     @patch('i18n.generate.LOG')
     def test_resolve_merge_conflicts(self, mock_log):
-        django_po_path = os.path.join(CONFIGURATION.get_messages_dir('fake2'), 'django.po')
+        django_po_path = os.path.join(self.configuration.get_messages_dir('mock'), 'django.po')
         # File ought to have been generated in test_main
         # if not os.path.exists(django_po_path):
-        generate.main(verbose=0, strict=False)
+        generate.main(verbose=0, strict=False, root_dir=MOCK_APPLICATION_DIR)
 
         with open(django_po_path, 'r') as django_po_file:
             po_lines = django_po_file.read()

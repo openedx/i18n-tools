@@ -4,7 +4,7 @@ Tool to be used by other IDAs for internationalization.
 import argparse
 import sys
 
-__version__ = '0.3.5'
+__version__ = '0.3.6'
 
 
 class Runner:
@@ -13,6 +13,7 @@ class Runner:
     """
     def __init__(self):
         self.args = sys.argv[1:]
+        self.configuration = None
         self.parser = argparse.ArgumentParser()
         self.parser.add_argument(
             '--config',
@@ -45,8 +46,6 @@ class Runner:
         args = self.parser.parse_known_args(self.args)[0]
         for key, val in kwargs.items():
             setattr(args, key, val)
-        if args.config:
-            config.CONFIGURATION = config.Configuration(args.config)
-        else:
-            config.CONFIGURATION = config.Configuration(config.LOCALE_DIR.joinpath('config.yaml').normpath())
+        root_dir = kwargs.get('root_dir')
+        self.configuration = config.Configuration(filename=args.config, root_dir=root_dir)
         return self.run(args)

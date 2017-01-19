@@ -1,10 +1,10 @@
 """Tests of i18n/converter.py"""
 
-from unittest import TestCase
-
 import ddt
 
 from i18n import converter
+
+from . import I18nToolTestCase
 
 
 class UpcaseConverter(converter.Converter):
@@ -16,7 +16,7 @@ class UpcaseConverter(converter.Converter):
 
 
 @ddt.ddt
-class TestConverter(TestCase):
+class TestConverter(I18nToolTestCase):
     """
     Tests functionality of i18n/converter.py
     """

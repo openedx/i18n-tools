@@ -1,14 +1,15 @@
 from os import remove
 from shutil import copyfile
-from unittest import TestCase
 import ddt
 import mock
 
 from i18n.changed import Changed
 
+from . import I18nToolTestCase, MOCK_APPLICATION_DIR
+
 
 @ddt.ddt
-class TestChanged(TestCase):
+class TestChanged(I18nToolTestCase):
     """
     Tests functionality of i18n/changed.py
     """
@@ -19,8 +20,9 @@ class TestChanged(TestCase):
         """
         Verifies the detect_changes method can detect changes in translation source files.
         """
-        file_name = 'conf/locale/fake2/LC_MESSAGES/mako.po'
-        copy = 'conf/locale/fake2/LC_MESSAGES/mako_copy.po'
+        fake_locale_dir = MOCK_APPLICATION_DIR / 'conf' / 'locale' / 'mock'
+        file_name = fake_locale_dir / 'LC_MESSAGES' / 'mako.po'
+        copy = fake_locale_dir / 'LC_MESSAGES' / 'mako_copy.po'
 
         self.assertFalse(self.changed.detect_changes())
 
