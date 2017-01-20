@@ -4,6 +4,8 @@ Tool to be used by other IDAs for internationalization.
 import argparse
 import sys
 
+from . import config
+
 __version__ = '0.3.6'
 
 
@@ -41,8 +43,6 @@ class Runner:
         raise NotImplementedError
 
     def __call__(self, **kwargs):
-        from . import config
-
         args = self.parser.parse_known_args(self.args)[0]
         for key, val in kwargs.items():
             setattr(args, key, val)
