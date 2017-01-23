@@ -164,7 +164,6 @@ class Generate(Runner):
         logging.basicConfig(stream=sys.stdout, level=logging.INFO)
 
         configuration = self.configuration
-        root_dir = args.root_dir
         if args.ltr:
             langs = configuration.ltr_langs
         elif args.rtl:
@@ -186,7 +185,7 @@ class Generate(Runner):
             stderr = None
         else:
             stderr = DEVNULL
-        execute(compile_cmd, working_directory=root_dir, stderr=stderr)
+        execute(compile_cmd, working_directory=configuration.root_dir, stderr=stderr)
 
 main = Generate()  # pylint: disable=invalid-name
 

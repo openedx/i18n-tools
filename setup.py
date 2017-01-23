@@ -2,11 +2,9 @@
 
 from setuptools import setup
 
-import i18n
-
 setup(
     name='edx-i18n-tools',
-    version=i18n.__version__,
+    version='0.3.7',
     description='edX Internationalization Tools',
     author='edX',
     author_email='oscm@edx.org',

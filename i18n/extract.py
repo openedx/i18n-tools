@@ -101,7 +101,7 @@ class Extract(Runner):
             babel_mako_cmd = babel_cmd_template.format(
                 verbosity=babel_verbosity,
                 config=babel_mako_cfg,
-                output=self.base(configuration.CONFIGURATION.source_messages_dir, 'mako.po'),
+                output=self.base(configuration.source_messages_dir, 'mako.po'),
             )
 
             execute(babel_mako_cmd, working_directory=configuration.root_dir, stderr=stderr)
