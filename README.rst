@@ -86,6 +86,16 @@ Details of the config.yaml file are in `edx-platform/conf/locale/config.yaml
 Changes
 =======
 
+v0.3.7
+------
+
+* A few small fixes for Django projects.
+
+v0.3.6
+------
+
+* Major refactoring to enable use on Django apps as well as Django projects.
+
 v0.3.5
 ------
 
