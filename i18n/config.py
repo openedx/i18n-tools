@@ -20,13 +20,13 @@ class Configuration(object):
     """
     DEFAULTS = {
         'dummy_locales': [],
+        'extractors': {},
         'generate_merge': {},
-        'ignore_dirs': [],
         'locales': ['en'],
         'segment': {},
         'source_locale': 'en',
         'third_party': [],
-        'TRANSIFEX_URL': 'https://www.transifex.com/open-edx/edx-platform/',
+        'TRANSIFEX_URL': 'https://www.transifex.com/open-edx/edx-platform/'
     }
 
     def __init__(self, filename=None, root_dir=None):
