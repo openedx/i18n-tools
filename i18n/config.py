@@ -20,6 +20,7 @@ class Configuration(object):
     """
     DEFAULTS = {
         'dummy_locales': [],
+        'extractors': {},
         'generate_merge': {},
         'ignore_dirs': [],
         'locales': ['en'],
