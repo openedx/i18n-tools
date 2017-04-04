@@ -86,6 +86,11 @@ Details of the config.yaml file are in `edx-platform/conf/locale/config.yaml
 Changes
 =======
 
+v0.3.8
+------
+
+* Fixes for extract to handle when expected directories/files are not present.
+
 v0.3.7
 ------
 

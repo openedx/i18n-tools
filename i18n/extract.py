@@ -56,15 +56,22 @@ class Extract(Runner):
         """
         Rename a file in the source directory.
         """
-        os.rename(self.source_msgs_dir.joinpath(src), self.source_msgs_dir.joinpath(dst))
+        src_path = self.source_msgs_dir.joinpath(src)
+        dst_path = self.source_msgs_dir.joinpath(dst)
 
-    def run(self, args):
+        # Only rename files that exist.
+        if os.path.exists(src_path):
+            os.rename(src_path, dst_path)
+
+    def run(self, args):  # pylint: disable=too-many-statements
         """
         Main entry point of script
         """
         logging.basicConfig(stream=sys.stdout, level=logging.INFO)
         configuration = self.configuration
         configuration.locale_dir.parent.makedirs_p()
+        configuration.source_messages_dir.makedirs_p()
+
         # pylint: disable=attribute-defined-outside-init
         self.source_msgs_dir = configuration.source_messages_dir
 
