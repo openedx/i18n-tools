@@ -86,6 +86,11 @@ Details of the config.yaml file are in `edx-platform/conf/locale/config.yaml
 Changes
 =======
 
+v0.3.8
+------
+
+* Added support for Django 1.11 and Python 3.6
+
 v0.3.7
 ------
 
