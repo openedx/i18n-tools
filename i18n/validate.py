@@ -53,9 +53,9 @@ def msgfmt_check_po_file(locale_dir, filename):
     # Use relative paths to make output less noisy.
     rfile = os.path.relpath(filename, locale_dir)
     out, err = call('msgfmt -c -o /dev/null {}'.format(rfile), working_directory=locale_dir)
-    if err != '':
-        log.info('\n' + out)
-        log.warning('\n' + err)
+    if err:
+        log.info(u'\n' + out.decode('utf8'))
+        log.warning(u'\n' + err.decode('utf8'))
 
 
 def tags_in_string(msg):

@@ -86,6 +86,11 @@ Details of the config.yaml file are in `edx-platform/conf/locale/config.yaml
 Changes
 =======
 
+v0.3.9
+------
+
+* Fix Python 3 issues in validate.
+
 v0.3.8
 ------
 
