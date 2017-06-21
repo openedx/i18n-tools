@@ -4,7 +4,7 @@ from setuptools import setup
 
 setup(
     name='edx-i18n-tools',
-    version='0.3.8',
+    version='0.3.9',
     description='edX Internationalization Tools',
     author='edX',
     author_email='oscm@edx.org',
