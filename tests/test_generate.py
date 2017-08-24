@@ -10,6 +10,7 @@ import string
 import subprocess
 
 from mock import patch
+from path import Path as path
 from polib import pofile
 from pytz import UTC
 
@@ -22,24 +23,16 @@ class TestGenerate(I18nToolTestCase):
     """
     Tests functionality of i18n/generate.py
     """
+    def setUp(self, root_dir=MOCK_APPLICATION_DIR, preserve_locale_paths=None, clean_paths=None):
+        self.mock_path = os.path.join(MOCK_APPLICATION_DIR, "conf", "locale", "mock")
+        self.fr_path = os.path.join(MOCK_APPLICATION_DIR, "conf", "locale", "fr")
+        self.mock_mapped_path = os.path.join(MOCK_APPLICATION_DIR, "conf", "locale", "mock_mapped")
 
-    # This method is suspected of making tests fail as the returncode is happening in a subprocess causing
-    # some concurrency issues. If this fails, you can try rerunning the tests.
-    @classmethod
-    def tearDownClass(cls):
-        # Clear the mock locale directory of any test artifacts
-        fake_locale_dir = MOCK_APPLICATION_DIR / 'conf' / 'locale' / 'mock'
-        cmd = "rm {fake_locale_dir}/LC_MESSAGES/django.po; rm {fake_locale_dir}/LC_MESSAGES/djangojs.po".format(
-            fake_locale_dir=fake_locale_dir
+        super(TestGenerate, self).setUp(
+            preserve_locale_paths=(self.mock_path, self.fr_path),
+            clean_paths=(self.mock_mapped_path, )
         )
-        sys.stderr.write("\nCleaning up dummy language directories: {}\n".format(cmd))
-        sys.stderr.flush()
-        returncode = subprocess.call(cmd, shell=True)
-        assert returncode == 0
-        super(TestGenerate, cls).tearDownClass()
 
-    def setUp(self):
-        super(TestGenerate, self).setUp()
         # Subtract 1 second to help comparisons with file-modify time succeed,
         # since os.path.getmtime() is not millisecond-accurate
         self.start_time = datetime.now(UTC) - timedelta(seconds=1)
@@ -64,7 +57,7 @@ class TestGenerate(I18nToolTestCase):
         after start of test suite)
         """
         generate.main(verbose=0, strict=False, root_dir=MOCK_APPLICATION_DIR)
-        for locale in ['mock',]:
+        for locale in ['mock', ]:
             for (filename, num_headers) in zip(('django', 'djangojs'), (6, 4)):
                 mofile = filename + '.mo'
                 file_path = os.path.join(self.configuration.get_messages_dir(locale), mofile)
@@ -74,9 +67,10 @@ class TestGenerate(I18nToolTestCase):
                     datetime.fromtimestamp(os.path.getmtime(file_path), UTC) >= self.start_time,
                     msg='File should be recently modified: %s' % file_path
                 )
-            # Assert merge headers look right
-            file_path = os.path.join(self.configuration.get_messages_dir(locale), filename + '.po')
-            self.assert_merge_headers(file_path, num_headers)
+
+                # Assert merge headers look right
+                file_path = os.path.join(self.configuration.get_messages_dir(locale), filename + '.po')
+                self.assert_merge_headers(file_path, num_headers)
 
     def assert_merge_headers(self, file_path, num_headers):
         """
@@ -120,6 +114,22 @@ class TestGenerate(I18nToolTestCase):
             # the first item of call_args is the call arguments themselves as a tuple
             mock_log.warning.call_args[0]
         )
+
+    def test_lang_mapping(self):
+        generate.main(verbose=0, strict=False, root_dir=MOCK_APPLICATION_DIR)
+        self.assertTrue(len(self.configuration.edx_lang_map) > 0)
+
+        for source_locale, dest_locale in self.configuration.edx_lang_map.items():
+            source_dirname = self.configuration.get_messages_dir(source_locale)
+            dest_dirname = self.configuration.get_messages_dir(dest_locale)
+
+            self.assertTrue(path.exists(dest_dirname))
+            from filecmp import dircmp
+
+            diff = dircmp(source_dirname, dest_dirname)
+            self.assertEqual(len(diff.left_only), 0)
+            self.assertEqual(len(diff.right_only), 0)
+            self.assertEqual(len(diff.diff_files), 0)
 
 
 def random_name(size=6):

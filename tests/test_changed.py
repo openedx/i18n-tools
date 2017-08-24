@@ -13,7 +13,8 @@ class TestChanged(I18nToolTestCase):
     """
     Tests functionality of i18n/changed.py
     """
-    def setUp(self):
+    def setUp(self, root_dir=MOCK_APPLICATION_DIR, preserve_locale_paths=None, clean_paths=None):
+        super(TestChanged, self).setUp()
         self.changed = Changed()
 
     def test_detect_changes(self):
@@ -26,11 +27,13 @@ class TestChanged(I18nToolTestCase):
 
         self.assertFalse(self.changed.detect_changes())
 
-        copyfile(file_name, copy)  # Copy the .po file
-        remove(file_name)  # Make changes to the .po file
-        self.assertTrue(self.changed.detect_changes())  # Detect changes made to the .po file
-        copyfile(copy, file_name)  # Return .po file to its previous state
-        remove(copy)  # Delete copy of .po file
+        try:
+            copyfile(file_name, copy)  # Copy the .po file
+            remove(file_name)  # Make changes to the .po file
+            self.assertTrue(self.changed.detect_changes())  # Detect changes made to the .po file
+        finally:
+            copyfile(copy, file_name)  # Return .po file to its previous state
+            remove(copy)  # Delete copy of .po file
 
     def test_do_not_detect_changes(self):
         """
@@ -39,11 +42,13 @@ class TestChanged(I18nToolTestCase):
         file_name = 'test_requirements.txt'
         copy = 'test_requirements_copy.txt'
 
-        copyfile(file_name, copy)  # Copy the .txt file
-        remove(file_name)  # Make changes to the .txt file
-        self.assertFalse(self.changed.detect_changes())  # Do not detect changes made to the .txt file
-        copyfile(copy, file_name)  # Return .txt file to its previous state
-        remove(copy)  # Delete copy of .txt file
+        try:
+            copyfile(file_name, copy)  # Copy the .txt file
+            remove(file_name)  # Make changes to the .txt file
+            self.assertFalse(self.changed.detect_changes())  # Do not detect changes made to the .txt file
+        finally:
+            copyfile(copy, file_name)  # Return .txt file to its previous state
+            remove(copy)  # Delete copy of .txt file
 
     @ddt.data(
         (False, 'Source translation files are current.'),

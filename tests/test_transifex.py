@@ -57,8 +57,8 @@ class TestTransifex(I18nToolTestCase):
         # Call the pull command
         transifex.pull(self.configuration)
 
-        # conf/locale/config.yaml specifies two non-source locales, 'fr' and 'zh_CN'
         call_args = [
+            ('tx pull -f --mode=reviewed -l en',),
             ('tx pull -f --mode=reviewed -l fr',),
             ('tx pull -f --mode=reviewed -l zh_CN',),
         ]
@@ -73,6 +73,8 @@ class TestTransifex(I18nToolTestCase):
 
         # conf/locale/config.yaml specifies two non-source locales, 'fr' and 'zh_CN'
         call_args = [
+            ('tx pull -f --mode=reviewed -l en -r foo.1',),
+            ('tx pull -f --mode=reviewed -l en -r foo.2',),
             ('tx pull -f --mode=reviewed -l fr -r foo.1',),
             ('tx pull -f --mode=reviewed -l fr -r foo.2',),
             ('tx pull -f --mode=reviewed -l zh_CN -r foo.1',),

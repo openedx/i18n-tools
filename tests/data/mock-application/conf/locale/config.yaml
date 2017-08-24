@@ -2,6 +2,11 @@
 # Configuration for i18n workflow.
 TRANSIFEX_URL: 'https://www.transifex.com/open-edx/edx-platform/'
 
+source_locale: mock
+
+edx_lang_map:
+    mock: mock_mapped
+
 locales:
     - en  # English - Source Language
     - fr

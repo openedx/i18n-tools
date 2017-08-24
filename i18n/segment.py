@@ -63,7 +63,6 @@ def segment_pofile(filename, segments):
     """
     reading_msg = "Reading {num} entries from {file}"
     writing_msg = "Writing {num} entries to {file}"
-
     source_po = polib.pofile(filename)
     LOG.info(reading_msg.format(file=filename, num=len(source_po)))  # pylint: disable=logging-format-interpolation
 
@@ -107,7 +106,7 @@ def segment_pofile(filename, segments):
     files_written = set()
     for segment_file, pofile in segment_po_files.items():
         out_file = filename.dirname() / segment_file
-        if len(pofile) == 0:
+        if not pofile:
             LOG.error("No messages to write to %s, did you run segment twice?", out_file)
         else:
             LOG.info(writing_msg.format(file=out_file, num=len(pofile)))  # pylint: disable=logging-format-interpolation

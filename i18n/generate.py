@@ -18,6 +18,7 @@ import os
 import re
 import sys
 
+from path import Path as path
 from polib import pofile
 
 from i18n import Runner
@@ -79,13 +80,13 @@ def merge_files(configuration, locale, fail_if_missing=True):
         merge(configuration, locale, target, sources, fail_if_missing)
 
 
-def clean_pofile(path):
+def clean_pofile(pofile_path):
     """
     Clean various aspect of a .po file.
 
     Fixes:
 
-        - Removes the ,fuzzy flag on metadata.
+        - Removes the fuzzy flag on metadata.
 
         - Removes occurrence line numbers so that the generated files don't
           generate a lot of line noise when they're committed.
@@ -93,7 +94,7 @@ def clean_pofile(path):
     Returns a list of any duplicate entries found.
     """
     # Reading in the .po file and saving it again fixes redundancies.
-    pomsgs = pofile(path)
+    pomsgs = pofile(pofile_path)
     # The msgcat tool marks the metadata as fuzzy, but it's ok as it is.
     pomsgs.metadata_is_fuzzy = False
     duplicate_entries = []
@@ -141,8 +142,8 @@ def validate_files(directory, files_to_merge):
     directory is the directory (a path object from path.py) in which the files should appear.
     raises an Exception if any of the files are not in dir.
     """
-    for path in files_to_merge:
-        pathname = directory.joinpath(path)
+    for file_path in files_to_merge:
+        pathname = directory.joinpath(file_path)
         if not pathname.exists():
             raise Exception("I18N: Cannot generate because file not found: {0}".format(pathname))
         # clean sources
@@ -186,6 +187,16 @@ class Generate(Runner):
         else:
             stderr = DEVNULL
         execute(compile_cmd, working_directory=configuration.root_dir, stderr=stderr)
+
+        # Check for any mapped languages and copy directories around accordingly
+        for source_locale, dest_locale in configuration.edx_lang_map.items():
+            source_dirname = configuration.get_messages_dir(source_locale)
+            dest_dirname = configuration.get_messages_dir(dest_locale)
+            LOG.info("Copying mapped locale %s to %s", source_dirname, dest_dirname)
+
+            path.rmtree_p(path(dest_dirname))
+            path.copytree(path(source_dirname), path(dest_dirname))
+
 
 main = Generate()  # pylint: disable=invalid-name
 

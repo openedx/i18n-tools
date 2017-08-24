@@ -151,8 +151,7 @@ def get_new_header(configuration, pofile):
     team = pofile.metadata.get('Language-Team', None)
     if not team:
         return TRANSIFEX_HEADER.format(configuration.TRANSIFEX_URL)
-    else:
-        return TRANSIFEX_HEADER.format(team)
+    return TRANSIFEX_HEADER.format(team)
 
 
 class Transifex(Runner):

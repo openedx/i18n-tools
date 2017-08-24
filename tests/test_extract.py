@@ -1,38 +1,41 @@
 from datetime import datetime, timedelta
 import os
-from unittest import skip
 
 import polib
-from pytz import UTC
 
-from i18n import extract
+from i18n import extract, config
 
-from . import I18nToolTestCase
+from . import I18nToolTestCase, MOCK_DJANGO_APP_DIR
 
 # Make sure setup runs only once
 SETUP_HAS_RUN = False
 
 
-# Skip this test because it takes too long (>1 minute)
-# TODO: figure out how to declare a "long-running" test suite
-# and add this test to it.
-@skip('Long running test')
 class TestExtract(I18nToolTestCase):
     """
     Tests functionality of i18n/extract.py
     """
     generated_files = ('django-partial.po', 'djangojs-partial.po', 'mako.po')
 
-    def setUp(self):
+    def setUp(self, root_dir=MOCK_DJANGO_APP_DIR, preserve_locale_paths=None, clean_paths=None):
         global SETUP_HAS_RUN
 
         # Subtract 1 second to help comparisons with file-modify time succeed,
         # since os.path.getmtime() is not millisecond-accurate
-        self.start_time = datetime.now(UTC) - timedelta(seconds=1)
-        super(TestExtract, self).setUp()
+        self.start_time = datetime.now() - timedelta(seconds=1)
+
+        self.mock_path = os.path.join(root_dir, "locale", "mock")
+        self.mock_mapped_path = os.path.join(root_dir, "locale", "mock_mapped")
+
+        super(TestExtract, self).setUp(
+            preserve_locale_paths=(self.mock_path, ),
+            clean_paths=(self.mock_mapped_path, )
+        )
+        self.configuration = config.Configuration(root_dir=root_dir)
+
         if not SETUP_HAS_RUN:
             # Run extraction script. Warning, this takes 1 minute or more
-            extract.main(verbosity=0)
+            extract.main(verbosity=0, config=self.configuration._filename, root_dir=root_dir)
             SETUP_HAS_RUN = True
 
     def get_files(self):
@@ -44,7 +47,7 @@ class TestExtract(I18nToolTestCase):
         for filename in self.generated_files:
             path = os.path.join(self.configuration.source_messages_dir, filename)
             exists = os.path.exists(path)
-            self.assertTrue(exists, msg='Missing file: %s' % filename)
+            self.assertTrue(exists, msg='Missing file: %s' % path)
             if exists:
                 yield path
 
@@ -53,10 +56,9 @@ class TestExtract(I18nToolTestCase):
         Asserts that each auto-generated file has been modified since 'extract' was launched.
         Intended to show that the file has been touched by 'extract'.
         """
-
         for path in self.get_files():
             self.assertTrue(datetime.fromtimestamp(os.path.getmtime(path)) > self.start_time,
-                            msg='File not recently modified: %s' % os.path.basename(path))
+                            msg='File not recently modified: %s' % path)
 
     def test_is_keystring(self):
         """
@@ -74,10 +76,9 @@ class TestExtract(I18nToolTestCase):
         for path in self.get_files():
             po = polib.pofile(path)
             header = po.header
-            self.assertEqual(
-                header.find('edX translation file'),
-                0,
-                msg='Missing header in %s:\n"%s"' % (os.path.basename(path), header)
+            self.assertTrue(
+                'openedx-translation@googlegroups.com' in header,
+                msg='Missing header in %s:\n"%s"' % (path, header)
             )
 
     def test_metadata(self):
