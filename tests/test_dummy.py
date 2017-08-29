@@ -15,7 +15,7 @@ class TestDummy(I18nToolTestCase):
     Tests functionality of i18n/dummy.py
     """
 
-    def setUp(self, root_dir=MOCK_APPLICATION_DIR, preserve_locale_paths=None, clean_paths=None):
+    def setUp(self):
         super(TestDummy, self).setUp()
         self.converter = dummy.Dummy()
 

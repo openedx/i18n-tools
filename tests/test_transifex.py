@@ -17,6 +17,7 @@ class TestTransifex(I18nToolTestCase):
 
     def setUp(self):
         super(TestTransifex, self).setUp()
+        self._setup_i18n_test_config()
         self.patcher = mock.patch('i18n.transifex.execute')
         self.addCleanup(self.patcher.stop)
         self.mock_execute = self.patcher.start()

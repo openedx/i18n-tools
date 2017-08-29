@@ -2,15 +2,12 @@
 This test tests that i18n extraction works properly.
 """
 from datetime import datetime, timedelta
-import os
 import random
 import re
-import sys
 import string
-import subprocess
 
 from mock import patch
-from path import Path as path
+from path import Path
 from polib import pofile
 from pytz import UTC
 
@@ -23,18 +20,19 @@ class TestGenerate(I18nToolTestCase):
     """
     Tests functionality of i18n/generate.py
     """
-    def setUp(self, root_dir=MOCK_APPLICATION_DIR, preserve_locale_paths=None, clean_paths=None):
-        self.mock_path = os.path.join(MOCK_APPLICATION_DIR, "conf", "locale", "mock")
-        self.fr_path = os.path.join(MOCK_APPLICATION_DIR, "conf", "locale", "fr")
-        self.mock_mapped_path = os.path.join(MOCK_APPLICATION_DIR, "conf", "locale", "mock_mapped")
+    def setUp(self):
+        self.mock_path = Path.joinpath(MOCK_APPLICATION_DIR, "conf", "locale", "mock")
+        self.fr_path = Path.joinpath(MOCK_APPLICATION_DIR, "conf", "locale", "fr")
+        self.mock_mapped_path = Path.joinpath(MOCK_APPLICATION_DIR, "conf", "locale", "mock_mapped")
 
-        super(TestGenerate, self).setUp(
+        super(TestGenerate, self).setUp()
+        self._setup_i18n_test_config(
             preserve_locale_paths=(self.mock_path, self.fr_path),
-            clean_paths=(self.mock_mapped_path, )
+            clean_paths=(self.mock_mapped_path,)
         )
 
         # Subtract 1 second to help comparisons with file-modify time succeed,
-        # since os.path.getmtime() is not millisecond-accurate
+        # since Path.getmtime() is not millisecond-accurate
         self.start_time = datetime.now(UTC) - timedelta(seconds=1)
 
     def test_merge(self):
@@ -42,10 +40,10 @@ class TestGenerate(I18nToolTestCase):
         Tests merge script on English source files.
         """
         test_configuration = config.Configuration(root_dir=MOCK_DJANGO_APP_DIR)
-        filename = os.path.join(test_configuration.source_messages_dir, random_name())
+        filename = Path.joinpath(test_configuration.source_messages_dir, random_name())
         generate.merge(test_configuration, test_configuration.source_locale, target=filename)
-        self.assertTrue(os.path.exists(filename))
-        os.remove(filename)
+        self.assertTrue(Path.exists(filename))
+        Path.remove(filename)
 
     # Patch dummy_locales to not have esperanto present
     def test_main(self):
@@ -57,19 +55,19 @@ class TestGenerate(I18nToolTestCase):
         after start of test suite)
         """
         generate.main(verbose=0, strict=False, root_dir=MOCK_APPLICATION_DIR)
-        for locale in ['mock', ]:
+        for locale in ['mock']:
             for (filename, num_headers) in zip(('django', 'djangojs'), (6, 4)):
                 mofile = filename + '.mo'
-                file_path = os.path.join(self.configuration.get_messages_dir(locale), mofile)
-                exists = os.path.exists(file_path)
+                file_path = Path.joinpath(self.configuration.get_messages_dir(locale), mofile)
+                exists = Path.exists(file_path)
                 self.assertTrue(exists, msg='Missing file in locale %s: %s' % (locale, mofile))
                 self.assertTrue(
-                    datetime.fromtimestamp(os.path.getmtime(file_path), UTC) >= self.start_time,
+                    datetime.fromtimestamp(Path.getmtime(file_path), UTC) >= self.start_time,
                     msg='File should be recently modified: %s' % file_path
                 )
 
                 # Assert merge headers look right
-                file_path = os.path.join(self.configuration.get_messages_dir(locale), filename + '.po')
+                file_path = Path.joinpath(self.configuration.get_messages_dir(locale), filename + '.po')
                 self.assert_merge_headers(file_path, num_headers)
 
     def assert_merge_headers(self, file_path, num_headers):
@@ -94,9 +92,9 @@ class TestGenerate(I18nToolTestCase):
 
     @patch('i18n.generate.LOG')
     def test_resolve_merge_conflicts(self, mock_log):
-        django_po_path = os.path.join(self.configuration.get_messages_dir('mock'), 'django.po')
+        django_po_path = Path.joinpath(self.configuration.get_messages_dir('mock'), 'django.po')
         # File ought to have been generated in test_main
-        # if not os.path.exists(django_po_path):
+        # if not Path.exists(django_po_path):
         generate.main(verbose=0, strict=False, root_dir=MOCK_APPLICATION_DIR)
 
         with open(django_po_path, 'r') as django_po_file:
@@ -123,7 +121,7 @@ class TestGenerate(I18nToolTestCase):
             source_dirname = self.configuration.get_messages_dir(source_locale)
             dest_dirname = self.configuration.get_messages_dir(dest_locale)
 
-            self.assertTrue(path.exists(dest_dirname))
+            self.assertTrue(Path.exists(dest_dirname))
             from filecmp import dircmp
 
             diff = dircmp(source_dirname, dest_dirname)

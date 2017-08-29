@@ -13,8 +13,9 @@ class TestChanged(I18nToolTestCase):
     """
     Tests functionality of i18n/changed.py
     """
-    def setUp(self, root_dir=MOCK_APPLICATION_DIR, preserve_locale_paths=None, clean_paths=None):
+    def setUp(self):
         super(TestChanged, self).setUp()
+        self._setup_i18n_test_config()
         self.changed = Changed()
 
     def test_detect_changes(self):
