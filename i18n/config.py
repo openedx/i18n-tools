@@ -27,6 +27,7 @@ class Configuration(object):
         'source_locale': 'en',
         'third_party': [],
         'TRANSIFEX_URL': 'https://www.transifex.com/open-edx/edx-platform/',
+        'edx_lang_map': {},
     }
 
     def __init__(self, filename=None, root_dir=None):

@@ -56,7 +56,10 @@ class Extract(Runner):
         """
         Rename a file in the source directory.
         """
-        os.rename(self.source_msgs_dir.joinpath(src), self.source_msgs_dir.joinpath(dst))
+        try:
+            os.rename(self.source_msgs_dir.joinpath(src), self.source_msgs_dir.joinpath(dst))
+        except OSError:
+            pass
 
     def run(self, args):
         """
@@ -158,7 +161,7 @@ class Extract(Runner):
             execute(babel_cmd, working_directory=app_dir, stderr=stderr)
 
         # Segment the generated files.
-        segmented_files = segment_pofiles(configuration, "en")
+        segmented_files = segment_pofiles(configuration, configuration.source_locale)
         files_to_clean.update(segmented_files)
 
         # Finish each file.

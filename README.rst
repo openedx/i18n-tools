@@ -85,6 +85,10 @@ Details of the config.yaml file are in `edx-platform/conf/locale/config.yaml
 
 Changes
 =======
+v0.3.10
+-------
+
+* Add support for edx_lang_map in config.yaml to share translations across language codes.
 
 v0.3.9
 ------

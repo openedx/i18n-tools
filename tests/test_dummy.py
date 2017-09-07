@@ -6,7 +6,7 @@ from polib import POEntry
 
 from i18n import dummy
 
-from . import I18nToolTestCase
+from . import I18nToolTestCase,MOCK_APPLICATION_DIR
 
 
 @ddt.ddt
@@ -16,6 +16,7 @@ class TestDummy(I18nToolTestCase):
     """
 
     def setUp(self):
+        super(TestDummy, self).setUp()
         self.converter = dummy.Dummy()
 
     def assertUnicodeEquals(self, str1, str2):

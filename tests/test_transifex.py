@@ -17,6 +17,7 @@ class TestTransifex(I18nToolTestCase):
 
     def setUp(self):
         super(TestTransifex, self).setUp()
+        self._setup_i18n_test_config()
         self.patcher = mock.patch('i18n.transifex.execute')
         self.addCleanup(self.patcher.stop)
         self.mock_execute = self.patcher.start()
@@ -57,8 +58,8 @@ class TestTransifex(I18nToolTestCase):
         # Call the pull command
         transifex.pull(self.configuration)
 
-        # conf/locale/config.yaml specifies two non-source locales, 'fr' and 'zh_CN'
         call_args = [
+            ('tx pull -f --mode=reviewed -l en',),
             ('tx pull -f --mode=reviewed -l fr',),
             ('tx pull -f --mode=reviewed -l zh_CN',),
         ]
@@ -73,6 +74,8 @@ class TestTransifex(I18nToolTestCase):
 
         # conf/locale/config.yaml specifies two non-source locales, 'fr' and 'zh_CN'
         call_args = [
+            ('tx pull -f --mode=reviewed -l en -r foo.1',),
+            ('tx pull -f --mode=reviewed -l en -r foo.2',),
             ('tx pull -f --mode=reviewed -l fr -r foo.1',),
             ('tx pull -f --mode=reviewed -l fr -r foo.2',),
             ('tx pull -f --mode=reviewed -l zh_CN -r foo.1',),
