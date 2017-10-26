@@ -22,7 +22,11 @@ log = logging.getLogger(__name__)
 def validate_po_files(configuration, locale_dir, root_dir=None, report_empty=False):
     """
     Validate all of the po files found in the root directory that are not product of a merge.
+
+    Returns a boolean indicating whether or not problems were found.
     """
+    found_problems = False
+
     # List of .po files that are the product of a merge (see generate.py).
     merged_files = configuration.generate_merge.keys()
 
@@ -36,26 +40,47 @@ def validate_po_files(configuration, locale_dir, root_dir=None, report_empty=Fal
             if ext.lower() == '.po' and os.path.basename(filename) not in merged_files:
 
                 # First validate the format of this file
-                msgfmt_check_po_file(locale_dir, filename)
+                if msgfmt_check_po_file(locale_dir, filename):
+                    found_problems = True
 
                 # Check that the translated strings are valid, and optionally
                 # check for empty translations. But don't check English.
                 if "/locale/en/" not in filename:
                     problems = check_messages(filename, report_empty)
-                    report_problems(filename, problems)
+                    if problems:
+                        report_problems(filename, problems)
+                        found_problems = True
+
+                    dup_filename = filename.replace('.po', '.dup')
+                    has_duplicates = os.path.exists(dup_filename)
+                    if has_duplicates:
+                        log.warning(" Duplicates found in %s, details in .dup file", dup_filename)
+                        found_problems = True
+
+                    if not (problems or has_duplicates):
+                        log.info(" No problems found in %s", filename)
+
+    return found_problems
 
 
 def msgfmt_check_po_file(locale_dir, filename):
     """
     Call GNU msgfmt -c on each .po file to validate its format.
     Any errors caught by msgfmt are logged to log.
+
+    Returns a boolean indicating whether or not problems were found.
     """
+    found_problems = False
+
     # Use relative paths to make output less noisy.
     rfile = os.path.relpath(filename, locale_dir)
     out, err = call('msgfmt -c -o /dev/null {}'.format(rfile), working_directory=locale_dir)
     if err:
         log.info(u'\n' + out.decode('utf8'))
         log.warning(u'\n' + err.decode('utf8'))
+        found_problems = True
+
+    return found_problems
 
 
 def tags_in_string(msg):
@@ -161,24 +186,18 @@ def report_problems(filename, problems):
     `problems` is a list of tuples as returned by `check_messages`.
 
     """
-    if problems:
-        problem_file = filename.replace(".po", ".prob")
-        id_filler = textwrap.TextWrapper(width=79, initial_indent="  msgid: ", subsequent_indent=" " * 9)
-        tx_filler = textwrap.TextWrapper(width=79, initial_indent="  -----> ", subsequent_indent=" " * 9)
-        with codecs.open(problem_file, "w", encoding="utf8") as prob_file:
-            for problem in problems:
-                desc, msgid = problem[:2]
-                prob_file.write(u"{}\n{}\n".format(desc, id_filler.fill(msgid)))
-                for translation in problem[2:]:
-                    prob_file.write(u"{}\n".format(tx_filler.fill(translation)))
-                prob_file.write(u"\n")
+    problem_file = filename.replace(".po", ".prob")
+    id_filler = textwrap.TextWrapper(width=79, initial_indent="  msgid: ", subsequent_indent=" " * 9)
+    tx_filler = textwrap.TextWrapper(width=79, initial_indent="  -----> ", subsequent_indent=" " * 9)
+    with codecs.open(problem_file, "w", encoding="utf8") as prob_file:
+        for problem in problems:
+            desc, msgid = problem[:2]
+            prob_file.write(u"{}\n{}\n".format(desc, id_filler.fill(msgid)))
+            for translation in problem[2:]:
+                prob_file.write(u"{}\n".format(tx_filler.fill(translation)))
+            prob_file.write(u"\n")
 
-        log.error(" %s problems in %s, details in .prob file", len(problems), filename)
-    else:
-        dup_filename = filename.replace('.po', '.dup')
-        if os.path.exists(dup_filename):
-            log.warning(" Duplicates found in %s, details in .dup file", dup_filename)
-        log.info(" No problems found in %s", filename)
+    log.error(" %s problems in %s, details in .prob file", len(problems), filename)
 
 
 class Validate(Runner):
@@ -206,7 +225,11 @@ class Validate(Runner):
     def run(self, args):
         """
         Main entry point for script
+
+        Returns an integer representing the exit code that should be returned by the script.
         """
+        exit_code = 0
+
         if args.verbose:
             log_level = logging.INFO
         else:
@@ -215,9 +238,11 @@ class Validate(Runner):
 
         languages = args.language or []
         locale_dir = self.configuration.locale_dir
+
         if not languages:
             # validate all languages
-            validate_po_files(self.configuration, locale_dir, args.empty)
+            if validate_po_files(self.configuration, locale_dir, args.empty):
+                exit_code = 1
         else:
             # languages will be a list of language codes; test each language.
             for language in languages:
@@ -227,11 +252,15 @@ class Validate(Runner):
                     log.error(" %s is not a valid directory.\nSkipping language '%s'", root_dir, language)
                     continue
                 # If we found the language code's directory, validate the files.
-                validate_po_files(self.configuration, locale_dir, root_dir=root_dir, report_empty=args.empty)
+                if validate_po_files(self.configuration, locale_dir, root_dir=root_dir, report_empty=args.empty):
+                    exit_code = 1
+
+        return exit_code
 
 main = Validate()  # pylint: disable=invalid-name
 
 if __name__ == '__main__':
     print("Validating languages...")
-    main()
+    exit_code = main()
     print("Finished validating languages")
+    sys.exit(exit_code)
