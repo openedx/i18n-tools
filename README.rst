@@ -85,6 +85,11 @@ Details of the config.yaml file are in `edx-platform/conf/locale/config.yaml
 
 Changes
 =======
+v0.4.0
+-------
+
+* The validate command returns a non-zero exit code when problems are detected with the translation files.
+
 v0.3.10
 -------
 
