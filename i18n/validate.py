@@ -241,7 +241,7 @@ class Validate(Runner):
 
         if not languages:
             # validate all languages
-            if validate_po_files(self.configuration, locale_dir, args.empty):
+            if validate_po_files(self.configuration, locale_dir, report_empty=args.empty):
                 exit_code = 1
         else:
             # languages will be a list of language codes; test each language.
