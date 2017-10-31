@@ -85,6 +85,11 @@ Details of the config.yaml file are in `edx-platform/conf/locale/config.yaml
 
 Changes
 =======
+v0.4.1
+-------
+
+* Fixes bug preventing the use of --empty with The validate command.
+
 v0.4.0
 -------
 
