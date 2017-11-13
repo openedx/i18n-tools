@@ -85,6 +85,11 @@ Details of the config.yaml file are in `edx-platform/conf/locale/config.yaml
 
 Changes
 =======
+0.4.2
+-------
+
+* Specified utf-8 encoding for .yaml file.
+
 v0.4.1
 -------
 
