@@ -1,6 +1,7 @@
 """
 Reads configuration specifications.
 """
+import io
 import os
 
 import yaml
@@ -59,7 +60,7 @@ class Configuration(object):
         """
         if not os.path.exists(filename):
             raise Exception("Configuration file cannot be found: %s" % filename)
-        with open(filename) as stream:
+        with io.open(filename, encoding='UTF-8') as stream:
             return yaml.safe_load(stream)
 
     def __getattr__(self, name):
