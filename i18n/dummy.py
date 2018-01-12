@@ -202,6 +202,8 @@ def make_dummy(filename, locale, converter):
             continue
         converter.convert_msg(msg)
 
+    pofile.metadata['Language'] = locale
+
     # Apply declaration for English pluralization rules so that ngettext will
     # do something reasonable.
     pofile.metadata['Plural-Forms'] = 'nplurals=2; plural=(n != 1);'

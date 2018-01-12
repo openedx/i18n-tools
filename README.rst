@@ -85,6 +85,11 @@ Details of the config.yaml file are in `edx-platform/conf/locale/config.yaml
 
 Changes
 =======
+0.4.3
+-------
+
+* Specify Language header for generated dummy po files.
+
 0.4.2
 -------
 
