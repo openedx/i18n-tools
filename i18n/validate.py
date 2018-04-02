@@ -19,7 +19,7 @@ from i18n import Runner
 log = logging.getLogger(__name__)
 
 
-def validate_po_files(configuration, locale_dir, root_dir=None, report_empty=False):
+def validate_po_files(configuration, locale_dir, root_dir=None, report_empty=False, check_all=False):
     """
     Validate all of the po files found in the root directory that are not product of a merge.
 
@@ -35,9 +35,9 @@ def validate_po_files(configuration, locale_dir, root_dir=None, report_empty=Fal
             __, ext = os.path.splitext(name)
             filename = os.path.join(dirpath, name)
 
-            # Validate only .po files that are not product of a merge (see generate.py).
+            # Validate only .po files that are not product of a merge (see generate.py) unless check_all is true.
             # If django-partial.po has a problem, then django.po will also, so don't report it.
-            if ext.lower() == '.po' and os.path.basename(filename) not in merged_files:
+            if ext.lower() == '.po' and (check_all or os.path.basename(filename) not in merged_files):
 
                 # First validate the format of this file
                 if msgfmt_check_po_file(locale_dir, filename):
@@ -222,6 +222,12 @@ class Validate(Runner):
             help="Includes empty translation strings in .prob files."
         )
 
+        self.parser.add_argument(
+            '-ca', '--check-all',
+            action='store_true',
+            help="Validate all po files, including those that are the product of a merge (see generate.py)."
+        )
+
     def run(self, args):
         """
         Main entry point for script
@@ -241,7 +247,7 @@ class Validate(Runner):
 
         if not languages:
             # validate all languages
-            if validate_po_files(self.configuration, locale_dir, report_empty=args.empty):
+            if validate_po_files(self.configuration, locale_dir, report_empty=args.empty, check_all=args.check_all):
                 exit_code = 1
         else:
             # languages will be a list of language codes; test each language.
@@ -252,7 +258,8 @@ class Validate(Runner):
                     log.error(" %s is not a valid directory.\nSkipping language '%s'", root_dir, language)
                     continue
                 # If we found the language code's directory, validate the files.
-                if validate_po_files(self.configuration, locale_dir, root_dir=root_dir, report_empty=args.empty):
+                if validate_po_files(self.configuration, locale_dir, root_dir=root_dir, report_empty=args.empty,
+                                     check_all=args.check_all):
                     exit_code = 1
 
         return exit_code
