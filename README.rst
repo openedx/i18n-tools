@@ -85,12 +85,17 @@ Details of the config.yaml file are in `edx-platform/conf/locale/config.yaml
 
 Changes
 =======
-0.4.3
+v0.4.4
+-------
+
+* Added check-all (check all po files) argument to validate command.
+
+v0.4.3
 -------
 
 * Specify Language header for generated dummy po files.
 
-0.4.2
+v0.4.2
 -------
 
 * Specified utf-8 encoding for .yaml file.
