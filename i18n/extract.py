@@ -128,8 +128,8 @@ class Extract(Runner):
         make_django_cmd = makemessages + ' -d django'
         execute(make_django_cmd, working_directory=configuration.root_dir, stderr=stderr)
 
-        # Extract strings from Javascript source files (*.js).
-        make_djangojs_cmd = makemessages + ' -d djangojs'
+        # Extract strings from Javascript source files (*.js, *jsx).
+        make_djangojs_cmd = makemessages + ' -d djangojs -e js,jsx'
         execute(make_djangojs_cmd, working_directory=configuration.root_dir, stderr=stderr)
 
         # makemessages creates 'django.po'. This filename is hardcoded.
