@@ -85,6 +85,11 @@ Details of the config.yaml file are in `edx-platform/conf/locale/config.yaml
 
 Changes
 =======
+v0.4.5
+-------
+
+* Extract from .jsx files too.
+
 v0.4.4
 -------
 
