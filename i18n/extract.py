@@ -241,6 +241,7 @@ def fix_metadata(pofile):
         'Language': 'en',
         'Last-Translator': '',
         'Language-Team': 'openedx-translation <openedx-translation@googlegroups.com>',
+        'Plural-Forms': 'nplurals=2; plural=(n != 1);',
     }
     pofile.metadata.update(fixes)
 

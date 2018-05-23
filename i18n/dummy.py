@@ -46,10 +46,10 @@ class BaseDummyConverter(Converter):
     String conversion goes through a character map, then gets padded.
 
     """
-    TABLE = {}
+    TABLE = []
 
     def inner_convert_string(self, string):
-        for old, new in self.TABLE.items():
+        for old, new in self.TABLE:
             string = string.replace(old, new)
         return self.pad(string)
 
@@ -131,7 +131,7 @@ class Dummy(BaseDummyConverter):
     """
     # Substitute plain characters with accented lookalikes.
     # http://tlt.its.psu.edu/suggestions/international/web/codehtml.html#accent
-    TABLE = dict(zip(
+    TABLE = list(zip(
         u"AabCcEeIiOoUuYy",
         u"ÀäßÇçÉéÌïÖöÛüÝý"
     ))
@@ -171,7 +171,7 @@ class Dummy2(BaseDummyConverter):
     Strikes-through many letters, and turns lower-case letters upside-down.
 
     """
-    TABLE = dict(zip(
+    TABLE = list(zip(
         u"ABCDEGHIJKLOPRTUYZabcdefghijklmnopqrstuvwxyz",
         u"ȺɃȻĐɆǤĦƗɈꝀŁØⱣɌŦɄɎƵɐqɔpǝɟƃɥᴉɾʞlɯuødbɹsʇnʌʍxʎz"
     ))
@@ -181,7 +181,7 @@ class ArabicDummy(BaseDummyConverter):
     """
     A dummy converter for an RTL-like language.
     """
-    TABLE = dict(zip(
+    TABLE = list(zip(
         u"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
         u"شزذيثبلاهتنمورخحضقسفعدصطغظشزذيثبلاهتنمورخحضقسفعدصطغظ"
     ))

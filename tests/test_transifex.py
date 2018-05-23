@@ -59,9 +59,9 @@ class TestTransifex(I18nToolTestCase):
         transifex.pull(self.configuration)
 
         call_args = [
-            ('tx pull -f --mode=reviewed -l en',),
-            ('tx pull -f --mode=reviewed -l fr',),
-            ('tx pull -f --mode=reviewed -l zh_CN',),
+            ('tx pull -f --mode=reviewed --minimum-perc=10 -l en',),
+            ('tx pull -f --mode=reviewed --minimum-perc=10 -l fr',),
+            ('tx pull -f --mode=reviewed --minimum-perc=10 -l zh_CN',),
         ]
         self.assertEqual(
             call_args,
@@ -74,12 +74,12 @@ class TestTransifex(I18nToolTestCase):
 
         # conf/locale/config.yaml specifies two non-source locales, 'fr' and 'zh_CN'
         call_args = [
-            ('tx pull -f --mode=reviewed -l en -r foo.1',),
-            ('tx pull -f --mode=reviewed -l en -r foo.2',),
-            ('tx pull -f --mode=reviewed -l fr -r foo.1',),
-            ('tx pull -f --mode=reviewed -l fr -r foo.2',),
-            ('tx pull -f --mode=reviewed -l zh_CN -r foo.1',),
-            ('tx pull -f --mode=reviewed -l zh_CN -r foo.2',),
+            ('tx pull -f --mode=reviewed --minimum-perc=10 -l en -r foo.1',),
+            ('tx pull -f --mode=reviewed --minimum-perc=10 -l en -r foo.2',),
+            ('tx pull -f --mode=reviewed --minimum-perc=10 -l fr -r foo.1',),
+            ('tx pull -f --mode=reviewed --minimum-perc=10 -l fr -r foo.2',),
+            ('tx pull -f --mode=reviewed --minimum-perc=10 -l zh_CN -r foo.1',),
+            ('tx pull -f --mode=reviewed --minimum-perc=10 -l zh_CN -r foo.2',),
         ]
         self.assertEqual(
             call_args,
@@ -102,10 +102,6 @@ class TestTransifex(I18nToolTestCase):
     def test_clean_locale(self):
         with mock.patch('i18n.transifex.clean_file') as patched:
             transifex.clean_locale(self.configuration, 'fr')
-            self.assertEqual(3, patched.call_count)
-            call_args = ['django-partial.po', 'djangojs-partial.po', 'mako.po']
-            for callarg, expected in zip(patched.call_args_list, call_args):
-                self.assertEqual(
-                    callarg[0][1].name,
-                    expected
-                )
+            self.assertEqual(12, patched.call_count)
+            for callarg in patched.call_args_list:
+                self.assertRegexpMatches(callarg[0][1].name, '.*\.po')

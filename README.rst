@@ -85,6 +85,24 @@ Details of the config.yaml file are in `edx-platform/conf/locale/config.yaml
 
 Changes
 =======
+v0.4.6
+-------
+
+* Ensure that we only pull files from Transifex that are 10% done.
+  Avoids a problem with our validation code choking on empty po files
+  and avoids translations that are just getting started.
+
+* Don't complain about obviously missing files when cleaning
+  the headers of just-pulled files, and make sure that we do
+  notice the files we did actually pull.
+
+* Ensure that Plural-Forms has a valid value when extracting.
+  python-gettext will choke otherwise.
+
+* When creating a dummy po file, don't garble source strings in
+  a way that relies on the Python dictionary order. This way the
+  result will always be the same no matter the machine.
+
 v0.4.5
 -------
 
