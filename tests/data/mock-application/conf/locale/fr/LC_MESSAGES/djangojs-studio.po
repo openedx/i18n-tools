@@ -1,8 +1,8 @@
-# edX translation file.
+# edX community translations have been downloaded from openedx-translation <openedx-translation@googlegroups.com>.
 # Copyright (C) 2015 EdX
 # This file is distributed under the GNU AFFERO GENERAL PUBLIC LICENSE.
 # EdX Team <info@edx.org>, 2015.
-# 
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: 0.1a\n"

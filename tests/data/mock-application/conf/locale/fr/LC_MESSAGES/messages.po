@@ -1,7 +1,7 @@
-# edX translation file
+# edX community translations have been downloaded from translation team <translation_team@edx.org>
 # Copyright (C) 2013 edX
 # This file is distributed under the GNU AFFERO GENERAL PUBLIC LICENSE.
-# 
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: EdX Studio\n"
