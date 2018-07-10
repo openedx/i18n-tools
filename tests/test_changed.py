@@ -26,6 +26,7 @@ class TestChanged(I18nToolTestCase):
         file_name = fake_locale_dir / 'LC_MESSAGES' / 'mako.po'
         copy = fake_locale_dir / 'LC_MESSAGES' / 'mako_copy.po'
 
+        # Note: this fails if you have not-yet-committed changes to test fixture .po files
         self.assertFalse(self.changed.detect_changes())
 
         try:

@@ -161,8 +161,8 @@ def check_messages(filename, report_empty=False):
 
             # Check if tags don't match
             if id_tags != tx_tags:
-                id_has = u", ".join(u'"{}"'.format(t) for t in id_tags - tx_tags)
-                tx_has = u", ".join(u'"{}"'.format(t) for t in tx_tags - id_tags)
+                id_has = u", ".join(sorted(u'"{}"'.format(t) for t in id_tags - tx_tags))
+                tx_has = u", ".join(sorted(u'"{}"'.format(t) for t in tx_tags - id_tags))
                 if id_has and tx_has:
                     diff = u"{} vs {}".format(id_has, tx_has)
                 elif id_has:
