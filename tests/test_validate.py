@@ -37,6 +37,12 @@ VALIDATION_PROBLEMS = [
         u'"{two}" added',
     ),
     (
+        'Different tags in source and translation',
+        'No tags',
+        "Added some <a href='https://en.wikipedia.org/wiki/HTML'>HTML</a>",
+        '"</a>", "<a href=\'https://en.wikipedia.org/wiki/HTML\'>" added'
+    ),
+    (
         'Non-BMP char',
         u'Astral character (pile of poo), bad for JavaScript: \U0001f4a9',
         u'Astral character (pile of poo), bad for JavaScript: \U0001f4a9',

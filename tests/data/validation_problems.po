@@ -22,6 +22,10 @@ msgstr "One tag: {one} and not two"
 msgid "One tag: {one}"
 msgstr "Two tags: {one} and {two}"
 
+# HTML added to translations could create cross-site security issues
+msgid "No tags"
+msgstr "Added some <a href='https://en.wikipedia.org/wiki/HTML'>HTML</a>"
+
 # TODO: This doesn't raise a validation error: the characters comes through as
 # a surrogate pair, and so isn't a problem.  So are astral characters a
 # problem?
@@ -72,5 +76,6 @@ msgstr ""
 msgid "Look &mdash; a dog!"
 msgstr "Look -- a dog!"
 
+# <abbr> could come-and-go with translations
 msgid "The <abbr>CIA</abbr> said so"
 msgstr "The secret agency said so"
