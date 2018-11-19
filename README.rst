@@ -85,6 +85,12 @@ Details of the config.yaml file are in `edx-platform/conf/locale/config.yaml
 
 Changes
 =======
+v0.4.8
+-------
+
+* Updated transifex to pull files from Transifex that are atleast 3% done
+  previous value was 10%.
+
 v0.4.7
 -------
 
