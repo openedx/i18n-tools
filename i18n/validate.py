@@ -193,8 +193,11 @@ def report_problems(filename, problems):
         for problem in problems:
             desc, msgid = problem[:2]
             prob_file.write(u"{}\n{}\n".format(desc, id_filler.fill(msgid)))
+            info = u"{}\n{}\n".format(desc, id_filler.fill(msgid))
             for translation in problem[2:]:
                 prob_file.write(u"{}\n".format(tx_filler.fill(translation)))
+                info += u"{}\n".format(tx_filler.fill(translation))
+            log.info(info)
             prob_file.write(u"\n")
 
     log.error(" %s problems in %s, details in .prob file", len(problems), filename)

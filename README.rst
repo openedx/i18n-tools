@@ -85,6 +85,11 @@ Details of the config.yaml file are in `edx-platform/conf/locale/config.yaml
 
 Changes
 =======
+v0.4.9
+-------
+
+* Updated validate to log problems found in translations.
+
 v0.4.8
 -------
 
