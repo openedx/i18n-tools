@@ -1,9 +1,12 @@
 # This file describes this Open edX repo, as described in OEP-2:
 # http://open-edx-proposals.readthedocs.io/en/latest/oeps/oep-0002.html#specification
 
-hidden-contributors: [sarina, wedaly, straz, adampalay, cpennington]
 nick: i18n
-oeps: {}
 owner: edx/openedx-tooling
-tags: [tools]
-track-pulls: true
+tags:
+    - tools
+    - library
+
+oeps:
+    oep-7: true
+    oep-18: false
