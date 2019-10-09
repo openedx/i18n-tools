@@ -122,7 +122,7 @@ def clean_locale(configuration, locale):
         # Happens when we have a supported locale that doesn't exist in Transifex
         return
     for filename in dirname.files('*.po'):
-        clean_file(configuration, dirname.joinpath(filename))
+        clean_file(configuration, filename)
 
 
 def clean_file(configuration, filename):
