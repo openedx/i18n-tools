@@ -49,6 +49,7 @@ class Changed(Runner):
 
         return msg
 
+
 main = Changed()  # pylint: disable=invalid-name
 
 if __name__ == '__main__':

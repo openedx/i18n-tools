@@ -54,11 +54,11 @@ def validate_po_files(configuration, locale_dir, root_dir=None, report_empty=Fal
                     dup_filename = filename.replace('.po', '.dup')
                     has_duplicates = os.path.exists(dup_filename)
                     if has_duplicates:
-                        log.warning(" Duplicates found in %s, details in .dup file", dup_filename)
+                        log.warning(u"Duplicates found in %s, details in .dup file", dup_filename)
                         found_problems = True
 
                     if not (problems or has_duplicates):
-                        log.info(" No problems found in %s", filename)
+                        log.info(u"No problems found in %s", filename)
 
     return found_problems
 
@@ -74,10 +74,10 @@ def msgfmt_check_po_file(locale_dir, filename):
 
     # Use relative paths to make output less noisy.
     rfile = os.path.relpath(filename, locale_dir)
-    out, err = call('msgfmt -c -o /dev/null {}'.format(rfile), working_directory=locale_dir)
+    out, err = call(u'msgfmt -c -o /dev/null {}'.format(rfile), working_directory=locale_dir)
     if err:
-        log.info(u'\n' + out.decode('utf8'))
-        log.warning(u'\n' + err.decode('utf8'))
+        log.info(u'\n{}'.format(out.decode('utf8')))
+        log.warning(u'\n{}'.format(err.decode('utf8')))
         found_problems = True
 
     return found_problems
@@ -200,7 +200,7 @@ def report_problems(filename, problems):
             log.info(info)
             prob_file.write(u"\n")
 
-    log.error(" %s problems in %s, details in .prob file", len(problems), filename)
+    log.error(u"%s problems in %s, details in .prob file", len(problems), filename)
 
 
 class Validate(Runner):
@@ -237,7 +237,7 @@ class Validate(Runner):
 
         Returns an integer representing the exit code that should be returned by the script.
         """
-        exit_code = 0
+        command_exit_code = 0
 
         if args.verbose:
             log_level = logging.INFO
@@ -251,21 +251,22 @@ class Validate(Runner):
         if not languages:
             # validate all languages
             if validate_po_files(self.configuration, locale_dir, report_empty=args.empty, check_all=args.check_all):
-                exit_code = 1
+                command_exit_code = 1
         else:
             # languages will be a list of language codes; test each language.
             for language in languages:
                 root_dir = self.configuration.locale_dir / language
                 # Assert that a directory for this language code exists on the system
                 if not root_dir.isdir():
-                    log.error(" %s is not a valid directory.\nSkipping language '%s'", root_dir, language)
+                    log.error(u"%s is not a valid directory.\nSkipping language '%s'", root_dir, language)
                     continue
                 # If we found the language code's directory, validate the files.
                 if validate_po_files(self.configuration, locale_dir, root_dir=root_dir, report_empty=args.empty,
                                      check_all=args.check_all):
-                    exit_code = 1
+                    command_exit_code = 1
 
-        return exit_code
+        return command_exit_code
+
 
 main = Validate()  # pylint: disable=invalid-name
 

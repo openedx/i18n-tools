@@ -41,11 +41,11 @@ def merge(configuration, locale, target='django.po', sources=('django-partial.po
     just return silently.
 
     """
-    LOG.info('Merging %s locale %s', target, locale)
+    LOG.info(u'Merging %s locale %s', target, locale)
     locale_directory = configuration.get_messages_dir(locale)
     try:
         validate_files(locale_directory, sources)
-    except Exception:  # pylint: disable=broad-except
+    except Exception:
         if not fail_if_missing:
             return
         raise
@@ -69,7 +69,7 @@ def merge(configuration, locale, target='django.po', sources=('django-partial.po
             for (entry, translations) in duplicate_entries:
                 dfile.write(u"{}\n".format(entry))
                 dfile.write(u"Translations found were:\n\t{}\n\n".format(translations))
-        LOG.warning(" %s duplicates in %s, details in .dup file", len(duplicate_entries), target_filename)
+        LOG.warning(u" %s duplicates in %s, details in .dup file", len(duplicate_entries), target_filename)
 
 
 def merge_files(configuration, locale, fail_if_missing=True):
@@ -107,7 +107,7 @@ def clean_pofile(pofile_path):
             # Remove fuzzy from flags
             entry.flags = [f for f in entry.flags if f != 'fuzzy']
             # Save a warning message
-            dup_msg = 'Multiple translations found for single string.\n\tString "{0}"\n\tPresent in files {1}'.format(
+            dup_msg = u'Multiple translations found for single string.\n\tString "{0}"\n\tPresent in files {1}'.format(
                 entry.msgid,
                 [f for (f, __) in entry.occurrences]
             )
@@ -125,7 +125,7 @@ def clean_pofile(pofile_path):
                     if entry.msgid.startswith('\n') or entry.msgid.endswith('\n'):
                         raise ValueError(
                             u'{} starts or ends with a new line character, which is not allowed. '
-                            'Please fix before continuing. Source string is found in {}'.format(
+                            u'Please fix before continuing. Source string is found in {}'.format(
                                 entry.msgid, entry.occurrences
                             ).encode('utf-8')
                         )
@@ -145,7 +145,7 @@ def validate_files(directory, files_to_merge):
     for file_path in files_to_merge:
         pathname = directory.joinpath(file_path)
         if not pathname.exists():
-            raise Exception("I18N: Cannot generate because file not found: {0}".format(pathname))
+            raise Exception(u"I18N: Cannot generate because file not found: {0}".format(pathname))
         # clean sources
         clean_pofile(pathname)
 
@@ -181,7 +181,7 @@ class Generate(Runner):
         if configuration.source_locale not in langs:
             merge_files(configuration, configuration.source_locale, fail_if_missing=args.strict)
 
-        compile_cmd = 'django-admin.py compilemessages -v{}'.format(args.verbose)
+        compile_cmd = u'django-admin.py compilemessages -v{}'.format(args.verbose)
         if args.verbose:
             stderr = None
         else:
@@ -192,7 +192,7 @@ class Generate(Runner):
         for source_locale, dest_locale in configuration.edx_lang_map.items():
             source_dirname = configuration.get_messages_dir(source_locale)
             dest_dirname = configuration.get_messages_dir(dest_locale)
-            LOG.info("Copying mapped locale %s to %s", source_dirname, dest_dirname)
+            LOG.info(u"Copying mapped locale %s to %s", source_dirname, dest_dirname)
 
             path.rmtree_p(path(dest_dirname))
             path.copytree(path(source_dirname), path(dest_dirname))

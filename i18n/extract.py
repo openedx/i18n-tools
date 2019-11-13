@@ -43,13 +43,12 @@ class Extract(Runner):
     def base(self, path1, *paths):
         """Return a relative path from config.BASE_DIR to path1 / paths[0] / ... """
         root_dir = self.configuration.root_dir
-        return root_dir.relpathto(path1.joinpath(*paths))  # pylint: disable=no-value-for-parameter
+        return root_dir.relpathto(path1.joinpath(*paths))
 
     def add_args(self):
         """
         Adds arguments
         """
-        # pylint: disable=invalid-name
         self.parser.description = __doc__
 
     def rename_source_file(self, src, dst):
@@ -94,9 +93,9 @@ class Extract(Runner):
         # in the `markey` module marks it as such and passes it to Babel.
         # (These functions are called in the django-babel-underscore module.)
         babel_cmd_template = (
-            'pybabel {verbosity} extract --mapping={config} '
-            '--add-comments="Translators:" --keyword="interpolate" '
-            '. --output={output}'
+            u'pybabel {verbosity} extract --mapping={config} '
+            u'--add-comments="Translators:" --keyword="interpolate" '
+            u'. --output={output}'
         )
 
         babel_mako_cfg = self.base(configuration.locale_dir, 'babel_mako.cfg')
@@ -119,7 +118,7 @@ class Extract(Runner):
 
             execute(babel_underscore_cmd, working_directory=configuration.root_dir, stderr=stderr)
 
-        makemessages = "django-admin.py makemessages -l en -v{}".format(args.verbose)
+        makemessages = u"django-admin.py makemessages -l en -v{}".format(args.verbose)
         ignores = " ".join('--ignore="{}/*"'.format(d) for d in configuration.ignore_dirs)
         if ignores:
             makemessages += " " + ignores
@@ -147,11 +146,11 @@ class Extract(Runner):
             # Import the app to find out where it is.  Then use pybabel to extract
             # from that directory.
             app_module = importlib.import_module(app_name)
-            app_dir = Path(app_module.__file__).dirname().dirname()  # pylint: disable=no-value-for-parameter
+            app_dir = Path(app_module.__file__).dirname().dirname()
             output_file = self.source_msgs_dir / (app_name + ".po")
             files_to_clean.add(output_file)
 
-            babel_cmd = 'pybabel {verbosity} extract -F {config} -c "Translators:" {app} -o {output}'
+            babel_cmd = u'pybabel {verbosity} extract -F {config} -c "Translators:" {app} -o {output}'
             babel_cmd = babel_cmd.format(
                 verbosity=babel_verbosity,
                 config=configuration.locale_dir / 'babel_third_party.cfg',
@@ -166,7 +165,7 @@ class Extract(Runner):
 
         # Finish each file.
         for filename in files_to_clean:
-            LOG.info('Cleaning %s', filename)
+            LOG.info(u'Cleaning %s', filename)
             pofile = polib.pofile(self.source_msgs_dir.joinpath(filename))
             # replace default headers with edX headers
             fix_header(pofile)
@@ -262,6 +261,7 @@ def is_key_string(string):
     Key strings begin with underscore.
     """
     return len(string) > 1 and string[0] == '_'
+
 
 main = Extract()  # pylint: disable=invalid-name
 

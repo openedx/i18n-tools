@@ -1,0 +1,11 @@
+# pylintrc tweaks for use with edx_lint.
+[MASTER]
+ignore = migrations
+
+[FORMAT]
+max-line-length = 120
+
+
+[MESSAGES CONTROL]
+# Disable useless-object-inheritance
+disable+ = ,useless-object-inheritance

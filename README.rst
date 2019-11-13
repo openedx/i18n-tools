@@ -85,6 +85,11 @@ Details of the config.yaml file are in `edx-platform/conf/locale/config.yaml
 
 Changes
 =======
+v0.5.0
+-------
+
+* Added Django22 support.
+
 v0.4.9
 -------
 

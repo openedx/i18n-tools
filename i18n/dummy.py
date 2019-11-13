@@ -193,7 +193,7 @@ def make_dummy(filename, locale, converter):
     in :param locale: containing a dummy translation.
     """
     if not Path(filename).exists():
-        raise IOError('File does not exist: %r' % filename)
+        raise IOError(u'File does not exist: %r' % filename)
     pofile = polib.pofile(filename)
     for msg in pofile:
         # Some strings are actually formatting strings, don't dummy-ify them,
@@ -229,7 +229,6 @@ class DummyCommand(Runner):
         """
         Adds arguments
         """
-        # pylint: disable=invalid-name
         self.parser.description = __doc__
 
     def run(self, args):
@@ -239,13 +238,14 @@ class DummyCommand(Runner):
         configuration = self.configuration
         source_messages_dir = configuration.source_messages_dir
         for locale, converter in zip(configuration.dummy_locales, [Dummy(), Dummy2(), ArabicDummy()]):
-            print('Processing source language files into dummy strings, locale "{}"'.format(locale))
+            print(u'Processing source language files into dummy strings, locale "{}"'.format(locale))
             for source_file in configuration.source_messages_dir.walkfiles('*.po'):
                 if args.verbose:
                     print('   ', source_file.relpath())
                 make_dummy(source_messages_dir.joinpath(source_file), locale, converter)
         if args.verbose:
             print()
+
 
 main = DummyCommand()  # pylint: disable=invalid-name
 
