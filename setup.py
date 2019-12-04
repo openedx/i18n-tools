@@ -4,7 +4,7 @@ from setuptools import setup
 
 setup(
     name='edx-i18n-tools',
-    version='0.4.9',
+    version='0.4.10',
     description='edX Internationalization Tools',
     author='edX',
     author_email='oscm@edx.org',
@@ -15,7 +15,7 @@ setup(
     install_requires=[
         'django>=1.8,<2.0',
         'polib',
-        'path.py>=7.0',
+        'path>=13.0',
         'pyYaml',
         'six',
     ],
