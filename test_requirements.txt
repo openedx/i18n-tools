@@ -2,7 +2,7 @@ coverage
 ddt
 mock
 nose
-pep8
-pylint
+pycodestyle
+edx-lint
 pytz
 tox

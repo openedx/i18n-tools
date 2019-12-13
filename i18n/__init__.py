@@ -6,10 +6,10 @@ import sys
 
 from . import config
 
-__version__ = '0.4.9'
+__version__ = '0.5.0'
 
 
-class Runner:
+class Runner(object):
     """
     Runner class for internationalization.
     """
@@ -33,7 +33,6 @@ class Runner:
         """
         Add arguments
         """
-        pass
 
     def run(self, args):
         """

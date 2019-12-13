@@ -5,7 +5,7 @@ Functions to pull down & push up .po files from/to transifex
 from __future__ import print_function
 
 import polib
-from six.moves import input         # pylint: disable=redefined-builtin
+from six.moves import input
 
 from i18n import Runner
 from i18n.execute import execute
@@ -21,7 +21,7 @@ def push(*resources):
     Arguments name specific resources to push. Otherwise, push all the source
     files.
     """
-    cmd = 'tx push -s'
+    cmd = u'tx push -s'
     if resources:
         for resource in resources:
             execute(cmd + ' -r {resource}'.format(resource=resource))
@@ -56,7 +56,7 @@ def pull(configuration, *resources):
     print("Pulling conf/locale/config.yaml:locales from Transifex...")
 
     for lang in configuration.translated_locales:
-        cmd = 'tx pull -f --mode=reviewed --minimum-perc=3 -l {lang}'.format(lang=lang)
+        cmd = u'tx pull -f --mode=reviewed --minimum-perc=3 -l {lang}'.format(lang=lang)
         if resources:
             for resource in resources:
                 execute(cmd + ' -r {resource}'.format(resource=resource))
@@ -169,7 +169,8 @@ class Transifex(Runner):
         elif args.command == "push_all":
             push_all()
         else:
-            raise Exception("unknown command ({cmd})".format(cmd=args.command))
+            raise Exception(u"unknown command ({cmd})".format(cmd=args.command))
+
 
 main = Transifex()  # pylint: disable=invalid-name
 

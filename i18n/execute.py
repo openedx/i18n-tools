@@ -16,7 +16,7 @@ def execute(command, working_directory=config.BASE_DIR, stderr=sp.STDOUT):
     Command is a string to pass to the shell.
     Output is ignored.
     """
-    LOG.info("Executing in %s ...", working_directory)
+    LOG.info(u"Executing in %s ...", working_directory)
     LOG.info(command)
     sp.check_call(command, cwd=working_directory, stderr=stderr, shell=True)
 
@@ -42,8 +42,8 @@ def remove_file(filename, verbose=True):
     Logging filenames are relative to config.BASE_DIR to cut down on noise in output.
     """
     if verbose:
-        LOG.info('Deleting file %s', os.path.relpath(filename, config.BASE_DIR))
+        LOG.info(u'Deleting file %s', os.path.relpath(filename, config.BASE_DIR))
     if not os.path.exists(filename):
-        LOG.warning("File does not exist: %s", os.path.relpath(filename, config.BASE_DIR))
+        LOG.warning(u"File does not exist: %s", os.path.relpath(filename, config.BASE_DIR))
     else:
         os.remove(filename)

@@ -29,6 +29,7 @@ class BranchCleanup(Runner):
         dirname = self.configuration.get_messages_dir(locale)
         dirname.removedirs_p()
 
+
 main = BranchCleanup()  # pylint: disable=invalid-name
 
 if __name__ == '__main__':

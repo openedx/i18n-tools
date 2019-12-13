@@ -9,7 +9,7 @@ from path import Path
 
 # BASE_DIR is the working directory to execute django-admin commands from.
 # Typically this should be the 'edx-platform' directory.
-BASE_DIR = Path('.').abspath()  # pylint: disable=invalid-name
+BASE_DIR = Path('.').abspath()
 
 # The base filename for the configuration file.
 BASE_CONFIG_FILENAME = 'config.yaml'
@@ -59,14 +59,14 @@ class Configuration(object):
         Returns data found in config file (as dict), or raises exception if file not found
         """
         if not os.path.exists(filename):
-            raise Exception("Configuration file cannot be found: %s" % filename)
+            raise Exception(u"Configuration file cannot be found: %s" % filename)
         with io.open(filename, encoding='UTF-8') as stream:
             return yaml.safe_load(stream)
 
     def __getattr__(self, name):
         if name in self.DEFAULTS:
             return self._config.get(name, self.DEFAULTS[name])
-        raise AttributeError("Configuration has no such setting: {!r}".format(name))
+        raise AttributeError(u"Configuration has no such setting: {!r}".format(name))
 
     def get_messages_dir(self, locale):
         """
@@ -111,7 +111,7 @@ class Configuration(object):
 
             # do this to capture both 'fa' and 'fa_IR'
             return any([lang.startswith(base_code) for base_code in base_rtl])
-
+        # pylint: disable=consider-using-set-comprehension
         return sorted(set([lang for lang in self.translated_locales if is_rtl(lang)]))
 
     @property
@@ -121,5 +121,6 @@ class Configuration(object):
         Ignores source locale.
         """
         return sorted(set(self.translated_locales) - set(self.rtl_langs))
+
 
 CONFIGURATION = None
