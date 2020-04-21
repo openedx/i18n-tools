@@ -4,7 +4,7 @@ from setuptools import setup
 
 setup(
     name='edx-i18n-tools',
-    version='0.5.0',
+    version='0.5.1',
     description='edX Internationalization Tools',
     author='edX',
     author_email='oscm@edx.org',
@@ -13,7 +13,7 @@ setup(
         'i18n',
     ],
     install_requires=[
-        'django>=1.11,<2.3',
+        'django>=2.2,<2.3',
         'polib',
         'path.py>=7.0',
         'pyYaml',
@@ -32,13 +32,9 @@ setup(
         'License :: OSI Approved :: Apache Software License',
         'Operating System :: OS Independent',
         'Programming Language :: Python',
-        'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3.5',
-        'Programming Language :: Python :: 3.6',
+        'Programming Language :: Python :: 3.8',
         'Framework :: Django',
-        'Framework :: Django :: 1.11',
-        'Framework :: Django :: 2.0',
-        'Framework :: Django :: 2.1',
         'Framework :: Django :: 2.2',
     ],
 )
