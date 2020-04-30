@@ -15,8 +15,7 @@ cache:
         - $HOME/.cache/pip
 
 install:
-  - pip install coveralls
-  - pip install -r test_requirements.txt
+  - pip install -r requirements/travis.txt
 
 script:
   - tox

@@ -1,0 +1,1 @@
+# This file is used by the test_do_not_detect_changes, which verifies the detect_changes method doesn't detect changes in rows that do not start with msgid or msgstr.
