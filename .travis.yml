@@ -32,3 +32,4 @@ deploy:
   on:
     tags: true
     python: 3.5
+    condition: "$TOXENV = quality"
