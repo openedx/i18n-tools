@@ -41,8 +41,8 @@ class TestChanged(I18nToolTestCase):
         """
         Verifies the detect_changes method doesn't detect changes in rows that do not start with msgid or msgstr.
         """
-        file_name = 'test_requirements.txt'
-        copy = 'test_requirements_copy.txt'
+        file_name = 'tests/data/test_do_not_detect_changes.txt'
+        copy = 'tests/data/test_do_not_detect_changes_copy.txt'
 
         try:
             copyfile(file_name, copy)  # Copy the .txt file

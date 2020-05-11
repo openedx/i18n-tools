@@ -1,0 +1,8 @@
+# Core requirements for using this package
+-c constraints.txt
+
+Django
+polib
+path.py>=7.0
+pyYaml
+six

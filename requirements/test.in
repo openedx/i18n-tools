@@ -1,0 +1,12 @@
+# Requirements for test runs
+-c constraints.txt
+
+-r base.txt               # Core dependencies for the cookiecutter
+
+coverage
+ddt
+mock
+nose
+pycodestyle
+edx-lint
+pytz

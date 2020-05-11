@@ -1,8 +1,0 @@
-coverage
-ddt
-mock
-nose
-pycodestyle
-edx-lint
-pytz
-tox
