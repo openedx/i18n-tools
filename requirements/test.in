@@ -6,7 +6,7 @@
 coverage
 ddt
 mock
-nose
+pytest-cov
 pycodestyle
 edx-lint
 pytz
