@@ -6,31 +6,27 @@
 #
 appdirs==1.4.4            # via -r requirements/tox.txt, virtualenv
 astroid==2.3.3            # via -r requirements/test.txt, pylint, pylint-celery
-attrs==19.3.0             # via -r requirements/test.txt, pytest
+attrs==20.3.0             # via -r requirements/test.txt, pytest
 certifi==2020.6.20        # via requests
 chardet==3.0.4            # via requests
 click-log==0.3.2          # via -r requirements/test.txt, edx-lint
 click==7.1.2              # via -r requirements/test.txt, click-log, edx-lint
-coverage==5.2             # via -r requirements/test.txt, coveralls, pytest-cov
-coveralls==2.1.1          # via -r requirements/travis.in
+coverage==5.3             # via -r requirements/test.txt, coveralls, pytest-cov
+coveralls==2.1.2          # via -r requirements/travis.in
 ddt==1.4.1                # via -r requirements/test.txt
 distlib==0.3.1            # via -r requirements/tox.txt, virtualenv
-django==2.2.14            # via -c requirements/constraints.txt, -r requirements/test.txt
+django==2.2.17            # via -c requirements/constraints.txt, -r requirements/test.txt
 docopt==0.6.2             # via coveralls
-edx-lint==1.5.0           # via -r requirements/test.txt
+edx-lint==1.5.2           # via -r requirements/test.txt
 filelock==3.0.12          # via -r requirements/tox.txt, tox, virtualenv
 idna==2.10                # via requests
-importlib-metadata==1.7.0  # via -r requirements/test.txt, -r requirements/tox.txt, path, pluggy, pytest, tox, virtualenv
-importlib-resources==3.0.0  # via -r requirements/tox.txt, virtualenv
+iniconfig==1.1.1          # via -r requirements/test.txt, pytest
 isort==4.3.21             # via -r requirements/test.txt, pylint
 lazy-object-proxy==1.4.3  # via -r requirements/test.txt, astroid
 mccabe==0.6.1             # via -r requirements/test.txt, pylint
 mock==3.0.5               # via -c requirements/constraints.txt, -r requirements/test.txt
-more-itertools==8.4.0     # via -r requirements/test.txt, pytest
 packaging==20.4           # via -r requirements/test.txt, -r requirements/tox.txt, pytest, tox
-path.py==12.4.0           # via -r requirements/test.txt
-path==13.1.0              # via -r requirements/test.txt, path.py
-pathlib2==2.3.5           # via -r requirements/test.txt, pytest
+path==15.0.0              # via -r requirements/test.txt
 pluggy==0.13.1            # via -r requirements/test.txt, -r requirements/tox.txt, pytest, tox
 polib==1.1.0              # via -r requirements/test.txt
 py==1.9.0                 # via -r requirements/test.txt, -r requirements/tox.txt, pytest, tox
@@ -40,18 +36,15 @@ pylint-django==2.0.11     # via -r requirements/test.txt, edx-lint
 pylint-plugin-utils==0.6  # via -r requirements/test.txt, pylint-celery, pylint-django
 pylint==2.4.4             # via -r requirements/test.txt, edx-lint, pylint-celery, pylint-django, pylint-plugin-utils
 pyparsing==2.4.7          # via -r requirements/test.txt, -r requirements/tox.txt, packaging
-pytest-cov==2.10.0        # via -r requirements/test.txt
-pytest==5.4.3             # via -r requirements/test.txt, pytest-cov
-pytz==2020.1              # via -r requirements/test.txt, django
+pytest-cov==2.10.1        # via -r requirements/test.txt
+pytest==6.1.2             # via -r requirements/test.txt, pytest-cov
+pytz==2020.4              # via -r requirements/test.txt, django
 pyyaml==5.3.1             # via -r requirements/test.txt
 requests==2.24.0          # via coveralls
-six==1.15.0               # via -r requirements/test.txt, -r requirements/tox.txt, astroid, edx-lint, mock, packaging, pathlib2, tox, virtualenv
-sqlparse==0.3.1           # via -r requirements/test.txt, django
-toml==0.10.1              # via -r requirements/tox.txt, tox
-tox==3.17.1               # via -r requirements/tox.txt
-typed-ast==1.4.1          # via -r requirements/test.txt, astroid
-urllib3==1.25.9           # via requests
-virtualenv==20.0.27       # via -r requirements/tox.txt, tox
-wcwidth==0.2.5            # via -r requirements/test.txt, pytest
+six==1.15.0               # via -r requirements/test.txt, -r requirements/tox.txt, astroid, edx-lint, mock, packaging, tox, virtualenv
+sqlparse==0.4.1           # via -r requirements/test.txt, django
+toml==0.10.2              # via -r requirements/test.txt, -r requirements/tox.txt, pytest, tox
+tox==3.20.1               # via -r requirements/tox.txt
+urllib3==1.25.11          # via requests
+virtualenv==20.1.0        # via -r requirements/tox.txt, tox
 wrapt==1.11.2             # via -r requirements/test.txt, astroid
-zipp==1.2.0               # via -r requirements/test.txt, -r requirements/tox.txt, importlib-metadata, importlib-resources

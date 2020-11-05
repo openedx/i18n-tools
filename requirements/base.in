@@ -3,6 +3,6 @@
 
 Django
 polib
-path.py>=7.0
+path
 pyYaml
 six
