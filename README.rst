@@ -238,7 +238,7 @@ To work on this code:
    $ PATH=/usr/local/Cellar/gettext/0.19.3/bin/:$PATH tox
 
 
-.. |build-status| image:: https://travis-ci.org/edx/i18n-tools.svg?branch=master
-   :target: https://travis-ci.org/edx/i18n-tools
+.. |build-status| image:: https://travis-ci.com/edx/i18n-tools.svg?branch=master
+   :target: https://travis-ci.com/edx/i18n-tools
 .. |coverage-status| image:: https://coveralls.io/repos/edx/i18n-tools/badge.png
    :target: https://coveralls.io/r/edx/i18n-tools
