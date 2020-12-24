@@ -1,7 +1,7 @@
 from os import remove
 from shutil import copyfile
 import ddt
-import mock
+from unittest import mock
 
 from i18n.changed import Changed
 
@@ -14,7 +14,7 @@ class TestChanged(I18nToolTestCase):
     Tests functionality of i18n/changed.py
     """
     def setUp(self):
-        super(TestChanged, self).setUp()
+        super().setUp()
         self._setup_i18n_test_config()
         self.changed = Changed()
 

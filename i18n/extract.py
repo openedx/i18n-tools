@@ -93,9 +93,9 @@ class Extract(Runner):
         # in the `markey` module marks it as such and passes it to Babel.
         # (These functions are called in the django-babel-underscore module.)
         babel_cmd_template = (
-            u'pybabel {verbosity} extract --mapping={config} '
-            u'--add-comments="Translators:" --keyword="interpolate" '
-            u'. --output={output}'
+            'pybabel {verbosity} extract --mapping={config} '
+            '--add-comments="Translators:" --keyword="interpolate" '
+            '. --output={output}'
         )
 
         babel_mako_cfg = self.base(configuration.locale_dir, 'babel_mako.cfg')
@@ -118,8 +118,8 @@ class Extract(Runner):
 
             execute(babel_underscore_cmd, working_directory=configuration.root_dir, stderr=stderr)
 
-        makemessages = u"django-admin.py makemessages -l en -v{}".format(args.verbose)
-        ignores = " ".join('--ignore="{}/*"'.format(d) for d in configuration.ignore_dirs)
+        makemessages = f"django-admin.py makemessages -l en -v{args.verbose}"
+        ignores = " ".join(f'--ignore="{d}/*"' for d in configuration.ignore_dirs)
         if ignores:
             makemessages += " " + ignores
 
@@ -150,7 +150,7 @@ class Extract(Runner):
             output_file = self.source_msgs_dir / (app_name + ".po")
             files_to_clean.add(output_file)
 
-            babel_cmd = u'pybabel {verbosity} extract -F {config} -c "Translators:" {app} -o {output}'
+            babel_cmd = 'pybabel {verbosity} extract -F {config} -c "Translators:" {app} -o {output}'
             babel_cmd = babel_cmd.format(
                 verbosity=babel_verbosity,
                 config=configuration.locale_dir / 'babel_third_party.cfg',
@@ -165,7 +165,7 @@ class Extract(Runner):
 
         # Finish each file.
         for filename in files_to_clean:
-            LOG.info(u'Cleaning %s', filename)
+            LOG.info('Cleaning %s', filename)
             pofile = polib.pofile(self.source_msgs_dir.joinpath(filename))
             # replace default headers with edX headers
             fix_header(pofile)
@@ -263,7 +263,7 @@ def is_key_string(string):
     return len(string) > 1 and string[0] == '_'
 
 
-main = Extract()  # pylint: disable=invalid-name
+main = Extract()
 
 if __name__ == '__main__':
     main()

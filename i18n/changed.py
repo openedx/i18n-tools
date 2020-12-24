@@ -2,7 +2,6 @@
 """
 Determine if the source translation files are up-to-date.
 """
-from __future__ import print_function
 from subprocess import CalledProcessError
 
 from i18n import Runner
@@ -50,7 +49,7 @@ class Changed(Runner):
         return msg
 
 
-main = Changed()  # pylint: disable=invalid-name
+main = Changed()
 
 if __name__ == '__main__':
     main()

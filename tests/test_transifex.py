@@ -2,7 +2,7 @@
 This test tests that calls to Transifex work as expected.
 """
 
-import mock
+from unittest import mock
 
 from i18n import transifex
 
@@ -16,7 +16,7 @@ class TestTransifex(I18nToolTestCase):
     """
 
     def setUp(self):
-        super(TestTransifex, self).setUp()
+        super().setUp()
         self._setup_i18n_test_config()
         self.patcher = mock.patch('i18n.transifex.execute')
         self.addCleanup(self.patcher.stop)
@@ -104,4 +104,4 @@ class TestTransifex(I18nToolTestCase):
             transifex.clean_locale(self.configuration, 'fr')
             self.assertEqual(12, patched.call_count)
             for callarg in patched.call_args_list:
-                self.assertRegexpMatches(callarg[0][1].name, '.*\.po')
+                self.assertRegexpMatches(callarg[0][1].name, r'.*\.po')

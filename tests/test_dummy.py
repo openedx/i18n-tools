@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """Tests of i18n/dummy.py"""
 
 import ddt
@@ -16,7 +15,7 @@ class TestDummy(I18nToolTestCase):
     """
 
     def setUp(self):
-        super(TestDummy, self).setUp()
+        super().setUp()
         self.converter = dummy.Dummy()
 
     def assertUnicodeEquals(self, str1, str2):
@@ -33,23 +32,23 @@ class TestDummy(I18nToolTestCase):
         )
 
     @ddt.data(
-        (u"sign in",
-         u"sïgn ïn Ⱡ'σяєм ιρѕυм #"),
+        ("sign in",
+         "sïgn ïn Ⱡ'σяєм ιρѕυм #"),
 
-        (u"my name is Bond",
-         u"mý nämé ïs Bönd Ⱡ'σяєм ιρѕυм ∂σłσя ѕιт α#"),
+        ("my name is Bond",
+         "mý nämé ïs Bönd Ⱡ'σяєм ιρѕυм ∂σłσя ѕιт α#"),
 
-        (u"hello my name is Bond, James Bond",
-         u"héllö mý nämé ïs Bönd, Jämés Bönd Ⱡ'σяєм ιρѕυм ∂σłσя ѕιт αмєт, ¢σηѕє¢тє#"),
+        ("hello my name is Bond, James Bond",
+         "héllö mý nämé ïs Bönd, Jämés Bönd Ⱡ'σяєм ιρѕυм ∂σłσя ѕιт αмєт, ¢σηѕє¢тє#"),
 
-        (u"don't convert <a href='href'>tag ids</a>",
-         u"dön't çönvért <a href='href'>täg ïds</a> Ⱡ'σяєм ιρѕυм ∂σłσя ѕιт αмєт, ¢σηѕє#"),
+        ("don't convert <a href='href'>tag ids</a>",
+         "dön't çönvért <a href='href'>täg ïds</a> Ⱡ'σяєм ιρѕυм ∂σłσя ѕιт αмєт, ¢σηѕє#"),
 
-        (u"don't convert %(name)s tags on %(date)s",
-         u"dön't çönvért %(name)s tägs ön %(date)s Ⱡ'σяєм ιρѕυм ∂σłσя ѕιт αмєт, ¢σηѕє¢#"),
+        ("don't convert %(name)s tags on %(date)s",
+         "dön't çönvért %(name)s tägs ön %(date)s Ⱡ'σяєм ιρѕυм ∂σłσя ѕιт αмєт, ¢σηѕє¢#"),
 
-        (u"don't convert %s tags on %s",
-         u"dön't çönvért %s tägs ön %s Ⱡ'σяєм ιρѕυм ∂σłσя ѕιт αмєт, ¢σηѕє¢#"),
+        ("don't convert %s tags on %s",
+         "dön't çönvért %s tägs ön %s Ⱡ'σяєм ιρѕυм ∂σłσя ѕιт αмєт, ¢σηѕє¢#"),
     )
     def test_dummy(self, data):
         """
@@ -63,7 +62,7 @@ class TestDummy(I18nToolTestCase):
     def test_singular(self):
         entry = POEntry()
         entry.msgid = "A lovely day for a cup of tea."
-        expected = u"À lövélý däý för ä çüp öf téä. Ⱡ'σяєм ιρѕυм ∂σłσя ѕιт αмєт, ¢σηѕє¢т#"
+        expected = "À lövélý däý för ä çüp öf téä. Ⱡ'σяєм ιρѕυм ∂σłσя ѕιт αмєт, ¢σηѕє¢т#"
         self.converter.convert_msg(entry)
         self.assertUnicodeEquals(entry.msgstr, expected)
 
@@ -71,31 +70,31 @@ class TestDummy(I18nToolTestCase):
         entry = POEntry()
         entry.msgid = "A lovely day for a cup of tea."
         entry.msgid_plural = "A lovely day for some cups of tea."
-        expected_s = u"À lövélý däý för ä çüp öf téä. Ⱡ'σяєм ιρѕυм ∂σłσя ѕιт αмєт, ¢σηѕє¢т#"
-        expected_p = u"À lövélý däý för sömé çüps öf téä. Ⱡ'σяєм ιρѕυм ∂σłσя ѕιт αмєт, ¢σηѕє¢тєт#"
+        expected_s = "À lövélý däý för ä çüp öf téä. Ⱡ'σяєм ιρѕυм ∂σłσя ѕιт αмєт, ¢σηѕє¢т#"
+        expected_p = "À lövélý däý för sömé çüps öf téä. Ⱡ'σяєм ιρѕυм ∂σłσя ѕιт αмєт, ¢σηѕє¢тєт#"
         self.converter.convert_msg(entry)
         result = entry.msgstr_plural
         self.assertUnicodeEquals(result['0'], expected_s)
         self.assertUnicodeEquals(result['1'], expected_p)
 
     @ddt.data(
-        (u"sign in",
-         u"سهلر هر"),
+        ("sign in",
+         "سهلر هر"),
 
-        (u"my name is Bond",
-         u"وغ رشوث هس زخري"),
+        ("my name is Bond",
+         "وغ رشوث هس زخري"),
 
-        (u"hello my name is Bond, James Bond",
-         u"اثممخ وغ رشوث هس زخري, تشوثس زخري"),
+        ("hello my name is Bond, James Bond",
+         "اثممخ وغ رشوث هس زخري, تشوثس زخري"),
 
-        (u"don't convert <a href='href'>tag ids</a>",
-         u"يخر'ف ذخردثقف <a href='href'>فشل هيس</a>"),
+        ("don't convert <a href='href'>tag ids</a>",
+         "يخر'ف ذخردثقف <a href='href'>فشل هيس</a>"),
 
-        (u"don't convert %(name)s tags on %(date)s",
-         u"يخر'ف ذخردثقف %(name)s فشلس خر %(date)s"),
+        ("don't convert %(name)s tags on %(date)s",
+         "يخر'ف ذخردثقف %(name)s فشلس خر %(date)s"),
 
-        (u"don't convert %s tags on %s",
-         u"يخر'ف ذخردثقف %s فشلس خر %s"),
+        ("don't convert %s tags on %s",
+         "يخر'ف ذخردثقف %s فشلس خر %s"),
     )
     def test_dummy_arabic(self, data):
         """

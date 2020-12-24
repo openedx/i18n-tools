@@ -47,4 +47,4 @@ class I18nToolTestCase(TestCase):
 
     @staticmethod
     def _get_tmp_locale_path(original_path):
-        return "{}_tmp".format(original_path)
+        return f"{original_path}_tmp"

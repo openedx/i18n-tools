@@ -4,7 +4,6 @@ Utility for cleaning up your local directory after switching between
 branches with different translation levels (eg master branch, with only
 reviewed translations, versus dev branch, with all translations)
 """
-from __future__ import print_function
 
 from i18n import Runner
 
@@ -30,7 +29,7 @@ class BranchCleanup(Runner):
         dirname.removedirs_p()
 
 
-main = BranchCleanup()  # pylint: disable=invalid-name
+main = BranchCleanup()
 
 if __name__ == '__main__':
     main()

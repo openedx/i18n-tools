@@ -9,7 +9,7 @@ from . import config
 __version__ = '0.5.4'
 
 
-class Runner(object):
+class Runner:
     """
     Runner class for internationalization.
     """

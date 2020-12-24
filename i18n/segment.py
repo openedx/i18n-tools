@@ -61,8 +61,8 @@ def segment_pofile(filename, segments):
         a set of path objects, all the segment files written.
 
     """
-    reading_msg = u"Reading {num} entries from {file}"
-    writing_msg = u"Writing {num} entries to {file}"
+    reading_msg = "Reading {num} entries from {file}"
+    writing_msg = "Writing {num} entries to {file}"
     source_po = polib.pofile(filename)
     LOG.info(reading_msg.format(file=filename, num=len(source_po)))  # pylint: disable=logging-format-interpolation
 
@@ -107,7 +107,7 @@ def segment_pofile(filename, segments):
     for segment_file, pofile in segment_po_files.items():
         out_file = filename.dirname() / segment_file
         if not pofile:
-            LOG.error(u"No messages to write to %s, did you run segment twice?", out_file)
+            LOG.error("No messages to write to %s, did you run segment twice?", out_file)
         else:
             LOG.info(writing_msg.format(file=out_file, num=len(pofile)))  # pylint: disable=logging-format-interpolation
             pofile.save(out_file)
@@ -164,7 +164,7 @@ class Segment(Runner):
             segment_pofiles(self.configuration, locale)
 
 
-main = Segment()  # pylint: disable=invalid-name
+main = Segment()
 
 if __name__ == "__main__":
     main()

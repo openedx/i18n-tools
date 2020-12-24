@@ -6,7 +6,7 @@ import random
 import re
 import string
 
-from mock import patch
+from unittest.mock import patch
 from path import Path
 from polib import pofile
 from pytz import UTC
@@ -25,7 +25,7 @@ class TestGenerate(I18nToolTestCase):
         self.fr_path = Path.joinpath(MOCK_APPLICATION_DIR, "conf", "locale", "fr")
         self.mock_mapped_path = Path.joinpath(MOCK_APPLICATION_DIR, "conf", "locale", "mock_mapped")
 
-        super(TestGenerate, self).setUp()
+        super().setUp()
         self._setup_i18n_test_config(
             preserve_locale_paths=(self.mock_path, self.fr_path),
             clean_paths=(self.mock_mapped_path,)
@@ -97,7 +97,7 @@ class TestGenerate(I18nToolTestCase):
         # if not Path.exists(django_po_path):
         generate.main(verbose=0, strict=False, root_dir=MOCK_APPLICATION_DIR)
 
-        with open(django_po_path, 'r') as django_po_file:
+        with open(django_po_path) as django_po_file:
             po_lines = django_po_file.read()
 
         # check that there are no merge conflicts present

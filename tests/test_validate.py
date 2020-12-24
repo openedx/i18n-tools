@@ -1,4 +1,3 @@
-# coding: utf8
 """
 Tests for validate.py
 """
@@ -20,21 +19,21 @@ TEST_DATA = HERE / "data"
 VALIDATION_PROBLEMS = [
     (
         'Different tags in source and translation',
-        u'Your name is {name}',
-        u'Su nombre es {nombre}',
-        u'"{name}" vs "{nombre}"',
+        'Your name is {name}',
+        'Su nombre es {nombre}',
+        '"{name}" vs "{nombre}"',
     ),
     (
         'Different tags in source and translation',
-        u'Two tags: {one} and {two}',
-        u'One tag: {one} and not two',
-        u'"{two}" missing',
+        'Two tags: {one} and {two}',
+        'One tag: {one} and not two',
+        '"{two}" missing',
     ),
     (
         'Different tags in source and translation',
-        u'One tag: {one}',
-        u'Two tags: {one} and {two}',
-        u'"{two}" added',
+        'One tag: {one}',
+        'Two tags: {one} and {two}',
+        '"{two}" added',
     ),
     (
         'Different tags in source and translation',
@@ -44,22 +43,22 @@ VALIDATION_PROBLEMS = [
     ),
     (
         'Non-BMP char',
-        u'Astral character (pile of poo), bad for JavaScript: \U0001f4a9',
-        u'Astral character (pile of poo), bad for JavaScript: \U0001f4a9',
+        'Astral character (pile of poo), bad for JavaScript: \U0001f4a9',
+        'Astral character (pile of poo), bad for JavaScript: \U0001f4a9',
     ),
     (
         'Different tags in source and translation',
-        u'1. There are {num} things | 1. There are {num} things',
-        u'1. Estas {num} objectos | 1. Estas {nomx} objectos',
-        u'"{nomx}" added',
+        '1. There are {num} things | 1. There are {num} things',
+        '1. Estas {num} objectos | 1. Estas {nomx} objectos',
+        '"{nomx}" added',
     ),
     (
         'Different tags in source and translation',
-        u'2. There are {num} things | 2. There are {num} things',
-        u'2. Estas {nomx} objectos | 2. Estas {num} objectos',
-        u'"{nomx}" added',
+        '2. There are {num} things | 2. There are {num} things',
+        '2. Estas {nomx} objectos | 2. Estas {num} objectos',
+        '"{nomx}" added',
     ),
-    ('Empty translation', u'This string should not be empty'),
+    ('Empty translation', 'This string should not be empty'),
 ]
 
 
@@ -88,8 +87,8 @@ class TestValidate(I18nToolTestCase):
     def test_report_problems(self):
         self.addCleanup(os.remove, "foo.prob")
         validate.report_problems("foo.po", [
-            ('Silly text', u'¿This is silly?'),
-            ('Problematic', u'ƧƬЯIПG 1', u'ŚŤŔĨŃĞ 2'),
+            ('Silly text', '¿This is silly?'),
+            ('Problematic', 'ƧƬЯIПG 1', 'ŚŤŔĨŃĞ 2'),
         ])
         expected_output = textwrap.dedent("""\
             Silly text
