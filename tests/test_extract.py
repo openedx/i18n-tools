@@ -23,7 +23,7 @@ class TestExtract(I18nToolTestCase):
     def setUp(self):
         global SETUP_HAS_RUN
 
-        super(TestExtract, self).setUp()
+        super().setUp()
 
         # Subtract 1 second to help comparisons with file-modify time succeed,
         # since os.path.getmtime() is not millisecond-accurate

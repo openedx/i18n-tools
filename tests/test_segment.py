@@ -20,7 +20,7 @@ class SegmentTest(I18nToolTestCase):
     """Test segment_pofile."""
 
     def setUp(self):
-        super(SegmentTest, self).setUp()
+        super().setUp()
         if not os.path.exists(WORK):
             os.mkdir(WORK)
         self.addCleanup(shutil.rmtree, WORK)
@@ -46,14 +46,14 @@ class SegmentTest(I18nToolTestCase):
             }
         )
 
-        self.assertEqual(written, set([WORK / "django.po", WORK / "studio.po"]))
+        self.assertEqual(written, {WORK / "django.po", WORK / "studio.po"})
 
         pofiles = [polib.pofile(f) for f in written]
         after_entries = sum(len(pofile) for pofile in pofiles)
         self.assertEqual(len(original_pofile), after_entries)
 
-        original_ids = set(m.msgid for m in original_pofile)
-        after_ids = set(m.msgid for pofile in pofiles for m in pofile)
+        original_ids = {m.msgid for m in original_pofile}
+        after_ids = {m.msgid for pofile in pofiles for m in pofile}
         self.assertEqual(original_ids, after_ids)
 
         self.assert_pofile_same(WORK / "django.po", TEST_DATA / "django_after.po")

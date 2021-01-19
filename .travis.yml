@@ -3,15 +3,15 @@ sudo: false
 language: python
 
 python:
-  - 3.8
-
+  - '3.8'
 env:
-  - TOXENV=django22
   - TOXENV=quality
-
+  - TOXENV=django22
+  - TOXENV=django30
+  - TOXENV=django31
 cache:
-    directories:
-        - $HOME/.cache/pip
+  directories:
+    - $HOME/.cache/pip
 
 install:
   - pip install -r requirements/travis.txt
@@ -30,5 +30,5 @@ deploy:
   distributions: sdist bdist_wheel
   on:
     tags: true
-    python: 3.5
-    condition: "$TOXENV = quality"
+    python: 3.8
+    condition: $TOXENV = quality

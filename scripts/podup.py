@@ -18,16 +18,16 @@ def compare_po_files(files):
         for i, entry in enumerate(fpo):
             if entry.msgstr:
                 translations[entry.msgid][entry.msgstr].add(filename)
-        print(u"{:5d} entries in {}".format(i+1, filename))
+        print("{:5d} entries in {}".format(i+1, filename))
 
     dups = 0
     for msgid, msgs in sorted(translations.items()):
         if len(msgs) > 1:
-            print(u"{} -->".format(msgid))
+            print(f"{msgid} -->")
             for msg, filenames in sorted(msgs.items()):
-                print(u"    {} ({})".format(msg, ", ".join(sorted(filenames))))
+                print("    {} ({})".format(msg, ", ".join(sorted(filenames))))
             dups += 1
-    print(u"{} duplicates".format(dups))
+    print(f"{dups} duplicates")
 
 
 IGNORE_FILES = ["django.po", "djangojs.po"]

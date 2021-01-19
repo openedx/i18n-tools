@@ -1,6 +1,5 @@
 """Tests that validate .po files."""
 
-from __future__ import print_function
 
 import codecs
 import logging
@@ -54,11 +53,11 @@ def validate_po_files(configuration, locale_dir, root_dir=None, report_empty=Fal
                     dup_filename = filename.replace('.po', '.dup')
                     has_duplicates = os.path.exists(dup_filename)
                     if has_duplicates:
-                        log.warning(u"Duplicates found in %s, details in .dup file", dup_filename)
+                        log.warning("Duplicates found in %s, details in .dup file", dup_filename)
                         found_problems = True
 
                     if not (problems or has_duplicates):
-                        log.info(u"No problems found in %s", filename)
+                        log.info("No problems found in %s", filename)
 
     return found_problems
 
@@ -74,10 +73,10 @@ def msgfmt_check_po_file(locale_dir, filename):
 
     # Use relative paths to make output less noisy.
     rfile = os.path.relpath(filename, locale_dir)
-    out, err = call(u'msgfmt -c -o /dev/null {}'.format(rfile), working_directory=locale_dir)
+    out, err = call(f'msgfmt -c -o /dev/null {rfile}', working_directory=locale_dir)
     if err:
-        log.info(u'\n{}'.format(out.decode('utf8')))
-        log.warning(u'\n{}'.format(err.decode('utf8')))
+        log.info('\n{}'.format(out.decode('utf8')))
+        log.warning('\n{}'.format(err.decode('utf8')))
         found_problems = True
 
     return found_problems
@@ -102,7 +101,7 @@ def tags_in_string(msg):
         return False
 
     __, tags = Converter().detag_string(msg)
-    return set(t for t in tags if not is_linguistic_tag(t))
+    return {t for t in tags if not is_linguistic_tag(t)}
 
 
 def astral(msg):
@@ -161,14 +160,14 @@ def check_messages(filename, report_empty=False):
 
             # Check if tags don't match
             if id_tags != tx_tags:
-                id_has = u", ".join(sorted(u'"{}"'.format(t) for t in id_tags - tx_tags))
-                tx_has = u", ".join(sorted(u'"{}"'.format(t) for t in tx_tags - id_tags))
+                id_has = ", ".join(sorted(f'"{t}"' for t in id_tags - tx_tags))
+                tx_has = ", ".join(sorted(f'"{t}"' for t in tx_tags - id_tags))
                 if id_has and tx_has:
-                    diff = u"{} vs {}".format(id_has, tx_has)
+                    diff = f"{id_has} vs {tx_has}"
                 elif id_has:
-                    diff = u"{} missing".format(id_has)
+                    diff = f"{id_has} missing"
                 else:
-                    diff = u"{} added".format(tx_has)
+                    diff = f"{tx_has} added"
                 problems.append((
                     "Different tags in source and translation",
                     source,
@@ -192,15 +191,15 @@ def report_problems(filename, problems):
     with codecs.open(problem_file, "w", encoding="utf8") as prob_file:
         for problem in problems:
             desc, msgid = problem[:2]
-            prob_file.write(u"{}\n{}\n".format(desc, id_filler.fill(msgid)))
-            info = u"{}\n{}\n".format(desc, id_filler.fill(msgid))
+            prob_file.write("{}\n{}\n".format(desc, id_filler.fill(msgid)))
+            info = "{}\n{}\n".format(desc, id_filler.fill(msgid))
             for translation in problem[2:]:
-                prob_file.write(u"{}\n".format(tx_filler.fill(translation)))
-                info += u"{}\n".format(tx_filler.fill(translation))
+                prob_file.write("{}\n".format(tx_filler.fill(translation)))
+                info += "{}\n".format(tx_filler.fill(translation))
             log.info(info)
-            prob_file.write(u"\n")
+            prob_file.write("\n")
 
-    log.error(u"%s problems in %s, details in .prob file", len(problems), filename)
+    log.error("%s problems in %s, details in .prob file", len(problems), filename)
 
 
 class Validate(Runner):
@@ -258,7 +257,7 @@ class Validate(Runner):
                 root_dir = self.configuration.locale_dir / language
                 # Assert that a directory for this language code exists on the system
                 if not root_dir.isdir():
-                    log.error(u"%s is not a valid directory.\nSkipping language '%s'", root_dir, language)
+                    log.error("%s is not a valid directory.\nSkipping language '%s'", root_dir, language)
                     continue
                 # If we found the language code's directory, validate the files.
                 if validate_po_files(self.configuration, locale_dir, root_dir=root_dir, report_empty=args.empty,
@@ -268,7 +267,7 @@ class Validate(Runner):
         return command_exit_code
 
 
-main = Validate()  # pylint: disable=invalid-name
+main = Validate()
 
 if __name__ == '__main__':
     print("Validating languages...")

@@ -5,7 +5,7 @@ import re
 import itertools
 
 
-class Converter(object):
+class Converter:
     """Converter is an abstract class that transforms strings.
        It hides embedded tags (HTML or Python sequences) from transformation
 

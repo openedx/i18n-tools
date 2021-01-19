@@ -2,16 +2,14 @@
 """
 Functions to pull down & push up .po files from/to transifex
 """
-from __future__ import print_function
 
 import polib
-from six.moves import input
 
 from i18n import Runner
 from i18n.execute import execute
 from i18n.extract import EDX_MARKER
 
-TRANSIFEX_HEADER = u'edX community translations have been downloaded from {}'
+TRANSIFEX_HEADER = 'edX community translations have been downloaded from {}'
 
 
 def push(*resources):
@@ -21,10 +19,10 @@ def push(*resources):
     Arguments name specific resources to push. Otherwise, push all the source
     files.
     """
-    cmd = u'tx push -s'
+    cmd = 'tx push -s'
     if resources:
         for resource in resources:
-            execute(cmd + ' -r {resource}'.format(resource=resource))
+            execute(cmd + f' -r {resource}')
     else:
         execute(cmd)
 
@@ -56,10 +54,10 @@ def pull(configuration, *resources):
     print("Pulling conf/locale/config.yaml:locales from Transifex...")
 
     for lang in configuration.translated_locales:
-        cmd = u'tx pull -f --mode=reviewed --minimum-perc=3 -l {lang}'.format(lang=lang)
+        cmd = f'tx pull -f --mode=reviewed --minimum-perc=3 -l {lang}'
         if resources:
             for resource in resources:
-                execute(cmd + ' -r {resource}'.format(resource=resource))
+                execute(cmd + f' -r {resource}')
         else:
             execute(cmd)
     clean_translated_locales(configuration)
@@ -169,10 +167,10 @@ class Transifex(Runner):
         elif args.command == "push_all":
             push_all()
         else:
-            raise Exception(u"unknown command ({cmd})".format(cmd=args.command))
+            raise Exception(f"unknown command ({args.command})")
 
 
-main = Transifex()  # pylint: disable=invalid-name
+main = Transifex()
 
 if __name__ == '__main__':
     main()

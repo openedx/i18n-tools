@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
 
 """
 Generate test translation files from human-readable po files.
@@ -23,7 +22,6 @@ generates output conf/locale/$DUMMY_LOCALE/LC_MESSAGES,
 where $DUMMY_LOCALE is the dummy_locale value set in the i18n config
 """
 
-from __future__ import print_function
 
 import re
 
@@ -132,8 +130,8 @@ class Dummy(BaseDummyConverter):
     # Substitute plain characters with accented lookalikes.
     # http://tlt.its.psu.edu/suggestions/international/web/codehtml.html#accent
     TABLE = list(zip(
-        u"AabCcEeIiOoUuYy",
-        u"ÀäßÇçÉéÌïÖöÛüÝý"
+        "AabCcEeIiOoUuYy",
+        "ÀäßÇçÉéÌïÖöÛüÝý"
     ))
 
     # The print industry's standard dummy text, in use since the 1500s
@@ -142,7 +140,7 @@ class Dummy(BaseDummyConverter):
     # that precedes it.  The Lorem contains an apostrophe since French often does,
     # and translated strings get put into single-quoted strings, which then break.
     LOREM = " " + " ".join(     # join and split just make the string easier here.
-        u"""
+        """
         Ⱡ'σяєм ιρѕυм ∂σłσя ѕιт αмєт, ¢σηѕє¢тєтυя α∂ιριѕι¢ιηg єłιт, ѕє∂ ∂σ єιυѕмσ∂
         тємρσя ιη¢ι∂ι∂υηт υт łαвσяє єт ∂σłσяє мαgηα αłιqυα. υт єηιм α∂ мιηιм
         νєηιαм, qυιѕ ησѕтяυ∂ єχєя¢ιтαтιση υłłαм¢σ łαвσяιѕ ηιѕι υт αłιqυιρ єχ єα
@@ -172,8 +170,8 @@ class Dummy2(BaseDummyConverter):
 
     """
     TABLE = list(zip(
-        u"ABCDEGHIJKLOPRTUYZabcdefghijklmnopqrstuvwxyz",
-        u"ȺɃȻĐɆǤĦƗɈꝀŁØⱣɌŦɄɎƵɐqɔpǝɟƃɥᴉɾʞlɯuødbɹsʇnʌʍxʎz"
+        "ABCDEGHIJKLOPRTUYZabcdefghijklmnopqrstuvwxyz",
+        "ȺɃȻĐɆǤĦƗɈꝀŁØⱣɌŦɄɎƵɐqɔpǝɟƃɥᴉɾʞlɯuødbɹsʇnʌʍxʎz"
     ))
 
 
@@ -182,8 +180,8 @@ class ArabicDummy(BaseDummyConverter):
     A dummy converter for an RTL-like language.
     """
     TABLE = list(zip(
-        u"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
-        u"شزذيثبلاهتنمورخحضقسفعدصطغظشزذيثبلاهتنمورخحضقسفعدصطغظ"
+        "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
+        "شزذيثبلاهتنمورخحضقسفعدصطغظشزذيثبلاهتنمورخحضقسفعدصطغظ"
     ))
 
 
@@ -193,7 +191,7 @@ def make_dummy(filename, locale, converter):
     in :param locale: containing a dummy translation.
     """
     if not Path(filename).exists():
-        raise IOError(u'File does not exist: %r' % filename)
+        raise OSError('File does not exist: %r' % filename)
     pofile = polib.pofile(filename)
     for msg in pofile:
         # Some strings are actually formatting strings, don't dummy-ify them,
@@ -238,7 +236,7 @@ class DummyCommand(Runner):
         configuration = self.configuration
         source_messages_dir = configuration.source_messages_dir
         for locale, converter in zip(configuration.dummy_locales, [Dummy(), Dummy2(), ArabicDummy()]):
-            print(u'Processing source language files into dummy strings, locale "{}"'.format(locale))
+            print(f'Processing source language files into dummy strings, locale "{locale}"')
             for source_file in configuration.source_messages_dir.walkfiles('*.po'):
                 if args.verbose:
                     print('   ', source_file.relpath())
@@ -247,7 +245,7 @@ class DummyCommand(Runner):
             print()
 
 
-main = DummyCommand()  # pylint: disable=invalid-name
+main = DummyCommand()
 
 if __name__ == '__main__':
     main()
