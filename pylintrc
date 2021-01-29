@@ -281,6 +281,7 @@ enable =
 disable = 
 	# These should be left to the discretion of the reviewer
 	bad-continuation,
+	django-not-configured,
 	invalid-name,
 	misplaced-comparison-constant,
 	file-ignored,
