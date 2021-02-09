@@ -45,6 +45,38 @@ class TestGenerate(I18nToolTestCase):
         self.assertTrue(Path.exists(filename))
         Path.remove(filename)
 
+    def test_merge_with_missing_sources(self):
+        """
+        Tests merge script when some source files are missing. The existing files should be merged anyway.
+        """
+        test_configuration = config.Configuration(root_dir=MOCK_DJANGO_APP_DIR)
+        filename = Path.joinpath(test_configuration.source_messages_dir, random_name())
+        generate.merge(
+            test_configuration,
+            test_configuration.source_locale,
+            sources=("django-partial.po", "nonexistingfile.po"),
+            target=filename,
+            fail_if_missing=False,
+        )
+        self.assertTrue(Path.exists(filename))
+        Path.remove(filename)
+
+    def test_merge_with_missing_sources_strict(self):
+        """
+        Tests merge script when some source files are missing. In strict mode, an exception should be raised.
+        """
+        test_configuration = config.Configuration(root_dir=MOCK_DJANGO_APP_DIR)
+        filename = Path.joinpath(test_configuration.source_messages_dir, random_name())
+        with self.assertRaises(ValueError):
+            generate.merge(
+                test_configuration,
+                test_configuration.source_locale,
+                sources=("django-partial.po", "nonexistingfile.po"),
+                target=filename,
+                fail_if_missing=True,
+            )
+        self.assertFalse(Path.exists(filename))
+
     # Patch dummy_locales to not have esperanto present
     def test_main(self):
         """

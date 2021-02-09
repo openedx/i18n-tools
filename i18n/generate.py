@@ -43,15 +43,19 @@ def merge(configuration, locale, target='django.po', sources=('django-partial.po
     """
     LOG.info('Merging %s locale %s', target, locale)
     locale_directory = configuration.get_messages_dir(locale)
-    try:
-        validate_files(locale_directory, sources)
-    except Exception:
-        if not fail_if_missing:
-            return
-        raise
+    valid_sources = []
+    for filename in sources:
+        try:
+            validate_file(locale_directory, filename)
+            valid_sources.append(filename)
+        except (ValueError, IOError):
+            if fail_if_missing:
+                raise
+    if not valid_sources:
+        return
 
     # merged file is merged.po
-    merge_cmd = 'msgcat -o merged.po ' + ' '.join(sources)
+    merge_cmd = 'msgcat -o merged.po ' + ' '.join(valid_sources)
     execute(merge_cmd, working_directory=locale_directory)
 
     # clean up redunancies in the metadata
@@ -135,19 +139,18 @@ def clean_pofile(pofile_path):
     return duplicate_entries
 
 
-def validate_files(directory, files_to_merge):
+def validate_file(directory, filename):
     """
     Asserts that the given files exist.
     files_to_merge is a list of file names (no directories).
     directory is the directory (a path object from path.py) in which the files should appear.
     raises an Exception if any of the files are not in dir.
     """
-    for file_path in files_to_merge:
-        pathname = directory.joinpath(file_path)
-        if not pathname.exists():
-            raise Exception(f"I18N: Cannot generate because file not found: {pathname}")
-        # clean sources
-        clean_pofile(pathname)
+    pathname = directory.joinpath(filename)
+    if not pathname.exists():
+        raise ValueError(f"I18N: Cannot generate because file not found: {pathname}")
+    # clean sources
+    clean_pofile(pathname)
 
 
 class Generate(Runner):
