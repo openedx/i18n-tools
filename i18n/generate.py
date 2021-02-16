@@ -155,6 +155,7 @@ def validate_file(directory, filename):
 
 class Generate(Runner):
     """Generate merged and compiled message files."""
+
     def add_args(self):
         self.parser.description = "Generate merged and compiled message files."
         self.parser.add_argument("--strict", action='store_true', help="Complain about missing files.")
