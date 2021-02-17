@@ -2,6 +2,7 @@
 This test tests that i18n extraction works properly.
 """
 from datetime import datetime, timedelta
+from filecmp import dircmp
 import random
 import re
 import string
@@ -20,6 +21,7 @@ class TestGenerate(I18nToolTestCase):
     """
     Tests functionality of i18n/generate.py
     """
+
     def setUp(self):
         self.mock_path = Path.joinpath(MOCK_APPLICATION_DIR, "conf", "locale", "mock")
         self.fr_path = Path.joinpath(MOCK_APPLICATION_DIR, "conf", "locale", "fr")
@@ -45,6 +47,38 @@ class TestGenerate(I18nToolTestCase):
         self.assertTrue(Path.exists(filename))
         Path.remove(filename)
 
+    def test_merge_with_missing_sources(self):
+        """
+        Tests merge script when some source files are missing. The existing files should be merged anyway.
+        """
+        test_configuration = config.Configuration(root_dir=MOCK_DJANGO_APP_DIR)
+        filename = Path.joinpath(test_configuration.source_messages_dir, random_name())
+        generate.merge(
+            test_configuration,
+            test_configuration.source_locale,
+            sources=("django-partial.po", "nonexistingfile.po"),
+            target=filename,
+            fail_if_missing=False,
+        )
+        self.assertTrue(Path.exists(filename))
+        Path.remove(filename)
+
+    def test_merge_with_missing_sources_strict(self):
+        """
+        Tests merge script when some source files are missing. In strict mode, an exception should be raised.
+        """
+        test_configuration = config.Configuration(root_dir=MOCK_DJANGO_APP_DIR)
+        filename = Path.joinpath(test_configuration.source_messages_dir, random_name())
+        with self.assertRaises(ValueError):
+            generate.merge(
+                test_configuration,
+                test_configuration.source_locale,
+                sources=("django-partial.po", "nonexistingfile.po"),
+                target=filename,
+                fail_if_missing=True,
+            )
+        self.assertFalse(Path.exists(filename))
+
     # Patch dummy_locales to not have esperanto present
     def test_main(self):
         """
@@ -61,8 +95,9 @@ class TestGenerate(I18nToolTestCase):
                 file_path = Path.joinpath(self.configuration.get_messages_dir(locale), mofile)
                 exists = Path.exists(file_path)
                 self.assertTrue(exists, msg='Missing file in locale %s: %s' % (locale, mofile))
-                self.assertTrue(
-                    datetime.fromtimestamp(Path.getmtime(file_path), UTC) >= self.start_time,
+                self.assertGreaterEqual(
+                    datetime.fromtimestamp(Path.getmtime(file_path), UTC),
+                    self.start_time,
                     msg='File should be recently modified: %s' % file_path
                 )
 
@@ -115,14 +150,13 @@ class TestGenerate(I18nToolTestCase):
 
     def test_lang_mapping(self):
         generate.main(verbose=0, strict=False, root_dir=MOCK_APPLICATION_DIR)
-        self.assertTrue(len(self.configuration.edx_lang_map) > 0)
+        self.assertGreater(len(self.configuration.edx_lang_map), 0)
 
         for source_locale, dest_locale in self.configuration.edx_lang_map.items():
             source_dirname = self.configuration.get_messages_dir(source_locale)
             dest_dirname = self.configuration.get_messages_dir(dest_locale)
 
             self.assertTrue(Path.exists(dest_dirname))
-            from filecmp import dircmp
 
             diff = dircmp(source_dirname, dest_dirname)
             self.assertEqual(len(diff.left_only), 0)
