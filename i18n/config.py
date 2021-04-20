@@ -109,7 +109,7 @@ class Configuration:
             base_rtl = ['ar', 'fa', 'he', 'ur']
 
             # do this to capture both 'fa' and 'fa_IR'
-            return any([lang.startswith(base_code) for base_code in base_rtl])
+            return any(lang.startswith(base_code) for base_code in base_rtl)
 
         return sorted({lang for lang in self.translated_locales if is_rtl(lang)})
 
