@@ -13,8 +13,8 @@
  
 # TODO: Many pinned dependencies should be unpinned and/or moved to this constraints file.
 
-# pip 5.0.0 only works with pip 20+ and all our VMs and containers are still installing 19.3.1 by default
-pip-tools<5.0.0
+# See https://openedx.atlassian.net/browse/BOM-2247 for details.
+pip-tools==5.3.0
 
 # mock version 4.0.0 drops support for python 3.5
 mock<4.0.0
