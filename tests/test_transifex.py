@@ -104,4 +104,4 @@ class TestTransifex(I18nToolTestCase):
             transifex.clean_locale(self.configuration, 'fr')
             self.assertEqual(12, patched.call_count)
             for callarg in patched.call_args_list:
-                self.assertRegexpMatches(callarg[0][1].name, r'.*\.po')
+                self.assertRegex(callarg[0][1].name, r'.*\.po')

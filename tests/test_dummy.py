@@ -26,7 +26,7 @@ class TestDummy(I18nToolTestCase):
         things safe.
 
         """
-        self.assertEquals(
+        self.assertEqual(
             str1, str2,
             "Mismatch: %r != %r" % (str1, str2),
         )
