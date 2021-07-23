@@ -27,7 +27,7 @@ def is_requirement(line):
 
 setup(
     name='edx-i18n-tools',
-    version='0.6.0',
+    version='0.7.0',
     description='edX Internationalization Tools',
     author='edX',
     author_email='oscm@edx.org',
@@ -49,9 +49,11 @@ setup(
         'License :: OSI Approved :: Apache Software License',
         'Operating System :: OS Independent',
         'Programming Language :: Python',
-        'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.8',
         'Framework :: Django',
         'Framework :: Django :: 2.2',
+        'Framework :: Django :: 3.0',
+        'Framework :: Django :: 3.1',
+        'Framework :: Django :: 3.2',
     ],
 )
