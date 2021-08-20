@@ -18,11 +18,7 @@ def execute(command, working_directory=config.BASE_DIR, stderr=sp.STDOUT):
     """
     LOG.info("Executing in %s ...", working_directory)
     LOG.info(command)
-    try:
-        sp.check_call(command, cwd=working_directory, stderr=stderr, shell=True)
-    except sp.CalledProcessError as e:
-        LOG.error(e.output)
-        LOG.error(e.returncode)
+    sp.check_call(command, cwd=working_directory, stderr=stderr, shell=True)
 
 
 def call(command, working_directory=config.BASE_DIR):
