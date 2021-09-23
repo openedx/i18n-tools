@@ -1,0 +1,7 @@
+
+# Additional requirements for development of this application
+-c constraints.txt
+
+-r pip_tools.txt          # pip-tools and its dependencies, for managing requirements files
+-r ci.txt                 # dependencies needed to setup testing environment on CI
+

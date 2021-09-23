@@ -25,7 +25,7 @@ from i18n import Runner
 from i18n.execute import execute
 
 LOG = logging.getLogger(__name__)
-DEVNULL = open(os.devnull, "wb")
+DEVNULL = open(os.devnull, "wb")        # pylint: disable=consider-using-with
 DUPLICATE_ENTRY_PATTERN = re.compile('#-#-#-#-#.*#-#-#-#-#')
 
 
@@ -111,10 +111,10 @@ def clean_pofile(pofile_path):
             # Remove fuzzy from flags
             entry.flags = [f for f in entry.flags if f != 'fuzzy']
             # Save a warning message
-            dup_msg = 'Multiple translations found for single string.\n\tString "{}"\n\tPresent in files {}'.format(
-                entry.msgid,
-                [f for (f, __) in entry.occurrences]
-            )
+            occurrences = [f for (f, __) in entry.occurrences]
+            dup_msg = (f'Multiple translations found for single string.\n\t'
+                       f'String "{entry.msgid}"\n\tPresent in files {occurrences}'
+                       )
             duplicate_entries.append((dup_msg, entry.msgstr))
 
             # Pick the first entry
@@ -128,10 +128,9 @@ def clean_pofile(pofile_path):
                     # Raise error if there's new lines starting or ending the id string.
                     if entry.msgid.startswith('\n') or entry.msgid.endswith('\n'):
                         raise ValueError(
-                            '{} starts or ends with a new line character, which is not allowed. '
-                            'Please fix before continuing. Source string is found in {}'.format(
-                                entry.msgid, entry.occurrences
-                            ).encode('utf-8')
+                            f'{entry.msgid} starts or ends with a new line character, which is not allowed. '
+                            'Please fix before continuing. Source string is found in {entry.occurrences}'
+                            .encode('utf-8')
                         )
                     break
 

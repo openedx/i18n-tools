@@ -191,7 +191,7 @@ def make_dummy(filename, locale, converter):
     in :param locale: containing a dummy translation.
     """
     if not Path(filename).exists():
-        raise OSError('File does not exist: %r' % filename)
+        raise OSError(f'File does not exist: {filename}')
     pofile = polib.pofile(filename)
     for msg in pofile:
         # Some strings are actually formatting strings, don't dummy-ify them,

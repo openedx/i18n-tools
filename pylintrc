@@ -290,6 +290,7 @@ disable =
 	unused-wildcard-import,
 	global-statement,
 	no-else-return,
+	consider-using-f-string,
 	# These are disabled by pylint by default
 	apply-builtin,
 	backtick,
