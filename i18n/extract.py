@@ -32,7 +32,7 @@ from i18n.segment import segment_pofiles
 
 EDX_MARKER = "edX translation file"
 LOG = logging.getLogger(__name__)
-DEVNULL = open(os.devnull, 'wb')
+DEVNULL = open(os.devnull, 'wb')    # pylint: disable=consider-using-with
 
 
 class Extract(Runner):

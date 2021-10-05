@@ -29,9 +29,9 @@ def call(command, working_directory=config.BASE_DIR):
 
     """
     LOG.info(command)
-    proc = sp.Popen(command, stdout=sp.PIPE, stderr=sp.PIPE, cwd=working_directory, shell=True)
-    out, err = proc.communicate()
-    return (out, err)
+    with sp.Popen(command, stdout=sp.PIPE, stderr=sp.PIPE, cwd=working_directory, shell=True) as proc:
+        out, err = proc.communicate()
+        return out, err
 
 
 def remove_file(filename, verbose=True):

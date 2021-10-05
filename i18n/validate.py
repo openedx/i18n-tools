@@ -75,8 +75,8 @@ def msgfmt_check_po_file(locale_dir, filename):
     rfile = os.path.relpath(filename, locale_dir)
     out, err = call(f'msgfmt -c -o /dev/null {rfile}', working_directory=locale_dir)
     if err:
-        log.info('\n{}'.format(out.decode('utf8')))
-        log.warning('\n{}'.format(err.decode('utf8')))
+        log.info('\n%s', out.decode('utf8'))
+        log.warning('\n%s', err.decode('utf8'))
         found_problems = True
 
     return found_problems
@@ -110,7 +110,7 @@ def astral(msg):
     # By encoding as utf32, and decoding DWORDS, we can get at the real code
     # points.
     utf32 = msg.encode("utf32")[4:]         # [4:] to drop the bom
-    code_points = struct.unpack("%dI" % (len(utf32) / 4), utf32)
+    code_points = struct.unpack('%dI' % (len(utf32) / 4), utf32)
     return any(cp > 0xFFFF for cp in code_points)
 
 
@@ -191,11 +191,11 @@ def report_problems(filename, problems):
     with codecs.open(problem_file, "w", encoding="utf8") as prob_file:
         for problem in problems:
             desc, msgid = problem[:2]
-            prob_file.write("{}\n{}\n".format(desc, id_filler.fill(msgid)))
-            info = "{}\n{}\n".format(desc, id_filler.fill(msgid))
+            prob_file.write(f"{desc}\n{id_filler.fill(msgid)}\n")
+            info = f"{desc}\n{id_filler.fill(msgid)}\n"
             for translation in problem[2:]:
-                prob_file.write("{}\n".format(tx_filler.fill(translation)))
-                info += "{}\n".format(tx_filler.fill(translation))
+                prob_file.write(f"{tx_filler.fill(translation)}\n")
+                info += f"{tx_filler.fill(translation)}\n"
             log.info(info)
             prob_file.write("\n")
 

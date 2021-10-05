@@ -20,7 +20,7 @@ def get_valid_commands():
     for modname in modules:
         if modname == 'main':
             continue
-        mod = importlib.import_module('i18n.%s' % modname)
+        mod = importlib.import_module(f'i18n.{modname}')
         if hasattr(mod, 'main'):
             commands.append(modname)
     return commands
@@ -35,7 +35,7 @@ def error_message():
     """
     sys.stderr.write('valid commands:\n')
     for cmd in get_valid_commands():
-        sys.stderr.write('\t%s\n' % cmd)
+        sys.stderr.write(f'\t{cmd}\n')
     return -1
 
 
@@ -52,7 +52,7 @@ def main():
         return error_message()
 
     try:
-        module = importlib.import_module('i18n.%s' % command)
+        module = importlib.import_module(f'i18n.{command}')
         module.main.args = sys.argv[2:]
     except (ImportError, AttributeError):
         return error_message()
