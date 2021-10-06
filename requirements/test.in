@@ -10,3 +10,4 @@ pytest-cov
 pycodestyle
 edx-lint
 pytz
+coverage
