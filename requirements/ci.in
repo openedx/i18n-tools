@@ -3,3 +3,5 @@
 
 -r test.txt
 -r tox.txt
+
+coverage

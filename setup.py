@@ -27,7 +27,7 @@ def is_requirement(line):
 
 setup(
     name='edx-i18n-tools',
-    version='0.8.0',
+    version='0.8.1',
     description='edX Internationalization Tools',
     author='edX',
     author_email='oscm@edx.org',

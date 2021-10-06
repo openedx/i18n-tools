@@ -6,8 +6,6 @@
 #
 asgiref==3.4.1
     # via django
-coverage==6.0
-    # via -r requirements/base.in
 django==3.2.8
     # via -r requirements/base.in
 path==16.2.0

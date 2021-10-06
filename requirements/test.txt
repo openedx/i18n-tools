@@ -25,7 +25,6 @@ code-annotations==1.2.0
     # via edx-lint
 coverage[toml]==6.0
     # via
-    #   -r requirements/base.txt
     #   -r requirements/test.in
     #   pytest-cov
 ddt==1.4.4
