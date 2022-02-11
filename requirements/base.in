@@ -1,7 +1,7 @@
 # Core requirements for using this package
 -c constraints.txt
 
-Django<3.3
+Django
 polib
 path
 pyYaml
