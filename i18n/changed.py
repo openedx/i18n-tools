@@ -32,7 +32,7 @@ class Changed(Runner):
           This method requires ``git`` to be installed on the executing machine.
         """
         try:
-            execute('git diff --exit-code -G "^(msgid|msgstr)"')
+            execute('git diff --no-index --exit-code -G "^(msgid|msgstr)"')
             return False
         except CalledProcessError:
             return True
