@@ -80,7 +80,7 @@ Configuration
 =============
 
 Details of the config.yaml file are in `edx-platform/conf/locale/config.yaml
-<https://github.com/edx/edx-platform/blob/master/conf/locale/config.yaml>`_
+<https://github.com/openedx/edx-platform/blob/master/conf/locale/config.yaml>`_
 
 
 Changes
