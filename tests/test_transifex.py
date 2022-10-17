@@ -59,9 +59,9 @@ class TestTransifex(I18nToolTestCase):
         transifex.pull(self.configuration)
 
         call_args = [
-            ('tx pull -f --mode=reviewed --minimum-perc=3 -l en',),
-            ('tx pull -f --mode=reviewed --minimum-perc=3 -l fr',),
-            ('tx pull -f --mode=reviewed --minimum-perc=3 -l zh_CN',),
+            ('tx pull -t -f --mode=reviewed --minimum-perc=3 -l en',),
+            ('tx pull -t -f --mode=reviewed --minimum-perc=3 -l fr',),
+            ('tx pull -t -f --mode=reviewed --minimum-perc=3 -l zh_CN',),
         ]
         self.assertEqual(
             call_args,
@@ -74,12 +74,12 @@ class TestTransifex(I18nToolTestCase):
 
         # conf/locale/config.yaml specifies two non-source locales, 'fr' and 'zh_CN'
         call_args = [
-            ('tx pull -f --mode=reviewed --minimum-perc=3 -l en -r foo.1',),
-            ('tx pull -f --mode=reviewed --minimum-perc=3 -l en -r foo.2',),
-            ('tx pull -f --mode=reviewed --minimum-perc=3 -l fr -r foo.1',),
-            ('tx pull -f --mode=reviewed --minimum-perc=3 -l fr -r foo.2',),
-            ('tx pull -f --mode=reviewed --minimum-perc=3 -l zh_CN -r foo.1',),
-            ('tx pull -f --mode=reviewed --minimum-perc=3 -l zh_CN -r foo.2',),
+            ('tx pull -t -f --mode=reviewed --minimum-perc=3 -l en -r foo.1',),
+            ('tx pull -t -f --mode=reviewed --minimum-perc=3 -l en -r foo.2',),
+            ('tx pull -t -f --mode=reviewed --minimum-perc=3 -l fr -r foo.1',),
+            ('tx pull -t -f --mode=reviewed --minimum-perc=3 -l fr -r foo.2',),
+            ('tx pull -t -f --mode=reviewed --minimum-perc=3 -l zh_CN -r foo.1',),
+            ('tx pull -t -f --mode=reviewed --minimum-perc=3 -l zh_CN -r foo.2',),
         ]
         self.assertEqual(
             call_args,
