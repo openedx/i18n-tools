@@ -54,7 +54,7 @@ def pull(configuration, *resources):
     print("Pulling conf/locale/config.yaml:locales from Transifex...")
 
     for lang in configuration.translated_locales:
-        cmd = f'tx pull -f --mode=reviewed --minimum-perc=3 -l {lang}'
+        cmd = f'tx pull -t -f --mode=reviewed --minimum-perc=3 -l {lang}'
         if resources:
             for resource in resources:
                 execute(cmd + f' -r {resource}')
@@ -70,7 +70,7 @@ def pull_all(configuration):
     Only cleans locales: listed in conf/locale/config.yaml
     """
     print("Pulling all translations for all languages, reviewed or not, from transifex...")
-    execute('tx pull --all')
+    execute('tx pull --all --translations')
     clean_translated_locales(configuration)
 
 
@@ -82,7 +82,7 @@ def pull_all_ltr(configuration):
     for lang in configuration.ltr_langs:
         print('rm -rf conf/locale/' + lang)
         execute('rm -rf conf/locale/' + lang)
-        execute('tx pull -l ' + lang)
+        execute('tx pull -t -l ' + lang)
     clean_translated_locales(configuration, langs=configuration.ltr_langs)
 
 
@@ -94,7 +94,7 @@ def pull_all_rtl(configuration):
     for lang in configuration.rtl_langs:
         print('rm -rf conf/locale/' + lang)
         execute('rm -rf conf/locale/' + lang)
-        execute('tx pull -l ' + lang)
+        execute('tx pull -t -l ' + lang)
     clean_translated_locales(configuration, langs=configuration.rtl_langs)
 
 
