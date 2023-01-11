@@ -184,7 +184,7 @@ class Generate(Runner):
         if configuration.source_locale not in langs:
             merge_files(configuration, configuration.source_locale, fail_if_missing=args.strict)
 
-        compile_cmd = f'django-admin.py compilemessages -v{args.verbose}'
+        compile_cmd = f'django-admin compilemessages -v{args.verbose}'
         if args.verbose:
             stderr = None
         else:
