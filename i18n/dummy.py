@@ -12,7 +12,7 @@ localized for. So we are using a well-known language (default='eo').
 Django languages are listed in django.conf.global_settings.LANGUAGES
 
 po files can be generated with this:
-django-admin.py makemessages --all --extension html -l en
+django-admin makemessages --all --extension html -l en
 
 Usage:
 

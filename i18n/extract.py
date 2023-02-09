@@ -10,7 +10,7 @@ and produces three human-readable files:
    conf/locale/en/LC_MESSAGES/mako.po
 
 This task will clobber any existing django.po file.
-This is because django-admin.py makemessages hardcodes this filename
+This is because django-admin makemessages hardcodes this filename
 and it cannot be overridden.
 
 """
@@ -118,7 +118,7 @@ class Extract(Runner):
 
             execute(babel_underscore_cmd, working_directory=configuration.root_dir, stderr=stderr)
 
-        makemessages = f"django-admin.py makemessages -l en -v{args.verbose}"
+        makemessages = f"django-admin makemessages -l en -v{args.verbose}"
         ignores = " ".join(f'--ignore="{d}/*"' for d in configuration.ignore_dirs)
         if ignores:
             makemessages += " " + ignores
@@ -185,7 +185,7 @@ def fix_header(pofile):
     Replace default headers with edX headers
     """
 
-    # By default, django-admin.py makemessages creates this header:
+    # By default, django-admin makemessages creates this header:
     #
     #   SOME DESCRIPTIVE TITLE.
     #   Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
@@ -220,7 +220,7 @@ def fix_metadata(pofile):
     Replace default metadata with edX metadata
     """
 
-    # By default, django-admin.py makemessages creates this metadata:
+    # By default, django-admin makemessages creates this metadata:
     #
     #   {u'PO-Revision-Date': u'YEAR-MO-DA HO:MI+ZONE',
     #   u'Language': u'',
