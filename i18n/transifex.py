@@ -167,7 +167,7 @@ class Transifex(Runner):
         elif args.command == "push_all":
             push_all()
         else:
-            raise Exception(f"unknown command ({args.command})")
+            raise Exception(f"unknown command ({args.command})")  # pylint: disable=broad-exception-raised
 
 
 main = Transifex()
