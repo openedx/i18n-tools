@@ -56,12 +56,12 @@ class Converter:
            list: list of the removed tags ('<BR>', '<I>', '</I>')
         """
         counter = itertools.count(0)
-        count = lambda m: f'<{next(counter)}>'
+        count = lambda m: f'<{next(counter)}>'  # pylint: disable=unnecessary-lambda-assignment
         tags = self.tag_pattern.findall(string)
         tags = [''.join(tag) for tag in tags]
         (new, nfound) = self.tag_pattern.subn(count, string)
         if len(tags) != nfound:
-            raise Exception('tags dont match:' + string)
+            raise Exception('tags dont match:' + string)  # pylint: disable=broad-exception-raised
         return (new, tags)
 
     def retag_string(self, string, tags):

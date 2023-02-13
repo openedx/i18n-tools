@@ -58,7 +58,7 @@ class Configuration:
         Returns data found in config file (as dict), or raises exception if file not found
         """
         if not os.path.exists(filename):
-            raise Exception(f"Configuration file cannot be found: {filename}")
+            raise Exception(f"Configuration file cannot be found: {filename}")  # pylint: disable=broad-exception-raised
         with open(filename, encoding='UTF-8') as stream:
             return yaml.safe_load(stream)
 
