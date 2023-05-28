@@ -1,6 +1,5 @@
 from datetime import datetime, timedelta
 import os
-from unittest import skip
 
 import polib
 from path import Path
@@ -9,11 +8,7 @@ from i18n import extract, config
 
 from . import I18nToolTestCase, MOCK_DJANGO_APP_DIR
 
-# Make sure setup runs only once
-SETUP_HAS_RUN = False
 
-
-@skip('Tests need to be updated to new repo')
 class TestExtract(I18nToolTestCase):
     """
     Tests functionality of i18n/extract.py
@@ -21,8 +16,6 @@ class TestExtract(I18nToolTestCase):
     generated_files = ('django-partial.po', 'djangojs-partial.po', 'mako.po')
 
     def setUp(self):
-        global SETUP_HAS_RUN
-
         super().setUp()
 
         # Subtract 1 second to help comparisons with file-modify time succeed,
@@ -38,10 +31,8 @@ class TestExtract(I18nToolTestCase):
         )
         self.configuration = config.Configuration(root_dir=MOCK_DJANGO_APP_DIR)
 
-        if not SETUP_HAS_RUN:
-            # Run extraction script. Warning, this takes 1 minute or more
-            extract.main(verbosity=0, config=self.configuration._filename, root_dir=MOCK_DJANGO_APP_DIR)
-            SETUP_HAS_RUN = True
+        # Run extraction script
+        extract.main(verbosity=0, config=self.configuration._filename, root_dir=MOCK_DJANGO_APP_DIR)
 
     def get_files(self):
         """
