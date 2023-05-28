@@ -68,7 +68,9 @@ class TestExtract(I18nToolTestCase):
         self.assertFalse(extract.is_key_string(entry2.msgid))
 
     def test_headers(self):
-        """Verify all headers have been modified"""
+        """
+        Verify all headers have been modified
+        """
         for path in self.get_files():
             po = polib.pofile(path)
             header = po.header
@@ -78,10 +80,21 @@ class TestExtract(I18nToolTestCase):
             )
 
     def test_metadata(self):
-        """Verify all metadata has been modified"""
+        """
+        Verify all metadata has been modified
+        """
         for path in self.get_files():
             po = polib.pofile(path)
             metadata = po.metadata
             value = metadata['Report-Msgid-Bugs-To']
             expected = 'openedx-translation@googlegroups.com'
             self.assertEquals(expected, value)
+
+    def test_metadata_no_create_date(self):
+        """
+        Verify `POT-Creation-Date` metadata has been removed
+        """
+        for path in self.get_files():
+            po = polib.pofile(path)
+            metadata = po.metadata
+            self.assertIsNone(metadata.get('POT-Creation-Date'))
