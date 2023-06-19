@@ -35,6 +35,13 @@ LOG = logging.getLogger(__name__)
 DEVNULL = open(os.devnull, 'wb')    # pylint: disable=consider-using-with
 
 
+def file_exists(path_name):
+    """
+    Returns True if the file exists and is not empty.
+    """
+    return os.path.exists(path_name) and os.path.getsize(path_name) > 0
+
+
 class Extract(Runner):
     """
     Class used to extract source files
@@ -163,21 +170,33 @@ class Extract(Runner):
         segmented_files = segment_pofiles(configuration, configuration.source_locale)
         files_to_clean.update(segmented_files)
 
+        # Add partial files to the list of files to clean.
+        files_to_clean.update(('django_partial', 'djangojs_partial'))
+
         # Finish each file.
         for filename in files_to_clean:
-            LOG.info('Cleaning %s', filename)
-            pofile = polib.pofile(self.source_msgs_dir.joinpath(filename))
-            # replace default headers with edX headers
-            fix_header(pofile)
-            # replace default metadata with edX metadata
-            fix_metadata(pofile)
-            # remove key strings which belong in messages.po
-            strip_key_strings(pofile)
-            pofile.save()
+            clean_pofile(self.source_msgs_dir.joinpath(filename))
 
         # Restore the saved .po files.
         self.rename_source_file('django-saved.po', 'django.po')
         self.rename_source_file('djangojs-saved.po', 'djangojs.po')
+
+
+def clean_pofile(path_name):
+    """
+    Perform header fix, metadata fix, and key string removal on a single pofile
+    """
+    if not file_exists(path_name):
+        return
+    LOG.info('Cleaning %s', os.path.basename(path_name))
+    profile = polib.pofile(path_name)
+    # replace default headers with edX headers
+    fix_header(profile)
+    # replace default metadata with edX metadata
+    fix_metadata(profile)
+    # remove key strings which belong in messages.po
+    strip_key_strings(profile)
+    profile.save()
 
 
 def fix_header(pofile):
@@ -234,7 +253,6 @@ def fix_metadata(pofile):
     #   u'MIME-Version': u'1.0'}
 
     fixes = {
-        'PO-Revision-Date': datetime.utcnow(),
         'Report-Msgid-Bugs-To': 'openedx-translation@googlegroups.com',
         'Project-Id-Version': '0.1a',
         'Language': 'en',
@@ -242,6 +260,8 @@ def fix_metadata(pofile):
         'Language-Team': 'openedx-translation <openedx-translation@googlegroups.com>',
         'Plural-Forms': 'nplurals=2; plural=(n != 1);',
     }
+    pofile.metadata.pop('POT-Creation-Date', None)
+    pofile.metadata.pop('PO-Revision-Date', None)
     pofile.metadata.update(fixes)
 
 
