@@ -1,0 +1,9 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: 'i18n-tools'
+  description: "Tools to help with internationalization and localization of Open edX projects"
+spec:
+  owner: domain-translations
+  type: 'library'
+  lifecycle: 'production'
