@@ -23,13 +23,14 @@ from polib import pofile
 
 from i18n import Runner
 from i18n.execute import execute
+from i18n.extract import DJANGO_PARTIAL_PO, DJANGO_PO
 
 LOG = logging.getLogger(__name__)
 DEVNULL = open(os.devnull, "wb")        # pylint: disable=consider-using-with
 DUPLICATE_ENTRY_PATTERN = re.compile('#-#-#-#-#.*#-#-#-#-#')
 
 
-def merge(configuration, locale, target='django.po', sources=('django-partial.po',), fail_if_missing=True):
+def merge(configuration, locale, target=DJANGO_PO, sources=(DJANGO_PARTIAL_PO,), fail_if_missing=True):
     """
     For the given locale, merge the `sources` files to become the `target`
     file.  Note that the target file might also be one of the sources.

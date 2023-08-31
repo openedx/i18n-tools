@@ -6,6 +6,7 @@ import shutil
 from path import Path
 import polib
 
+from i18n.extract import DJANGO_PO
 from i18n.segment import segment_pofile
 
 from . import I18nToolTestCase
@@ -32,7 +33,7 @@ class SegmentTest(I18nToolTestCase):
         self.assertEqual(po1, po2)
 
     def test_sample_data(self):
-        work_file = WORK / "django.po"
+        work_file = WORK / DJANGO_PO
         shutil.copyfile(TEST_DATA / "django_before.po", work_file)
         original_pofile = polib.pofile(work_file)
 
@@ -46,7 +47,7 @@ class SegmentTest(I18nToolTestCase):
             }
         )
 
-        self.assertEqual(written, {WORK / "django.po", WORK / "studio.po"})
+        self.assertEqual(written, {WORK / DJANGO_PO, WORK / "studio.po"})
 
         pofiles = [polib.pofile(f) for f in written]
         after_entries = sum(len(pofile) for pofile in pofiles)
@@ -56,5 +57,5 @@ class SegmentTest(I18nToolTestCase):
         after_ids = {m.msgid for pofile in pofiles for m in pofile}
         self.assertEqual(original_ids, after_ids)
 
-        self.assert_pofile_same(WORK / "django.po", TEST_DATA / "django_after.po")
+        self.assert_pofile_same(WORK / DJANGO_PO, TEST_DATA / "django_after.po")
         self.assert_pofile_same(WORK / "studio.po", TEST_DATA / "studio.po")

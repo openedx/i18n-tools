@@ -13,6 +13,7 @@ from polib import pofile
 from pytz import UTC
 
 from i18n import config, generate
+from i18n.extract import DJANGO_PARTIAL_PO, DJANGO_PO
 
 from . import I18nToolTestCase, MOCK_APPLICATION_DIR, MOCK_DJANGO_APP_DIR
 
@@ -56,7 +57,7 @@ class TestGenerate(I18nToolTestCase):
         generate.merge(
             test_configuration,
             test_configuration.source_locale,
-            sources=("django-partial.po", "nonexistingfile.po"),
+            sources=(DJANGO_PARTIAL_PO, "nonexistingfile.po"),
             target=filename,
             fail_if_missing=False,
         )
@@ -73,7 +74,7 @@ class TestGenerate(I18nToolTestCase):
             generate.merge(
                 test_configuration,
                 test_configuration.source_locale,
-                sources=("django-partial.po", "nonexistingfile.po"),
+                sources=(DJANGO_PARTIAL_PO, "nonexistingfile.po"),
                 target=filename,
                 fail_if_missing=True,
             )
@@ -127,7 +128,7 @@ class TestGenerate(I18nToolTestCase):
 
     @patch('i18n.generate.LOG')
     def test_resolve_merge_conflicts(self, mock_log):
-        django_po_path = Path.joinpath(self.configuration.get_messages_dir('mock'), 'django.po')
+        django_po_path = Path.joinpath(self.configuration.get_messages_dir('mock'), DJANGO_PO)
         # File ought to have been generated in test_main
         # if not Path.exists(django_po_path):
         generate.main(verbose=0, strict=False, root_dir=MOCK_APPLICATION_DIR)
