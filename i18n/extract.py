@@ -95,35 +95,7 @@ class Extract(Runner):
         else:
             stderr = DEVNULL
 
-        # --keyword informs Babel that `interpolate()` is an expected
-        # gettext function, which is necessary because the `tokenize` function
-        # in the `markey` module marks it as such and passes it to Babel.
-        # (These functions are called in the django-babel-underscore module.)
-        babel_cmd_template = (
-            'pybabel {verbosity} extract --mapping={config} '
-            '--add-comments="Translators:" --keyword="interpolate" '
-            '. --output={output}'
-        )
-
-        babel_mako_cfg = self.base(configuration.locale_dir, 'babel_mako.cfg')
-        if babel_mako_cfg.exists():
-            babel_mako_cmd = babel_cmd_template.format(
-                verbosity=babel_verbosity,
-                config=babel_mako_cfg,
-                output=self.base(configuration.source_messages_dir, 'mako.po'),
-            )
-
-            execute(babel_mako_cmd, working_directory=configuration.root_dir, stderr=stderr)
-
-        babel_underscore_cfg = self.base(configuration.locale_dir, 'babel_underscore.cfg')
-        if babel_underscore_cfg.exists():
-            babel_underscore_cmd = babel_cmd_template.format(
-                verbosity=babel_verbosity,
-                config=babel_underscore_cfg,
-                output=self.base(configuration.source_messages_dir, 'underscore.po'),
-            )
-
-            execute(babel_underscore_cmd, working_directory=configuration.root_dir, stderr=stderr)
+        self.babel_extract(stderr, babel_verbosity)
 
         makemessages = f"django-admin makemessages -l en -v{args.verbose}"
         ignores = " ".join(f'--ignore="{d}/*"' for d in configuration.ignore_dirs)
@@ -180,6 +152,42 @@ class Extract(Runner):
         # Restore the saved .po files.
         self.rename_source_file('django-saved.po', 'django.po')
         self.rename_source_file('djangojs-saved.po', 'djangojs.po')
+
+    def babel_extract(self, stderr, verbosity):
+        """
+        Extract strings from mako templates.
+        """
+        configuration = self.configuration
+
+        # --keyword informs Babel that `interpolate()` is an expected
+        # gettext function, which is necessary because the `tokenize` function
+        # in the `markey` module marks it as such and passes it to Babel.
+        # (These functions are called in the django-babel-underscore module.)
+        babel_cmd_template = (
+            'pybabel {verbosity} extract --mapping={config} '
+            '--add-comments="Translators:" --keyword="interpolate" '
+            '. --output={output}'
+        )
+
+        babel_mako_cfg = self.base(configuration.locale_dir, 'babel_mako.cfg')
+        if babel_mako_cfg.exists():
+            babel_mako_cmd = babel_cmd_template.format(
+                verbosity=verbosity,
+                config=babel_mako_cfg,
+                output=self.base(configuration.source_messages_dir, 'mako.po'),
+            )
+
+            execute(babel_mako_cmd, working_directory=configuration.root_dir, stderr=stderr)
+
+        babel_underscore_cfg = self.base(configuration.locale_dir, 'babel_underscore.cfg')
+        if babel_underscore_cfg.exists():
+            babel_underscore_cmd = babel_cmd_template.format(
+                verbosity=verbosity,
+                config=babel_underscore_cfg,
+                output=self.base(configuration.source_messages_dir, 'underscore.po'),
+            )
+
+            execute(babel_underscore_cmd, working_directory=configuration.root_dir, stderr=stderr)
 
 
 def clean_pofile(path_name):
