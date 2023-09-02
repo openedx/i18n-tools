@@ -57,14 +57,14 @@ class TestExtract(I18nToolTestCase):
         """
         Returns the name of the generated django file
         """
-        return 'django-partial.po'
+        return extract.DJANGO_PARTIAL_PO
 
     @property
     def djangojs_po(self):
         """
         Returns the name of the generated djangojs file
         """
-        return 'djangojs-partial.po'
+        return extract.DJANGOJS_PARTIAL_PO
 
     def get_files(self):
         """
@@ -72,7 +72,7 @@ class TestExtract(I18nToolTestCase):
         Returns the fully expanded filenames for all extracted files
         Fails assertion if one of the files doesn't exist.
         """
-        generated_files = ('mako.po', self.django_po, self.djangojs_po,)
+        generated_files = (extract.MAKO_PO, self.django_po, self.djangojs_po,)
 
         for filename in generated_files:
             path = Path.joinpath(self.configuration.source_messages_dir, filename)

@@ -33,6 +33,14 @@ from i18n.segment import segment_pofiles
 EDX_MARKER = "edX translation file"
 LOG = logging.getLogger(__name__)
 DEVNULL = open(os.devnull, 'wb')    # pylint: disable=consider-using-with
+DJANGO_PO = 'django.po'
+DJANGO_PARTIAL_PO = 'django-partial.po'
+DJANGO_SAVED_PO = 'django-saved.po'
+DJANGOJS_PO = 'djangojs.po'
+DJANGOJS_PARTIAL_PO = 'djangojs-partial.po'
+DJANGOJS_SAVED_PO = 'djangojs-saved.po'
+MAKO_PO = 'mako.po'
+UNDERSCORE_PO = 'underscore.po'
 
 
 def file_exists(path_name):
@@ -79,8 +87,8 @@ class Extract(Runner):
 
         # The extraction process clobbers django.po and djangojs.po.
         # Save them so that it won't do that.
-        self.rename_source_file('django.po', 'django-saved.po')
-        self.rename_source_file('djangojs.po', 'djangojs-saved.po')
+        self.rename_source_file(DJANGO_PO, DJANGO_SAVED_PO)
+        self.rename_source_file(DJANGOJS_PO, DJANGOJS_SAVED_PO)
 
         # Extract strings from mako templates.
         verbosity_map = {
@@ -112,11 +120,11 @@ class Extract(Runner):
 
         # makemessages creates 'django.po'. This filename is hardcoded.
         # Rename it to django-partial.po to enable merging into django.po later.
-        self.rename_source_file('django.po', 'django-partial.po')
+        self.rename_source_file(DJANGO_PO, DJANGO_PARTIAL_PO)
 
         # makemessages creates 'djangojs.po'. This filename is hardcoded.
         # Rename it to djangojs-partial.po to enable merging into djangojs.po later.
-        self.rename_source_file('djangojs.po', 'djangojs-partial.po')
+        self.rename_source_file(DJANGOJS_PO, DJANGOJS_PARTIAL_PO)
 
         files_to_clean = set()
 
@@ -143,15 +151,15 @@ class Extract(Runner):
         files_to_clean.update(segmented_files)
 
         # Add partial files to the list of files to clean.
-        files_to_clean.update(('django_partial', 'djangojs_partial'))
+        files_to_clean.update((DJANGO_PARTIAL_PO, DJANGOJS_PARTIAL_PO))
 
         # Finish each file.
         for filename in files_to_clean:
             clean_pofile(self.source_msgs_dir.joinpath(filename))
 
         # Restore the saved .po files.
-        self.rename_source_file('django-saved.po', 'django.po')
-        self.rename_source_file('djangojs-saved.po', 'djangojs.po')
+        self.rename_source_file(DJANGO_SAVED_PO, DJANGO_PO)
+        self.rename_source_file(DJANGOJS_SAVED_PO, DJANGOJS_PO)
 
     def babel_extract(self, stderr, verbosity):
         """
@@ -174,7 +182,7 @@ class Extract(Runner):
             babel_mako_cmd = babel_cmd_template.format(
                 verbosity=verbosity,
                 config=babel_mako_cfg,
-                output=self.base(configuration.source_messages_dir, 'mako.po'),
+                output=self.base(configuration.source_messages_dir, MAKO_PO),
             )
 
             execute(babel_mako_cmd, working_directory=configuration.root_dir, stderr=stderr)
@@ -184,7 +192,7 @@ class Extract(Runner):
             babel_underscore_cmd = babel_cmd_template.format(
                 verbosity=verbosity,
                 config=babel_underscore_cfg,
-                output=self.base(configuration.source_messages_dir, 'underscore.po'),
+                output=self.base(configuration.source_messages_dir, UNDERSCORE_PO),
             )
 
             execute(babel_underscore_cmd, working_directory=configuration.root_dir, stderr=stderr)
