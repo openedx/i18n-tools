@@ -26,7 +26,7 @@ import polib
 from path import Path
 
 from i18n import Runner
-from i18n.execute import execute
+from i18n.execute import remove_file, execute
 from i18n.segment import segment_pofiles
 
 
@@ -65,6 +65,21 @@ class Extract(Runner):
         Adds arguments
         """
         self.parser.description = __doc__
+        self.parser.add_argument(
+            '--merge-po-files',
+            action='store_true',
+            help='Merge djangojs.po with django.po using msgcat'
+        )
+        self.parser.add_argument(
+            '--no-segment',
+            action='store_true',
+            help=(
+                'Ignore the `segment` section in the `config.yaml` configurations file. Also rename '
+                '(django-partial.po) and (djangojs-partial.po) to (django.po) and (djangojs.po) respectively, '
+                'which means that the original files will be overwritten after the extraction is completed. This is '
+                'helpful when running the `extract` command in small repositories with no segment/merge workflow.'
+            )
+        )
 
     def rename_source_file(self, src, dst):
         """
@@ -147,8 +162,9 @@ class Extract(Runner):
             execute(babel_cmd, working_directory=app_dir, stderr=stderr)
 
         # Segment the generated files.
-        segmented_files = segment_pofiles(configuration, configuration.source_locale)
-        files_to_clean.update(segmented_files)
+        if not args.no_segment:
+            segmented_files = segment_pofiles(configuration, configuration.source_locale)
+            files_to_clean.update(segmented_files)
 
         # Add partial files to the list of files to clean.
         files_to_clean.update((DJANGO_PARTIAL_PO, DJANGOJS_PARTIAL_PO))
@@ -157,9 +173,19 @@ class Extract(Runner):
         for filename in files_to_clean:
             clean_pofile(self.source_msgs_dir.joinpath(filename))
 
-        # Restore the saved .po files.
-        self.rename_source_file(DJANGO_SAVED_PO, DJANGO_PO)
-        self.rename_source_file(DJANGOJS_SAVED_PO, DJANGOJS_PO)
+        if args.merge_po_files:
+            self.merge_po_files(stderr)
+
+        if args.no_segment:
+            # Overwrite django.po and djangojs.po from django-partial.po and djangojs-partial.po
+            self.rename_source_file(DJANGO_PARTIAL_PO, DJANGO_PO)
+            self.rename_source_file(DJANGOJS_PARTIAL_PO, DJANGOJS_PO)
+            remove_file(self.source_msgs_dir.joinpath(DJANGO_SAVED_PO))
+            remove_file(self.source_msgs_dir.joinpath(DJANGOJS_SAVED_PO))
+        else:
+            # Restore the saved .po files.
+            self.rename_source_file(DJANGO_SAVED_PO, DJANGO_PO)
+            self.rename_source_file(DJANGOJS_SAVED_PO, DJANGOJS_PO)
 
     def babel_extract(self, stderr, verbosity):
         """
@@ -196,6 +222,21 @@ class Extract(Runner):
             )
 
             execute(babel_underscore_cmd, working_directory=configuration.root_dir, stderr=stderr)
+
+    def merge_po_files(self, stderr):
+        """
+        Merge djangojs.po with django.po using msgcat
+        """
+        # Some projects don't have any javascript, so there is no djangojs-partial.po
+        if not file_exists(self.source_msgs_dir.joinpath()):
+            return
+
+        execute(
+            'msgcat django-partial.po djangojs-partial.po -o django-partial.po',
+            working_directory=self.source_msgs_dir,
+            stderr=stderr,
+        )
+        remove_file(self.source_msgs_dir.joinpath(DJANGOJS_PARTIAL_PO))
 
 
 def clean_pofile(path_name):
