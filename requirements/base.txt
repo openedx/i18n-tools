@@ -10,6 +10,9 @@ django==3.2.17
     # via
     #   -c requirements/common_constraints.txt
     #   -r requirements/base.in
+lxml==4.9.3
+    # via
+    #   -r requirements/base.in
 path==16.6.0
     # via -r requirements/base.in
 polib==1.1.1

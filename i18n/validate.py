@@ -9,11 +9,12 @@ import sys
 import textwrap
 
 import polib
+from lxml.html import clean
 
+from i18n import Runner
+from i18n.converter import Converter
 from i18n.dummy import is_format_message
 from i18n.execute import call
-from i18n.converter import Converter
-from i18n import Runner
 
 log = logging.getLogger(__name__)
 
@@ -97,6 +98,11 @@ def tags_in_string(msg):
         if tag.startswith("&"):
             return True
         if any(x in tag for x in ["<abbr>", "<abbr ", "</abbr>"]):
+            if "<abbr " in tag:
+                cleaned_tag = clean.clean_html(tag)
+                # clean_html will remove XSS from tag so check so don't skip abbr tag if cleaned_tag is different
+                if cleaned_tag != tag:
+                    return False
             return True
         return False
 

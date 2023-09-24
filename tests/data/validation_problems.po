@@ -79,3 +79,7 @@ msgstr "Look -- a dog!"
 # <abbr> could come-and-go with translations
 msgid "The <abbr>CIA</abbr> said so"
 msgstr "The secret agency said so"
+
+# <abbr> may contain cross-site script attack which is usually skipped from validation
+msgid "No tags"
+msgstr "Added XSS tag <abbr title='Cascading Style Sheets' onmouseover='XSS ATTACK!!!'>CSS</abbr>"

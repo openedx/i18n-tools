@@ -5,3 +5,4 @@ Django
 polib
 path
 pyYaml
+lxml
