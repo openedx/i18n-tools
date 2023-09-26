@@ -59,6 +59,12 @@ VALIDATION_PROBLEMS = [
         '"{nomx}" added',
     ),
     ('Empty translation', 'This string should not be empty'),
+    (
+        'Different tags in source and translation',
+        'No tags',
+        "Added XSS tag <abbr title='Cascading Style Sheets' onmouseover='XSS ATTACK!!!'>CSS</abbr>",
+        '"<abbr title=\'Cascading Style Sheets\' onmouseover=\'XSS ATTACK!!!\'>" added'
+    ),
 ]
 
 
