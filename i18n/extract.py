@@ -316,9 +316,9 @@ def fix_metadata(pofile):
         'Last-Translator': '',
         'Language-Team': 'openedx-translation <openedx-translation@googlegroups.com>',
         'Plural-Forms': 'nplurals=2; plural=(n != 1);',
+        'POT-Creation-Date': '2023-06-13 08:00+0000',
+        'PO-Revision-Date': '2023-06-13 09:00+0000',
     }
-    pofile.metadata.pop('POT-Creation-Date', None)
-    pofile.metadata.pop('PO-Revision-Date', None)
     pofile.metadata.update(fixes)
 
 
