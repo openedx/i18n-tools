@@ -310,6 +310,11 @@ def fix_metadata(pofile):
     #   u'MIME-Version': u'1.0'}
 
     fixes = {
+        # Setting a random static dates. We chose the dates of the first two commits in the edx-platform:
+        #   - https://github.com/openedx/edx-platform/commits/9e18b2611f7e0b888d44f6e9eae9fa5732582513
+        'POT-Creation-Date': '2011-12-07 09:28:16 -0500',
+        'PO-Revision-Date': '2011-12-07 17:49:48 -0500',
+
         'Report-Msgid-Bugs-To': 'openedx-translation@googlegroups.com',
         'Project-Id-Version': '0.1a',
         'Language': 'en',
@@ -317,8 +322,6 @@ def fix_metadata(pofile):
         'Language-Team': 'openedx-translation <openedx-translation@googlegroups.com>',
         'Plural-Forms': 'nplurals=2; plural=(n != 1);',
     }
-    pofile.metadata.pop('POT-Creation-Date', None)
-    pofile.metadata.pop('PO-Revision-Date', None)
     pofile.metadata.update(fixes)
 
 
