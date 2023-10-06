@@ -47,12 +47,14 @@ def perform_extract_with_options():
     return decorator
 
 
-@ddt.ddt
-class TestExtract(I18nToolTestCase):
+class ExtractInitTestMixin(I18nToolTestCase):
     """
-    Tests functionality of i18n/extract.py
+    Mixin for that initializes the test environment for testing extract functionality
     """
     def setUp(self):
+        """
+        Initialize the test environment
+        """
         super().setUp()
 
         # Subtract 1 second to help comparisons with file-modify time succeed,
@@ -73,6 +75,12 @@ class TestExtract(I18nToolTestCase):
         self.ddt_flag_merge_po_files = None
         self.ddt_flag_no_segment = None
 
+
+@ddt.ddt
+class TestExtract(ExtractInitTestMixin):
+    """
+    Tests functionality of i18n/extract.py
+    """
     @property
     def django_po(self):
         """
@@ -168,14 +176,15 @@ class TestExtract(I18nToolTestCase):
             self.assertEquals(expected, value)
 
     @perform_extract_with_options()
-    def test_metadata_no_create_date(self):
+    def test_metadata_fixed_creation_and_revision_dates(self):
         """
-        Verify `POT-Creation-Date` metadata has been removed
+        Verify `POT-Creation-Date` and `PO-Revision-Date` metadata are always set to a fixed date-time
         """
         for path in self.get_files():
             po = polib.pofile(path)
             metadata = po.metadata
-            self.assertIsNone(metadata.get('POT-Creation-Date'))
+            self.assertEqual(metadata.get('POT-Creation-Date'), '2023-06-13 08:00+0000')
+            self.assertEqual(metadata.get('PO-Revision-Date'), '2023-06-13 09:00+0000')
 
     @perform_extract_with_options()
     def test_merge_po_files(self):
