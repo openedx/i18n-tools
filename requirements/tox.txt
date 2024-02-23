@@ -4,17 +4,17 @@
 #
 #    make upgrade
 #
-distlib==0.3.6
+distlib==0.3.8
     # via virtualenv
-filelock==3.9.0
+filelock==3.13.3
     # via
     #   tox
     #   virtualenv
-packaging==23.0
+packaging==24.0
     # via tox
-platformdirs==3.0.0
+platformdirs==4.2.0
     # via virtualenv
-pluggy==1.0.0
+pluggy==1.4.0
     # via tox
 py==1.11.0
     # via tox
@@ -26,5 +26,5 @@ tox==3.28.0
     # via
     #   -c requirements/common_constraints.txt
     #   -r requirements/tox.in
-virtualenv==20.19.0
+virtualenv==20.25.1
     # via tox

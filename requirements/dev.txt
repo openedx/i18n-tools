@@ -4,24 +4,20 @@
 #
 #    make upgrade
 #
-asgiref==3.6.0
+asgiref==3.8.1
     # via
     #   -r requirements/ci.txt
     #   django
-astroid==2.14.1
+astroid==3.1.0
     # via
     #   -r requirements/ci.txt
     #   pylint
     #   pylint-celery
-attrs==22.2.0
-    # via
-    #   -r requirements/ci.txt
-    #   pytest
-build==0.10.0
+build==1.2.1
     # via
     #   -r requirements/pip_tools.txt
     #   pip-tools
-click==8.1.3
+click==8.1.7
     # via
     #   -r requirements/ci.txt
     #   -r requirements/pip_tools.txt
@@ -33,56 +29,60 @@ click-log==0.4.0
     # via
     #   -r requirements/ci.txt
     #   edx-lint
-code-annotations==1.3.0
+code-annotations==1.7.0
     # via
     #   -r requirements/ci.txt
     #   edx-lint
-coverage[toml]==7.1.0
+coverage[toml]==7.4.4
     # via
     #   -r requirements/ci.txt
     #   pytest-cov
-ddt==1.6.0
+ddt==1.7.2
     # via -r requirements/ci.txt
-dill==0.3.6
+dill==0.3.8
     # via
     #   -r requirements/ci.txt
     #   pylint
-distlib==0.3.6
+distlib==0.3.8
     # via
     #   -r requirements/ci.txt
     #   virtualenv
-django==3.2.17
+django==3.2.25
     # via
     #   -c requirements/common_constraints.txt
     #   -r requirements/ci.txt
-edx-lint==5.3.0
+edx-lint==5.3.6
     # via -r requirements/ci.txt
-exceptiongroup==1.1.0
+exceptiongroup==1.2.0
     # via
     #   -r requirements/ci.txt
     #   pytest
-filelock==3.9.0
+filelock==3.13.3
     # via
     #   -r requirements/ci.txt
     #   tox
     #   virtualenv
+importlib-metadata==7.1.0
+    # via
+    #   -r requirements/pip_tools.txt
+    #   build
 iniconfig==2.0.0
     # via
     #   -r requirements/ci.txt
     #   pytest
-isort==5.12.0
+isort==5.13.2
     # via
     #   -r requirements/ci.txt
     #   pylint
-jinja2==3.1.2
+jinja2==3.1.3
     # via
     #   -r requirements/ci.txt
     #   code-annotations
-lazy-object-proxy==1.9.0
+lxml==4.9.3
     # via
+    #   -c requirements/constraints.txt
     #   -r requirements/ci.txt
-    #   astroid
-markupsafe==2.1.2
+markupsafe==2.1.5
     # via
     #   -r requirements/ci.txt
     #   jinja2
@@ -94,40 +94,40 @@ mock==3.0.5
     # via
     #   -c requirements/constraints.txt
     #   -r requirements/ci.txt
-packaging==23.0
+packaging==24.0
     # via
     #   -r requirements/ci.txt
     #   -r requirements/pip_tools.txt
     #   build
     #   pytest
     #   tox
-path==16.6.0
+path==16.10.0
     # via -r requirements/ci.txt
-pbr==5.11.1
+pbr==6.0.0
     # via
     #   -r requirements/ci.txt
     #   stevedore
-pip-tools==6.12.2
+pip-tools==7.4.1
     # via -r requirements/pip_tools.txt
-platformdirs==3.0.0
+platformdirs==4.2.0
     # via
     #   -r requirements/ci.txt
     #   pylint
     #   virtualenv
-pluggy==1.0.0
+pluggy==1.4.0
     # via
     #   -r requirements/ci.txt
     #   pytest
     #   tox
-polib==1.1.1
+polib==1.2.0
     # via -r requirements/ci.txt
 py==1.11.0
     # via
     #   -r requirements/ci.txt
     #   tox
-pycodestyle==2.10.0
+pycodestyle==2.11.1
     # via -r requirements/ci.txt
-pylint==2.16.1
+pylint==3.1.0
     # via
     #   -r requirements/ci.txt
     #   edx-lint
@@ -138,11 +138,11 @@ pylint-celery==0.3
     # via
     #   -r requirements/ci.txt
     #   edx-lint
-pylint-django==2.5.3
+pylint-django==2.5.5
     # via
     #   -r requirements/ci.txt
     #   edx-lint
-pylint-plugin-utils==0.7
+pylint-plugin-utils==0.8.2
     # via
     #   -r requirements/ci.txt
     #   pylint-celery
@@ -151,21 +151,22 @@ pyproject-hooks==1.0.0
     # via
     #   -r requirements/pip_tools.txt
     #   build
-pytest==7.2.1
+    #   pip-tools
+pytest==8.1.1
     # via
     #   -r requirements/ci.txt
     #   pytest-cov
-pytest-cov==4.0.0
+pytest-cov==5.0.0
     # via -r requirements/ci.txt
-python-slugify==8.0.0
+python-slugify==8.0.4
     # via
     #   -r requirements/ci.txt
     #   code-annotations
-pytz==2022.7.1
+pytz==2024.1
     # via
     #   -r requirements/ci.txt
     #   django
-pyyaml==6.0
+pyyaml==6.0.1
     # via
     #   -r requirements/ci.txt
     #   code-annotations
@@ -175,11 +176,11 @@ six==1.16.0
     #   edx-lint
     #   mock
     #   tox
-sqlparse==0.4.3
+sqlparse==0.4.4
     # via
     #   -r requirements/ci.txt
     #   django
-stevedore==4.1.1
+stevedore==5.2.0
     # via
     #   -r requirements/ci.txt
     #   code-annotations
@@ -193,11 +194,12 @@ tomli==2.0.1
     #   -r requirements/pip_tools.txt
     #   build
     #   coverage
+    #   pip-tools
     #   pylint
     #   pyproject-hooks
     #   pytest
     #   tox
-tomlkit==0.11.6
+tomlkit==0.12.4
     # via
     #   -r requirements/ci.txt
     #   pylint
@@ -205,23 +207,24 @@ tox==3.28.0
     # via
     #   -c requirements/common_constraints.txt
     #   -r requirements/ci.txt
-typing-extensions==4.4.0
+typing-extensions==4.10.0
     # via
     #   -r requirements/ci.txt
+    #   asgiref
     #   astroid
     #   pylint
-virtualenv==20.19.0
+virtualenv==20.25.1
     # via
     #   -r requirements/ci.txt
     #   tox
-wheel==0.38.4
+wheel==0.43.0
     # via
     #   -r requirements/pip_tools.txt
     #   pip-tools
-wrapt==1.14.1
+zipp==3.18.1
     # via
-    #   -r requirements/ci.txt
-    #   astroid
+    #   -r requirements/pip_tools.txt
+    #   importlib-metadata
 
 # The following packages are considered to be unsafe in a requirements file:
 # pip
