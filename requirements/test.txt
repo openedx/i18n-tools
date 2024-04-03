@@ -12,6 +12,11 @@ astroid==3.1.0
     # via
     #   pylint
     #   pylint-celery
+backports-zoneinfo==0.2.1 ; python_version < "3.9"
+    # via
+    #   -c requirements/constraints.txt
+    #   -r requirements/base.txt
+    #   django
 click==8.1.7
     # via
     #   click-log
@@ -89,10 +94,7 @@ pytest-cov==5.0.0
 python-slugify==8.0.4
     # via code-annotations
 pytz==2024.1
-    # via
-    #   -r requirements/base.txt
-    #   -r requirements/test.in
-    #   django
+    # via -r requirements/test.in
 pyyaml==6.0.1
     # via
     #   -r requirements/base.txt

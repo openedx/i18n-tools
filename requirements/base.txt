@@ -6,7 +6,11 @@
 #
 asgiref==3.8.1
     # via django
-django==3.2.25
+backports-zoneinfo==0.2.1 ; python_version < "3.9"
+    # via
+    #   -c requirements/constraints.txt
+    #   django
+django==4.2.11
     # via
     #   -c requirements/common_constraints.txt
     #   -r requirements/base.in
@@ -18,8 +22,6 @@ path==16.10.0
     # via -r requirements/base.in
 polib==1.2.0
     # via -r requirements/base.in
-pytz==2024.1
-    # via django
 pyyaml==6.0.1
     # via -r requirements/base.in
 sqlparse==0.4.4

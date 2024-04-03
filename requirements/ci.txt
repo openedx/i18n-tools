@@ -13,6 +13,19 @@ astroid==3.1.0
     #   -r requirements/test.txt
     #   pylint
     #   pylint-celery
+backports-zoneinfo==0.2.1 ; python_version < "3.9"
+    # via
+    #   -c requirements/constraints.txt
+    #   -r requirements/test.txt
+    #   django
+cachetools==5.3.3
+    # via
+    #   -r requirements/tox.txt
+    #   tox
+chardet==5.2.0
+    # via
+    #   -r requirements/tox.txt
+    #   tox
 click==8.1.7
     # via
     #   -r requirements/test.txt
@@ -27,6 +40,10 @@ code-annotations==1.7.0
     # via
     #   -r requirements/test.txt
     #   edx-lint
+colorama==0.4.6
+    # via
+    #   -r requirements/tox.txt
+    #   tox
 coverage[toml]==7.4.4
     # via
     #   -r requirements/ci.in
@@ -42,7 +59,7 @@ distlib==0.3.8
     # via
     #   -r requirements/tox.txt
     #   virtualenv
-django==3.2.25
+django==4.2.11
     # via
     #   -c requirements/common_constraints.txt
     #   -r requirements/test.txt
@@ -89,6 +106,7 @@ packaging==24.0
     # via
     #   -r requirements/test.txt
     #   -r requirements/tox.txt
+    #   pyproject-api
     #   pytest
     #   tox
 path==16.10.0
@@ -102,6 +120,7 @@ platformdirs==4.2.0
     #   -r requirements/test.txt
     #   -r requirements/tox.txt
     #   pylint
+    #   tox
     #   virtualenv
 pluggy==1.4.0
     # via
@@ -111,10 +130,6 @@ pluggy==1.4.0
     #   tox
 polib==1.2.0
     # via -r requirements/test.txt
-py==1.11.0
-    # via
-    #   -r requirements/tox.txt
-    #   tox
 pycodestyle==2.11.1
     # via -r requirements/test.txt
 pylint==3.1.0
@@ -137,6 +152,10 @@ pylint-plugin-utils==0.8.2
     #   -r requirements/test.txt
     #   pylint-celery
     #   pylint-django
+pyproject-api==1.6.1
+    # via
+    #   -r requirements/tox.txt
+    #   tox
 pytest==8.1.1
     # via
     #   -r requirements/test.txt
@@ -148,9 +167,7 @@ python-slugify==8.0.4
     #   -r requirements/test.txt
     #   code-annotations
 pytz==2024.1
-    # via
-    #   -r requirements/test.txt
-    #   django
+    # via -r requirements/test.txt
 pyyaml==6.0.1
     # via
     #   -r requirements/test.txt
@@ -158,10 +175,8 @@ pyyaml==6.0.1
 six==1.16.0
     # via
     #   -r requirements/test.txt
-    #   -r requirements/tox.txt
     #   edx-lint
     #   mock
-    #   tox
 sqlparse==0.4.4
     # via
     #   -r requirements/test.txt
@@ -180,16 +195,15 @@ tomli==2.0.1
     #   -r requirements/tox.txt
     #   coverage
     #   pylint
+    #   pyproject-api
     #   pytest
     #   tox
 tomlkit==0.12.4
     # via
     #   -r requirements/test.txt
     #   pylint
-tox==3.28.0
-    # via
-    #   -c requirements/common_constraints.txt
-    #   -r requirements/tox.txt
+tox==4.14.2
+    # via -r requirements/tox.txt
 typing-extensions==4.10.0
     # via
     #   -r requirements/test.txt
