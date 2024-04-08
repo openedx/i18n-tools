@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 import os
 import re
+import pathlib
 
 from setuptools import setup
 
@@ -42,11 +43,17 @@ def get_version(*file_paths):
 
 VERSION = get_version("i18n", "__init__.py")
 
+here = pathlib.Path(__file__).parent.resolve()
+
+# Get the long description from the README file
+long_description = (here / "README.rst").read_text(encoding="utf-8")
 
 setup(
     name='edx-i18n-tools',
     version=VERSION,
     description='edX Internationalization Tools',
+    long_description=long_description,
+    long_description_content_type='text/x-rst',
     author='edX',
     author_email='oscm@edx.org',
     url='https://github.com/openedx/i18n-tools',
