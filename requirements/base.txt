@@ -4,22 +4,27 @@
 #
 #    make upgrade
 #
-asgiref==3.6.0
+asgiref==3.8.1
     # via django
-django==3.2.17
+backports-zoneinfo==0.2.1 ; python_version < "3.9"
+    # via
+    #   -c requirements/constraints.txt
+    #   django
+django==4.2.11
     # via
     #   -c requirements/common_constraints.txt
     #   -r requirements/base.in
 lxml==4.9.3
     # via
+    #   -c requirements/constraints.txt
     #   -r requirements/base.in
-path==16.6.0
+path==16.10.0
     # via -r requirements/base.in
-polib==1.1.1
+polib==1.2.0
     # via -r requirements/base.in
-pytz==2022.7.1
+pyyaml==6.0.1
+    # via -r requirements/base.in
+sqlparse==0.4.4
     # via django
-pyyaml==6.0
-    # via -r requirements/base.in
-sqlparse==0.4.3
-    # via django
+typing-extensions==4.10.0
+    # via asgiref
