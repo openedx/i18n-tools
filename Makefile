@@ -30,7 +30,7 @@ $(COMMON_CONSTRAINTS_TXT):
 
 upgrade: export CUSTOM_COMPILE_COMMAND=make upgrade
 upgrade: piptools $(COMMON_CONSTRAINTS_TXT)## update the requirements/*.txt files with the latest packages satisfying requirements/*.in
- 	pip install -qr requirements/pip_tools.txt
+	pip install -qr requirements/pip_tools.txt
 	pip-compile --allow-unsafe --upgrade --rebuild -o requirements/pip.txt requirements/pip.in
 	pip-compile --upgrade -o requirements/pip_tools.txt requirements/pip_tools.in
 	pip install -qr requirements/pip.txt

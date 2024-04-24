@@ -16,6 +16,3 @@ mock<4.0.0
 
 # temporary constraint
 backports.zoneinfo;python_version<"3.9"
-
-# greater version has issues.
-lxml==4.9.3

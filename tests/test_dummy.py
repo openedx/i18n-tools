@@ -19,14 +19,14 @@ class TestDummy(I18nToolTestCase):
         self.converter = dummy.Dummy()
 
     def assertUnicodeEquals(self, str1, str2):
-        """Just like assertEquals, but doesn't put Unicode into the fail message.
+        """Just like assertEqual, but doesn't put Unicode into the fail message.
 
         Either nose, or rake, or something, deals very badly with unusual
         Unicode characters in the assertions, so we use repr here to keep
         things safe.
 
         """
-        self.assertEquals(
+        self.assertEqual(
             str1, str2,
             "Mismatch: %r != %r" % (str1, str2),
         )
