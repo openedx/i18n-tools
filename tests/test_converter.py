@@ -62,4 +62,4 @@ class TestConverter(I18nToolTestCase):
         """
         source, expected = data
         result = UpcaseConverter().convert(source)
-        self.assertEquals(result, expected)
+        self.assertEqual(result, expected)

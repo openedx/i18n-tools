@@ -36,7 +36,7 @@ click-log==0.4.0
     # via
     #   -r requirements/test.txt
     #   edx-lint
-code-annotations==1.7.0
+code-annotations==1.8.0
     # via
     #   -r requirements/test.txt
     #   edx-lint
@@ -44,7 +44,7 @@ colorama==0.4.6
     # via
     #   -r requirements/tox.txt
     #   tox
-coverage[toml]==7.4.4
+coverage[toml]==7.5.0
     # via
     #   -r requirements/ci.in
     #   -r requirements/test.txt
@@ -65,11 +65,11 @@ django==4.2.11
     #   -r requirements/test.txt
 edx-lint==5.3.6
     # via -r requirements/test.txt
-exceptiongroup==1.2.0
+exceptiongroup==1.2.1
     # via
     #   -r requirements/test.txt
     #   pytest
-filelock==3.13.3
+filelock==3.13.4
     # via
     #   -r requirements/tox.txt
     #   tox
@@ -86,10 +86,12 @@ jinja2==3.1.3
     # via
     #   -r requirements/test.txt
     #   code-annotations
-lxml==4.9.3
+lxml[html-clean]==5.2.1
     # via
-    #   -c requirements/constraints.txt
     #   -r requirements/test.txt
+    #   lxml-html-clean
+lxml-html-clean==0.1.1
+    # via -r requirements/test.txt
 markupsafe==2.1.5
     # via
     #   -r requirements/test.txt
@@ -109,20 +111,20 @@ packaging==24.0
     #   pyproject-api
     #   pytest
     #   tox
-path==16.10.0
+path==16.14.0
     # via -r requirements/test.txt
 pbr==6.0.0
     # via
     #   -r requirements/test.txt
     #   stevedore
-platformdirs==4.2.0
+platformdirs==4.2.1
     # via
     #   -r requirements/test.txt
     #   -r requirements/tox.txt
     #   pylint
     #   tox
     #   virtualenv
-pluggy==1.4.0
+pluggy==1.5.0
     # via
     #   -r requirements/test.txt
     #   -r requirements/tox.txt
@@ -177,7 +179,7 @@ six==1.16.0
     #   -r requirements/test.txt
     #   edx-lint
     #   mock
-sqlparse==0.4.4
+sqlparse==0.5.0
     # via
     #   -r requirements/test.txt
     #   django
@@ -204,13 +206,13 @@ tomlkit==0.12.4
     #   pylint
 tox==4.14.2
     # via -r requirements/tox.txt
-typing-extensions==4.10.0
+typing-extensions==4.11.0
     # via
     #   -r requirements/test.txt
     #   asgiref
     #   astroid
     #   pylint
-virtualenv==20.25.1
+virtualenv==20.26.0
     # via
     #   -r requirements/tox.txt
     #   tox

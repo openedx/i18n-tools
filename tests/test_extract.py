@@ -173,7 +173,7 @@ class TestExtract(ExtractInitTestMixin):
             metadata = po.metadata
             value = metadata['Report-Msgid-Bugs-To']
             expected = 'openedx-translation@googlegroups.com'
-            self.assertEquals(expected, value)
+            self.assertEqual(expected, value)
 
     @perform_extract_with_options()
     def test_metadata_fixed_creation_and_revision_dates(self):
