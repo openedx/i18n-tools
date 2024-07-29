@@ -20,4 +20,4 @@ backports.zoneinfo;python_version<"3.9"
 # Path 17.0.0 deprecated abspath
 # https://github.com/jaraco/path/blob/main/NEWS.rst#v1700
 # See https://github.com/openedx/i18n-tools/issues/147
-path<=16.16.0
+path<17.0.0
