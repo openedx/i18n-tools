@@ -6,7 +6,7 @@ import sys
 
 from . import config
 
-__version__ = '1.6.0'
+__version__ = '1.6.1'
 
 
 class Runner:
