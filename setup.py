@@ -6,7 +6,7 @@ import re
 from setuptools import setup
 
 
-def load_requirements(*requirements_paths) -> list[str]:
+def load_requirements(*requirements_paths):
     """
     Load all requirements from the specified requirements files.
 
