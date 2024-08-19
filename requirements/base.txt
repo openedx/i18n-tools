@@ -6,11 +6,11 @@
 #
 asgiref==3.8.1
     # via django
-django==4.2.14
+django==4.2.15
     # via
     #   -c requirements/common_constraints.txt
     #   -r requirements/base.in
-lxml[html-clean,html_clean]==5.2.2
+lxml[html-clean,html_clean]==5.3.0
     # via
     #   -r requirements/base.in
     #   lxml-html-clean
@@ -22,7 +22,7 @@ path==16.16.0
     #   -r requirements/base.in
 polib==1.2.0
     # via -r requirements/base.in
-pyyaml==6.0.1
+pyyaml==6.0.2
     # via -r requirements/base.in
 sqlparse==0.5.1
     # via django
