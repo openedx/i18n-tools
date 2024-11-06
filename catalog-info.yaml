@@ -4,6 +4,6 @@ metadata:
   name: 'i18n-tools'
   description: "Tools to help with internationalization and localization of Open edX projects"
 spec:
-  owner: domain-translations
+  owner: 'group:committers-translations'
   type: 'library'
   lifecycle: 'production'
