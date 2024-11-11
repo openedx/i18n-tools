@@ -6,193 +6,193 @@
 #
 asgiref==3.8.1
     # via
-    #   -r requirements/test.txt
+    #   -r /home/runner/work/i18n-tools/i18n-tools/requirements/test.txt
     #   django
-astroid==3.2.4
+astroid==3.3.5
     # via
-    #   -r requirements/test.txt
+    #   -r /home/runner/work/i18n-tools/i18n-tools/requirements/test.txt
     #   pylint
     #   pylint-celery
-cachetools==5.4.0
+cachetools==5.5.0
     # via
-    #   -r requirements/tox.txt
+    #   -r /home/runner/work/i18n-tools/i18n-tools/requirements/tox.txt
     #   tox
 chardet==5.2.0
     # via
-    #   -r requirements/tox.txt
+    #   -r /home/runner/work/i18n-tools/i18n-tools/requirements/tox.txt
     #   tox
 click==8.1.7
     # via
-    #   -r requirements/test.txt
+    #   -r /home/runner/work/i18n-tools/i18n-tools/requirements/test.txt
     #   click-log
     #   code-annotations
     #   edx-lint
 click-log==0.4.0
     # via
-    #   -r requirements/test.txt
+    #   -r /home/runner/work/i18n-tools/i18n-tools/requirements/test.txt
     #   edx-lint
 code-annotations==1.8.0
     # via
-    #   -r requirements/test.txt
+    #   -r /home/runner/work/i18n-tools/i18n-tools/requirements/test.txt
     #   edx-lint
 colorama==0.4.6
     # via
-    #   -r requirements/tox.txt
+    #   -r /home/runner/work/i18n-tools/i18n-tools/requirements/tox.txt
     #   tox
-coverage[toml]==7.6.0
+coverage[toml]==7.6.4
     # via
+    #   -r /home/runner/work/i18n-tools/i18n-tools/requirements/test.txt
     #   -r requirements/ci.in
-    #   -r requirements/test.txt
     #   pytest-cov
 ddt==1.7.2
-    # via -r requirements/test.txt
-dill==0.3.8
+    # via -r /home/runner/work/i18n-tools/i18n-tools/requirements/test.txt
+dill==0.3.9
     # via
-    #   -r requirements/test.txt
+    #   -r /home/runner/work/i18n-tools/i18n-tools/requirements/test.txt
     #   pylint
-distlib==0.3.8
+distlib==0.3.9
     # via
-    #   -r requirements/tox.txt
+    #   -r /home/runner/work/i18n-tools/i18n-tools/requirements/tox.txt
     #   virtualenv
-django==4.2.14
+django==4.2.16
     # via
-    #   -c requirements/common_constraints.txt
-    #   -r requirements/test.txt
-edx-lint==5.3.7
-    # via -r requirements/test.txt
-filelock==3.15.4
+    #   -c /home/runner/work/i18n-tools/i18n-tools/requirements/common_constraints.txt
+    #   -r /home/runner/work/i18n-tools/i18n-tools/requirements/test.txt
+edx-lint==5.4.1
+    # via -r /home/runner/work/i18n-tools/i18n-tools/requirements/test.txt
+filelock==3.16.1
     # via
-    #   -r requirements/tox.txt
+    #   -r /home/runner/work/i18n-tools/i18n-tools/requirements/tox.txt
     #   tox
     #   virtualenv
 iniconfig==2.0.0
     # via
-    #   -r requirements/test.txt
+    #   -r /home/runner/work/i18n-tools/i18n-tools/requirements/test.txt
     #   pytest
 isort==5.13.2
     # via
-    #   -r requirements/test.txt
+    #   -r /home/runner/work/i18n-tools/i18n-tools/requirements/test.txt
     #   pylint
 jinja2==3.1.4
     # via
-    #   -r requirements/test.txt
+    #   -r /home/runner/work/i18n-tools/i18n-tools/requirements/test.txt
     #   code-annotations
-lxml[html-clean]==5.2.2
+lxml[html-clean]==5.3.0
     # via
-    #   -r requirements/test.txt
+    #   -r /home/runner/work/i18n-tools/i18n-tools/requirements/test.txt
     #   lxml-html-clean
-lxml-html-clean==0.2.0
+lxml-html-clean==0.3.1
     # via
-    #   -r requirements/test.txt
+    #   -r /home/runner/work/i18n-tools/i18n-tools/requirements/test.txt
     #   lxml
-markupsafe==2.1.5
+markupsafe==3.0.2
     # via
-    #   -r requirements/test.txt
+    #   -r /home/runner/work/i18n-tools/i18n-tools/requirements/test.txt
     #   jinja2
 mccabe==0.7.0
     # via
-    #   -r requirements/test.txt
+    #   -r /home/runner/work/i18n-tools/i18n-tools/requirements/test.txt
     #   pylint
 mock==3.0.5
     # via
-    #   -c requirements/constraints.txt
-    #   -r requirements/test.txt
-packaging==24.1
+    #   -c /home/runner/work/i18n-tools/i18n-tools/requirements/constraints.txt
+    #   -r /home/runner/work/i18n-tools/i18n-tools/requirements/test.txt
+packaging==24.2
     # via
-    #   -r requirements/test.txt
-    #   -r requirements/tox.txt
+    #   -r /home/runner/work/i18n-tools/i18n-tools/requirements/test.txt
+    #   -r /home/runner/work/i18n-tools/i18n-tools/requirements/tox.txt
     #   pyproject-api
     #   pytest
     #   tox
 path==16.16.0
     # via
-    #   -c requirements/constraints.txt
-    #   -r requirements/test.txt
-pbr==6.0.0
+    #   -c /home/runner/work/i18n-tools/i18n-tools/requirements/constraints.txt
+    #   -r /home/runner/work/i18n-tools/i18n-tools/requirements/test.txt
+pbr==6.1.0
     # via
-    #   -r requirements/test.txt
+    #   -r /home/runner/work/i18n-tools/i18n-tools/requirements/test.txt
     #   stevedore
-platformdirs==4.2.2
+platformdirs==4.3.6
     # via
-    #   -r requirements/test.txt
-    #   -r requirements/tox.txt
+    #   -r /home/runner/work/i18n-tools/i18n-tools/requirements/test.txt
+    #   -r /home/runner/work/i18n-tools/i18n-tools/requirements/tox.txt
     #   pylint
     #   tox
     #   virtualenv
 pluggy==1.5.0
     # via
-    #   -r requirements/test.txt
-    #   -r requirements/tox.txt
+    #   -r /home/runner/work/i18n-tools/i18n-tools/requirements/test.txt
+    #   -r /home/runner/work/i18n-tools/i18n-tools/requirements/tox.txt
     #   pytest
     #   tox
 polib==1.2.0
-    # via -r requirements/test.txt
-pycodestyle==2.12.0
-    # via -r requirements/test.txt
-pylint==3.2.6
+    # via -r /home/runner/work/i18n-tools/i18n-tools/requirements/test.txt
+pycodestyle==2.12.1
+    # via -r /home/runner/work/i18n-tools/i18n-tools/requirements/test.txt
+pylint==3.3.1
     # via
-    #   -r requirements/test.txt
+    #   -r /home/runner/work/i18n-tools/i18n-tools/requirements/test.txt
     #   edx-lint
     #   pylint-celery
     #   pylint-django
     #   pylint-plugin-utils
 pylint-celery==0.3
     # via
-    #   -r requirements/test.txt
+    #   -r /home/runner/work/i18n-tools/i18n-tools/requirements/test.txt
     #   edx-lint
-pylint-django==2.5.5
+pylint-django==2.6.1
     # via
-    #   -r requirements/test.txt
+    #   -r /home/runner/work/i18n-tools/i18n-tools/requirements/test.txt
     #   edx-lint
 pylint-plugin-utils==0.8.2
     # via
-    #   -r requirements/test.txt
+    #   -r /home/runner/work/i18n-tools/i18n-tools/requirements/test.txt
     #   pylint-celery
     #   pylint-django
-pyproject-api==1.7.1
+pyproject-api==1.8.0
     # via
-    #   -r requirements/tox.txt
+    #   -r /home/runner/work/i18n-tools/i18n-tools/requirements/tox.txt
     #   tox
-pytest==8.3.2
+pytest==8.3.3
     # via
-    #   -r requirements/test.txt
+    #   -r /home/runner/work/i18n-tools/i18n-tools/requirements/test.txt
     #   pytest-cov
-pytest-cov==5.0.0
-    # via -r requirements/test.txt
+pytest-cov==6.0.0
+    # via -r /home/runner/work/i18n-tools/i18n-tools/requirements/test.txt
 python-slugify==8.0.4
     # via
-    #   -r requirements/test.txt
+    #   -r /home/runner/work/i18n-tools/i18n-tools/requirements/test.txt
     #   code-annotations
-pytz==2024.1
-    # via -r requirements/test.txt
-pyyaml==6.0.1
+pytz==2024.2
+    # via -r /home/runner/work/i18n-tools/i18n-tools/requirements/test.txt
+pyyaml==6.0.2
     # via
-    #   -r requirements/test.txt
+    #   -r /home/runner/work/i18n-tools/i18n-tools/requirements/test.txt
     #   code-annotations
 six==1.16.0
     # via
-    #   -r requirements/test.txt
+    #   -r /home/runner/work/i18n-tools/i18n-tools/requirements/test.txt
     #   edx-lint
     #   mock
 sqlparse==0.5.1
     # via
-    #   -r requirements/test.txt
+    #   -r /home/runner/work/i18n-tools/i18n-tools/requirements/test.txt
     #   django
-stevedore==5.2.0
+stevedore==5.3.0
     # via
-    #   -r requirements/test.txt
+    #   -r /home/runner/work/i18n-tools/i18n-tools/requirements/test.txt
     #   code-annotations
 text-unidecode==1.3
     # via
-    #   -r requirements/test.txt
+    #   -r /home/runner/work/i18n-tools/i18n-tools/requirements/test.txt
     #   python-slugify
-tomlkit==0.13.0
+tomlkit==0.13.2
     # via
-    #   -r requirements/test.txt
+    #   -r /home/runner/work/i18n-tools/i18n-tools/requirements/test.txt
     #   pylint
-tox==4.16.0
-    # via -r requirements/tox.txt
-virtualenv==20.26.3
+tox==4.23.2
+    # via -r /home/runner/work/i18n-tools/i18n-tools/requirements/tox.txt
+virtualenv==20.27.1
     # via
-    #   -r requirements/tox.txt
+    #   -r /home/runner/work/i18n-tools/i18n-tools/requirements/tox.txt
     #   tox
