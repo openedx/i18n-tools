@@ -6,210 +6,210 @@
 #
 asgiref==3.8.1
     # via
-    #   -r requirements/ci.txt
+    #   -r /home/runner/work/i18n-tools/i18n-tools/requirements/ci.txt
     #   django
-astroid==3.2.4
+astroid==3.3.8
     # via
-    #   -r requirements/ci.txt
+    #   -r /home/runner/work/i18n-tools/i18n-tools/requirements/ci.txt
     #   pylint
     #   pylint-celery
-build==1.2.1
+build==1.2.2.post1
     # via
-    #   -r requirements/pip_tools.txt
+    #   -r /home/runner/work/i18n-tools/i18n-tools/requirements/pip_tools.txt
     #   pip-tools
-cachetools==5.4.0
+cachetools==5.5.1
     # via
-    #   -r requirements/ci.txt
+    #   -r /home/runner/work/i18n-tools/i18n-tools/requirements/ci.txt
     #   tox
 chardet==5.2.0
     # via
-    #   -r requirements/ci.txt
+    #   -r /home/runner/work/i18n-tools/i18n-tools/requirements/ci.txt
     #   tox
-click==8.1.7
+click==8.1.8
     # via
-    #   -r requirements/ci.txt
-    #   -r requirements/pip_tools.txt
+    #   -r /home/runner/work/i18n-tools/i18n-tools/requirements/ci.txt
+    #   -r /home/runner/work/i18n-tools/i18n-tools/requirements/pip_tools.txt
     #   click-log
     #   code-annotations
     #   edx-lint
     #   pip-tools
 click-log==0.4.0
     # via
-    #   -r requirements/ci.txt
+    #   -r /home/runner/work/i18n-tools/i18n-tools/requirements/ci.txt
     #   edx-lint
-code-annotations==1.8.0
+code-annotations==2.2.0
     # via
-    #   -r requirements/ci.txt
+    #   -r /home/runner/work/i18n-tools/i18n-tools/requirements/ci.txt
     #   edx-lint
 colorama==0.4.6
     # via
-    #   -r requirements/ci.txt
+    #   -r /home/runner/work/i18n-tools/i18n-tools/requirements/ci.txt
     #   tox
-coverage[toml]==7.6.0
+coverage[toml]==7.6.12
     # via
-    #   -r requirements/ci.txt
+    #   -r /home/runner/work/i18n-tools/i18n-tools/requirements/ci.txt
     #   pytest-cov
 ddt==1.7.2
-    # via -r requirements/ci.txt
-dill==0.3.8
+    # via -r /home/runner/work/i18n-tools/i18n-tools/requirements/ci.txt
+dill==0.3.9
     # via
-    #   -r requirements/ci.txt
+    #   -r /home/runner/work/i18n-tools/i18n-tools/requirements/ci.txt
     #   pylint
-distlib==0.3.8
+distlib==0.3.9
     # via
-    #   -r requirements/ci.txt
+    #   -r /home/runner/work/i18n-tools/i18n-tools/requirements/ci.txt
     #   virtualenv
-django==4.2.14
+django==4.2.19
     # via
-    #   -c requirements/common_constraints.txt
-    #   -r requirements/ci.txt
-edx-lint==5.3.7
-    # via -r requirements/ci.txt
-filelock==3.15.4
+    #   -c /home/runner/work/i18n-tools/i18n-tools/requirements/common_constraints.txt
+    #   -r /home/runner/work/i18n-tools/i18n-tools/requirements/ci.txt
+edx-lint==5.6.0
+    # via -r /home/runner/work/i18n-tools/i18n-tools/requirements/ci.txt
+filelock==3.17.0
     # via
-    #   -r requirements/ci.txt
+    #   -r /home/runner/work/i18n-tools/i18n-tools/requirements/ci.txt
     #   tox
     #   virtualenv
 iniconfig==2.0.0
     # via
-    #   -r requirements/ci.txt
+    #   -r /home/runner/work/i18n-tools/i18n-tools/requirements/ci.txt
     #   pytest
-isort==5.13.2
+isort==6.0.0
     # via
-    #   -r requirements/ci.txt
+    #   -r /home/runner/work/i18n-tools/i18n-tools/requirements/ci.txt
     #   pylint
-jinja2==3.1.4
+jinja2==3.1.5
     # via
-    #   -r requirements/ci.txt
+    #   -r /home/runner/work/i18n-tools/i18n-tools/requirements/ci.txt
     #   code-annotations
-lxml[html-clean]==5.2.2
+lxml[html-clean]==5.3.1
     # via
-    #   -r requirements/ci.txt
+    #   -r /home/runner/work/i18n-tools/i18n-tools/requirements/ci.txt
     #   lxml-html-clean
-lxml-html-clean==0.2.0
+lxml-html-clean==0.4.1
     # via
-    #   -r requirements/ci.txt
+    #   -r /home/runner/work/i18n-tools/i18n-tools/requirements/ci.txt
     #   lxml
-markupsafe==2.1.5
+markupsafe==3.0.2
     # via
-    #   -r requirements/ci.txt
+    #   -r /home/runner/work/i18n-tools/i18n-tools/requirements/ci.txt
     #   jinja2
 mccabe==0.7.0
     # via
-    #   -r requirements/ci.txt
+    #   -r /home/runner/work/i18n-tools/i18n-tools/requirements/ci.txt
     #   pylint
 mock==3.0.5
     # via
-    #   -c requirements/constraints.txt
-    #   -r requirements/ci.txt
-packaging==24.1
+    #   -c /home/runner/work/i18n-tools/i18n-tools/requirements/constraints.txt
+    #   -r /home/runner/work/i18n-tools/i18n-tools/requirements/ci.txt
+packaging==24.2
     # via
-    #   -r requirements/ci.txt
-    #   -r requirements/pip_tools.txt
+    #   -r /home/runner/work/i18n-tools/i18n-tools/requirements/ci.txt
+    #   -r /home/runner/work/i18n-tools/i18n-tools/requirements/pip_tools.txt
     #   build
     #   pyproject-api
     #   pytest
     #   tox
 path==16.16.0
     # via
-    #   -c requirements/constraints.txt
-    #   -r requirements/ci.txt
-pbr==6.0.0
+    #   -c /home/runner/work/i18n-tools/i18n-tools/requirements/constraints.txt
+    #   -r /home/runner/work/i18n-tools/i18n-tools/requirements/ci.txt
+pbr==6.1.1
     # via
-    #   -r requirements/ci.txt
+    #   -r /home/runner/work/i18n-tools/i18n-tools/requirements/ci.txt
     #   stevedore
 pip-tools==7.4.1
-    # via -r requirements/pip_tools.txt
-platformdirs==4.2.2
+    # via -r /home/runner/work/i18n-tools/i18n-tools/requirements/pip_tools.txt
+platformdirs==4.3.6
     # via
-    #   -r requirements/ci.txt
+    #   -r /home/runner/work/i18n-tools/i18n-tools/requirements/ci.txt
     #   pylint
     #   tox
     #   virtualenv
 pluggy==1.5.0
     # via
-    #   -r requirements/ci.txt
+    #   -r /home/runner/work/i18n-tools/i18n-tools/requirements/ci.txt
     #   pytest
     #   tox
 polib==1.2.0
-    # via -r requirements/ci.txt
-pycodestyle==2.12.0
-    # via -r requirements/ci.txt
-pylint==3.2.6
+    # via -r /home/runner/work/i18n-tools/i18n-tools/requirements/ci.txt
+pycodestyle==2.12.1
+    # via -r /home/runner/work/i18n-tools/i18n-tools/requirements/ci.txt
+pylint==3.3.4
     # via
-    #   -r requirements/ci.txt
+    #   -r /home/runner/work/i18n-tools/i18n-tools/requirements/ci.txt
     #   edx-lint
     #   pylint-celery
     #   pylint-django
     #   pylint-plugin-utils
 pylint-celery==0.3
     # via
-    #   -r requirements/ci.txt
+    #   -r /home/runner/work/i18n-tools/i18n-tools/requirements/ci.txt
     #   edx-lint
-pylint-django==2.5.5
+pylint-django==2.6.1
     # via
-    #   -r requirements/ci.txt
+    #   -r /home/runner/work/i18n-tools/i18n-tools/requirements/ci.txt
     #   edx-lint
 pylint-plugin-utils==0.8.2
     # via
-    #   -r requirements/ci.txt
+    #   -r /home/runner/work/i18n-tools/i18n-tools/requirements/ci.txt
     #   pylint-celery
     #   pylint-django
-pyproject-api==1.7.1
+pyproject-api==1.9.0
     # via
-    #   -r requirements/ci.txt
+    #   -r /home/runner/work/i18n-tools/i18n-tools/requirements/ci.txt
     #   tox
-pyproject-hooks==1.1.0
+pyproject-hooks==1.2.0
     # via
-    #   -r requirements/pip_tools.txt
+    #   -r /home/runner/work/i18n-tools/i18n-tools/requirements/pip_tools.txt
     #   build
     #   pip-tools
-pytest==8.3.2
+pytest==8.3.4
     # via
-    #   -r requirements/ci.txt
+    #   -r /home/runner/work/i18n-tools/i18n-tools/requirements/ci.txt
     #   pytest-cov
-pytest-cov==5.0.0
-    # via -r requirements/ci.txt
+pytest-cov==6.0.0
+    # via -r /home/runner/work/i18n-tools/i18n-tools/requirements/ci.txt
 python-slugify==8.0.4
     # via
-    #   -r requirements/ci.txt
+    #   -r /home/runner/work/i18n-tools/i18n-tools/requirements/ci.txt
     #   code-annotations
-pytz==2024.1
-    # via -r requirements/ci.txt
-pyyaml==6.0.1
+pytz==2025.1
+    # via -r /home/runner/work/i18n-tools/i18n-tools/requirements/ci.txt
+pyyaml==6.0.2
     # via
-    #   -r requirements/ci.txt
+    #   -r /home/runner/work/i18n-tools/i18n-tools/requirements/ci.txt
     #   code-annotations
-six==1.16.0
+six==1.17.0
     # via
-    #   -r requirements/ci.txt
+    #   -r /home/runner/work/i18n-tools/i18n-tools/requirements/ci.txt
     #   edx-lint
     #   mock
-sqlparse==0.5.1
+sqlparse==0.5.3
     # via
-    #   -r requirements/ci.txt
+    #   -r /home/runner/work/i18n-tools/i18n-tools/requirements/ci.txt
     #   django
-stevedore==5.2.0
+stevedore==5.4.0
     # via
-    #   -r requirements/ci.txt
+    #   -r /home/runner/work/i18n-tools/i18n-tools/requirements/ci.txt
     #   code-annotations
 text-unidecode==1.3
     # via
-    #   -r requirements/ci.txt
+    #   -r /home/runner/work/i18n-tools/i18n-tools/requirements/ci.txt
     #   python-slugify
-tomlkit==0.13.0
+tomlkit==0.13.2
     # via
-    #   -r requirements/ci.txt
+    #   -r /home/runner/work/i18n-tools/i18n-tools/requirements/ci.txt
     #   pylint
-tox==4.16.0
-    # via -r requirements/ci.txt
-virtualenv==20.26.3
+tox==4.24.1
+    # via -r /home/runner/work/i18n-tools/i18n-tools/requirements/ci.txt
+virtualenv==20.29.2
     # via
-    #   -r requirements/ci.txt
+    #   -r /home/runner/work/i18n-tools/i18n-tools/requirements/ci.txt
     #   tox
-wheel==0.43.0
+wheel==0.45.1
     # via
-    #   -r requirements/pip_tools.txt
+    #   -r /home/runner/work/i18n-tools/i18n-tools/requirements/pip_tools.txt
     #   pip-tools
 
 # The following packages are considered to be unsafe in a requirements file:
