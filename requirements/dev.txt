@@ -45,7 +45,7 @@ colorama==0.4.6
     # via
     #   -r requirements/ci.txt
     #   tox
-coverage[toml]==7.7.0
+coverage[toml]==7.7.1
     # via
     #   -r requirements/ci.txt
     #   pytest-cov
