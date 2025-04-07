@@ -21,7 +21,7 @@ click-log==0.4.0
     # via edx-lint
 code-annotations==2.2.0
     # via edx-lint
-coverage[toml]==7.7.0
+coverage[toml]==7.8.0
     # via
     #   -r requirements/test.in
     #   pytest-cov
@@ -40,7 +40,7 @@ isort==6.0.1
     # via pylint
 jinja2==3.1.6
     # via code-annotations
-lxml[html-clean]==5.3.1
+lxml[html-clean]==5.3.2
     # via
     #   -r requirements/base.txt
     #   lxml-html-clean
@@ -68,7 +68,7 @@ pluggy==1.5.0
     # via pytest
 polib==1.2.0
     # via -r requirements/base.txt
-pycodestyle==2.12.1
+pycodestyle==2.13.0
     # via -r requirements/test.in
 pylint==3.3.6
     # via
@@ -86,11 +86,11 @@ pylint-plugin-utils==0.8.2
     #   pylint-django
 pytest==8.3.5
     # via pytest-cov
-pytest-cov==6.0.0
+pytest-cov==6.1.1
     # via -r requirements/test.in
 python-slugify==8.0.4
     # via code-annotations
-pytz==2025.1
+pytz==2025.2
     # via -r requirements/test.in
 pyyaml==6.0.2
     # via

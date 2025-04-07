@@ -10,7 +10,7 @@ django==4.2.20
     # via
     #   -c requirements/common_constraints.txt
     #   -r requirements/base.in
-lxml[html-clean,html_clean]==5.3.1
+lxml[html-clean,html_clean]==5.3.2
     # via
     #   -r requirements/base.in
     #   lxml-html-clean
