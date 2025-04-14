@@ -37,7 +37,7 @@ click-log==0.4.0
     # via
     #   -r requirements/ci.txt
     #   edx-lint
-code-annotations==2.2.0
+code-annotations==2.3.0
     # via
     #   -r requirements/ci.txt
     #   edx-lint
@@ -45,7 +45,7 @@ colorama==0.4.6
     # via
     #   -r requirements/ci.txt
     #   tox
-coverage[toml]==7.7.0
+coverage[toml]==7.8.0
     # via
     #   -r requirements/ci.txt
     #   pytest-cov
@@ -82,11 +82,11 @@ jinja2==3.1.6
     # via
     #   -r requirements/ci.txt
     #   code-annotations
-lxml[html-clean]==5.3.1
+lxml[html-clean]==5.3.2
     # via
     #   -r requirements/ci.txt
     #   lxml-html-clean
-lxml-html-clean==0.4.1
+lxml-html-clean==0.4.2
     # via
     #   -r requirements/ci.txt
     #   lxml
@@ -131,7 +131,7 @@ pluggy==1.5.0
     #   tox
 polib==1.2.0
     # via -r requirements/ci.txt
-pycodestyle==2.12.1
+pycodestyle==2.13.0
     # via -r requirements/ci.txt
 pylint==3.3.6
     # via
@@ -166,13 +166,13 @@ pytest==8.3.5
     # via
     #   -r requirements/ci.txt
     #   pytest-cov
-pytest-cov==6.0.0
+pytest-cov==6.1.1
     # via -r requirements/ci.txt
 python-slugify==8.0.4
     # via
     #   -r requirements/ci.txt
     #   code-annotations
-pytz==2025.1
+pytz==2025.2
     # via -r requirements/ci.txt
 pyyaml==6.0.2
     # via
@@ -198,9 +198,9 @@ tomlkit==0.13.2
     # via
     #   -r requirements/ci.txt
     #   pylint
-tox==4.24.2
+tox==4.25.0
     # via -r requirements/ci.txt
-virtualenv==20.29.3
+virtualenv==20.30.0
     # via
     #   -r requirements/ci.txt
     #   tox
