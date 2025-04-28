@@ -82,7 +82,7 @@ jinja2==3.1.6
     # via
     #   -r requirements/ci.txt
     #   code-annotations
-lxml[html-clean]==5.3.2
+lxml[html-clean]==5.4.0
     # via
     #   -r requirements/ci.txt
     #   lxml-html-clean
