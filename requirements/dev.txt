@@ -4,20 +4,20 @@
 #
 #    make upgrade
 #
-asgiref==3.8.1
+asgiref==3.9.1
     # via
     #   -r requirements/ci.txt
     #   django
-astroid==3.3.9
+astroid==3.3.11
     # via
     #   -r requirements/ci.txt
     #   pylint
     #   pylint-celery
-build==1.2.2.post1
+build==1.3.0
     # via
     #   -r requirements/pip_tools.txt
     #   pip-tools
-cachetools==5.5.2
+cachetools==6.2.0
     # via
     #   -r requirements/ci.txt
     #   tox
@@ -25,7 +25,7 @@ chardet==5.2.0
     # via
     #   -r requirements/ci.txt
     #   tox
-click==8.1.8
+click==8.3.0
     # via
     #   -r requirements/ci.txt
     #   -r requirements/pip_tools.txt
@@ -45,7 +45,7 @@ colorama==0.4.6
     # via
     #   -r requirements/ci.txt
     #   tox
-coverage[toml]==7.8.0
+coverage[toml]==7.10.7
     # via
     #   -r requirements/ci.txt
     #   pytest-cov
@@ -55,17 +55,17 @@ dill==0.4.0
     # via
     #   -r requirements/ci.txt
     #   pylint
-distlib==0.3.9
+distlib==0.4.0
     # via
     #   -r requirements/ci.txt
     #   virtualenv
-django==4.2.20
+django==4.2.24
     # via
     #   -c requirements/common_constraints.txt
     #   -r requirements/ci.txt
 edx-lint==5.6.0
     # via -r requirements/ci.txt
-filelock==3.18.0
+filelock==3.19.1
     # via
     #   -r requirements/ci.txt
     #   tox
@@ -82,7 +82,7 @@ jinja2==3.1.6
     # via
     #   -r requirements/ci.txt
     #   code-annotations
-lxml[html-clean]==5.3.2
+lxml[html-clean]==6.0.1
     # via
     #   -r requirements/ci.txt
     #   lxml-html-clean
@@ -112,28 +112,29 @@ path==16.16.0
     # via
     #   -c requirements/constraints.txt
     #   -r requirements/ci.txt
-pbr==6.1.1
-    # via
-    #   -r requirements/ci.txt
-    #   stevedore
-pip-tools==7.4.1
+pip-tools==7.5.0
     # via -r requirements/pip_tools.txt
-platformdirs==4.3.7
+platformdirs==4.4.0
     # via
     #   -r requirements/ci.txt
     #   pylint
     #   tox
     #   virtualenv
-pluggy==1.5.0
+pluggy==1.6.0
     # via
     #   -r requirements/ci.txt
     #   pytest
+    #   pytest-cov
     #   tox
 polib==1.2.0
     # via -r requirements/ci.txt
-pycodestyle==2.13.0
+pycodestyle==2.14.0
     # via -r requirements/ci.txt
-pylint==3.3.6
+pygments==2.19.2
+    # via
+    #   -r requirements/ci.txt
+    #   pytest
+pylint==3.3.8
     # via
     #   -r requirements/ci.txt
     #   edx-lint
@@ -148,12 +149,12 @@ pylint-django==2.6.1
     # via
     #   -r requirements/ci.txt
     #   edx-lint
-pylint-plugin-utils==0.8.2
+pylint-plugin-utils==0.9.0
     # via
     #   -r requirements/ci.txt
     #   pylint-celery
     #   pylint-django
-pyproject-api==1.9.0
+pyproject-api==1.9.1
     # via
     #   -r requirements/ci.txt
     #   tox
@@ -162,11 +163,11 @@ pyproject-hooks==1.2.0
     #   -r requirements/pip_tools.txt
     #   build
     #   pip-tools
-pytest==8.3.5
+pytest==8.4.2
     # via
     #   -r requirements/ci.txt
     #   pytest-cov
-pytest-cov==6.1.1
+pytest-cov==7.0.0
     # via -r requirements/ci.txt
 python-slugify==8.0.4
     # via
@@ -186,7 +187,7 @@ sqlparse==0.5.3
     # via
     #   -r requirements/ci.txt
     #   django
-stevedore==5.4.1
+stevedore==5.5.0
     # via
     #   -r requirements/ci.txt
     #   code-annotations
@@ -194,13 +195,13 @@ text-unidecode==1.3
     # via
     #   -r requirements/ci.txt
     #   python-slugify
-tomlkit==0.13.2
+tomlkit==0.13.3
     # via
     #   -r requirements/ci.txt
     #   pylint
-tox==4.25.0
+tox==4.30.2
     # via -r requirements/ci.txt
-virtualenv==20.30.0
+virtualenv==20.34.0
     # via
     #   -r requirements/ci.txt
     #   tox
