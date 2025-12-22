@@ -13,7 +13,7 @@ astroid==3.3.11
     #   -r requirements/test.txt
     #   pylint
     #   pylint-celery
-cachetools==6.2.3
+cachetools==6.2.4
     # via
     #   -r requirements/tox.txt
     #   tox
@@ -60,7 +60,7 @@ django==5.2.9
     #   -r requirements/test.txt
 edx-lint==5.6.0
     # via -r requirements/test.txt
-filelock==3.20.0
+filelock==3.20.1
     # via
     #   -r requirements/tox.txt
     #   tox
@@ -172,7 +172,7 @@ six==1.17.0
     # via
     #   -r requirements/test.txt
     #   edx-lint
-sqlparse==0.5.4
+sqlparse==0.5.5
     # via
     #   -r requirements/test.txt
     #   django
