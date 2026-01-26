@@ -8,16 +8,16 @@ asgiref==3.11.0
     # via
     #   -r requirements/ci.txt
     #   django
-astroid==3.3.11
+astroid==4.0.3
     # via
     #   -r requirements/ci.txt
     #   pylint
     #   pylint-celery
-build==1.3.0
+build==1.4.0
     # via
     #   -r requirements/pip_tools.txt
     #   pip-tools
-cachetools==6.2.3
+cachetools==6.2.5
     # via
     #   -r requirements/ci.txt
     #   tox
@@ -45,13 +45,13 @@ colorama==0.4.6
     # via
     #   -r requirements/ci.txt
     #   tox
-coverage[toml]==7.13.0
+coverage[toml]==7.13.2
     # via
     #   -r requirements/ci.txt
     #   pytest-cov
 ddt==1.7.2
     # via -r requirements/ci.txt
-dill==0.4.0
+dill==0.4.1
     # via
     #   -r requirements/ci.txt
     #   pylint
@@ -59,13 +59,13 @@ distlib==0.4.0
     # via
     #   -r requirements/ci.txt
     #   virtualenv
-django==5.2.9
+django==5.2.10
     # via
     #   -c requirements/common_constraints.txt
     #   -r requirements/ci.txt
 edx-lint==5.6.0
     # via -r requirements/ci.txt
-filelock==3.20.0
+filelock==3.20.3
     # via
     #   -r requirements/ci.txt
     #   tox
@@ -74,7 +74,7 @@ iniconfig==2.3.0
     # via
     #   -r requirements/ci.txt
     #   pytest
-isort==6.1.0
+isort==7.0.0
     # via
     #   -r requirements/ci.txt
     #   pylint
@@ -100,7 +100,7 @@ mccabe==0.7.0
     #   pylint
 mock==5.2.0
     # via -r requirements/ci.txt
-packaging==25.0
+packaging==26.0
     # via
     #   -r requirements/ci.txt
     #   -r requirements/pip_tools.txt
@@ -108,6 +108,7 @@ packaging==25.0
     #   pyproject-api
     #   pytest
     #   tox
+    #   wheel
 path==16.16.0
     # via
     #   -c requirements/constraints.txt
@@ -134,7 +135,7 @@ pygments==2.19.2
     # via
     #   -r requirements/ci.txt
     #   pytest
-pylint==3.3.9
+pylint==4.0.4
     # via
     #   -r requirements/ci.txt
     #   edx-lint
@@ -145,7 +146,7 @@ pylint-celery==0.3
     # via
     #   -r requirements/ci.txt
     #   edx-lint
-pylint-django==2.6.1
+pylint-django==2.7.0
     # via
     #   -r requirements/ci.txt
     #   edx-lint
@@ -183,7 +184,7 @@ six==1.17.0
     # via
     #   -r requirements/ci.txt
     #   edx-lint
-sqlparse==0.5.4
+sqlparse==0.5.5
     # via
     #   -r requirements/ci.txt
     #   django
@@ -195,17 +196,17 @@ text-unidecode==1.3
     # via
     #   -r requirements/ci.txt
     #   python-slugify
-tomlkit==0.13.3
+tomlkit==0.14.0
     # via
     #   -r requirements/ci.txt
     #   pylint
-tox==4.32.0
+tox==4.34.1
     # via -r requirements/ci.txt
-virtualenv==20.35.4
+virtualenv==20.36.1
     # via
     #   -r requirements/ci.txt
     #   tox
-wheel==0.45.1
+wheel==0.46.3
     # via
     #   -r requirements/pip_tools.txt
     #   pip-tools
