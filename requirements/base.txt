@@ -4,9 +4,9 @@
 #
 #    make upgrade
 #
-asgiref==3.11.0
+asgiref==3.11.1
     # via django
-django==5.2.9
+django==5.2.11
     # via
     #   -c requirements/common_constraints.txt
     #   -r requirements/base.in
@@ -14,7 +14,7 @@ lxml[html-clean]==6.0.2
     # via
     #   -r requirements/base.in
     #   lxml-html-clean
-lxml-html-clean==0.4.3
+lxml-html-clean==0.4.4
     # via lxml
 path==16.16.0
     # via
@@ -24,5 +24,5 @@ polib==1.2.0
     # via -r requirements/base.in
 pyyaml==6.0.3
     # via -r requirements/base.in
-sqlparse==0.5.4
+sqlparse==0.5.5
     # via django
