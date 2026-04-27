@@ -12,16 +12,16 @@ astroid==4.0.4
     # via
     #   pylint
     #   pylint-celery
-click==8.3.1
+click==8.3.3
     # via
     #   click-log
     #   code-annotations
     #   edx-lint
 click-log==0.4.0
     # via edx-lint
-code-annotations==2.3.2
+code-annotations==3.0.0
     # via edx-lint
-coverage[toml]==7.13.4
+coverage[toml]==7.13.5
     # via
     #   -r requirements/test.in
     #   pytest-cov
@@ -32,7 +32,7 @@ dill==0.4.1
     # via
     #   -c requirements/common_constraints.txt
     #   -r requirements/base.txt
-edx-lint==5.6.0
+edx-lint==6.0.0
     # via -r requirements/test.in
 iniconfig==2.3.0
     # via pytest
@@ -40,7 +40,7 @@ isort==8.0.1
     # via pylint
 jinja2==3.1.6
     # via code-annotations
-lxml[html-clean]==6.0.2
+lxml[html-clean]==6.1.0
     # via
     #   -r requirements/base.txt
     #   lxml-html-clean
@@ -54,13 +54,13 @@ mccabe==0.7.0
     # via pylint
 mock==5.2.0
     # via -r requirements/test.in
-packaging==26.0
+packaging==26.2
     # via pytest
 path==16.16.0
     # via
     #   -c requirements/constraints.txt
     #   -r requirements/base.txt
-platformdirs==4.9.4
+platformdirs==4.9.6
     # via pylint
 pluggy==1.6.0
     # via
@@ -70,7 +70,7 @@ polib==1.2.0
     # via -r requirements/base.txt
 pycodestyle==2.14.0
     # via -r requirements/test.in
-pygments==2.19.2
+pygments==2.20.0
     # via pytest
 pylint==4.0.5
     # via
@@ -86,9 +86,9 @@ pylint-plugin-utils==0.9.0
     # via
     #   pylint-celery
     #   pylint-django
-pytest==9.0.2
+pytest==9.0.3
     # via pytest-cov
-pytest-cov==7.0.0
+pytest-cov==7.1.0
     # via -r requirements/test.in
 python-slugify==8.0.4
     # via code-annotations
