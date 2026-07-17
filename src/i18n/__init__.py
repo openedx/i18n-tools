@@ -7,8 +7,6 @@ import sys
 
 from . import config
 
-__version__ = "2.0.0"
-
 
 class Runner:
     """

@@ -1,8 +1,0 @@
-# Core requirements for using this package
--c constraints.txt
-
-Django
-polib
-path
-pyYaml
-lxml[html_clean]
