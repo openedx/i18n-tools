@@ -86,10 +86,14 @@ quality = [
 ]
 doc = []
 ci = [
+    "tox",
+    "tox-uv",
     { include-group = "test-base" },
     { include-group = "quality" },
 ]
 dev = [
+    "tox",
+    "tox-uv",
     { include-group = "test-base" },
     { include-group = "quality" },
     { include-group = "doc" },
