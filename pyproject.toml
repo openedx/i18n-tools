@@ -1,0 +1,124 @@
+[build-system]
+requires = ["setuptools>=61.0", "setuptools-scm>=8.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "edx-i18n-tools"
+dynamic = ["version"]
+description = "edX Internationalization Tools"
+readme = "README.rst"
+requires-python = ">=3.12"
+license = "Apache-2.0"
+authors = [
+    { name = "edX", email = "oscm@edx.org" }
+]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Environment :: Web Environment",
+    "Intended Audience :: Developers",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3.12",
+    "Framework :: Django",
+    "Framework :: Django :: 4.2",
+    "Framework :: Django :: 5.2",
+]
+keywords = ["i18n", "internationalization", "openedx"]
+urls.Homepage = "https://github.com/openedx/i18n-tools"
+urls.Repository = "https://github.com/openedx/i18n-tools"
+
+dependencies = [
+    "Django",
+    "polib",
+    "path<=16.16.0",
+    "pyYaml",
+    "lxml[html_clean]",
+]
+
+[project.scripts]
+i18n_tool = "i18n.main:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+exclude = ["tests*", "*.tests", "*.tests.*", "docs*"]
+
+[tool.setuptools_scm]
+version_scheme = "only-version"
+local_scheme = "no-local-version"
+
+[tool.uv]
+package = true
+constraint-dependencies = [
+    "Django<6.0",
+    "elasticsearch<7.14.0",
+    "path<=16.16.0",
+]
+conflicts = [
+    [{ group = "django42" }, { group = "django52" }],
+]
+
+[tool.edx_lint]
+uv_constraints = [
+    "path<=16.16.0",
+]
+
+[dependency-groups]
+test-base = [
+    "coverage",
+    "ddt",
+    "mock",
+    "pytest-cov",
+    "pytz",
+]
+test = [
+    { include-group = "test-base" },
+]
+django42 = [
+    "Django>=4.2,<4.3",
+]
+django52 = [
+    "Django>=5.2,<5.3",
+]
+quality = [
+    "pycodestyle",
+    "pylint",
+    "edx-lint",
+]
+doc = []
+ci = [
+    "tox",
+    "tox-uv",
+    { include-group = "test-base" },
+    { include-group = "quality" },
+]
+dev = [
+    "tox",
+    "tox-uv",
+    { include-group = "test-base" },
+    { include-group = "quality" },
+    { include-group = "doc" },
+]
+
+[tool.coverage.run]
+branch = true
+source_pkgs = ["i18n"]
+omit = [
+    "conf/*",
+    ".tox/*",
+]
+
+[tool.coverage.report]
+show_missing = true
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "raise AssertionError",
+    "raise NotImplementedError",
+]
+
+[tool.coverage.html]
+directory = "htmlcov"
+
+[tool.semantic_release]
+build_command = "SETUPTOOLS_SCM_PRETEND_VERSION=$NEW_VERSION python -m build"
+changelog = "false"

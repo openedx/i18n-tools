@@ -1,0 +1,13 @@
+# https://docs.codecov.com/docs/codecovyml-reference
+coverage:
+  status:
+    project:
+      default:
+        # Source-only coverage (src/ layout excludes tests from measurement).
+        # Previously ~83% because test files were included; now accurately ~74%.
+        target: 70%
+        threshold: 5%
+    patch:
+      default:
+        target: 70%
+        threshold: 5%
