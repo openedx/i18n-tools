@@ -7,7 +7,7 @@ name = "edx-i18n-tools"
 description = "edX Internationalization Tools"
 requires-python = ">=3.12"
 license = "Apache-2.0"
-license-files = ["LICENSE*"]
+license-files = ["LICENSE*", "NOTICE*"]
 authors = [
     {name = "Open edX Project", email = "oscm@openedx.org"},
 ]
@@ -76,6 +76,9 @@ test = [
 django42 = [
     {include-group = "test-base"},
     "Django>=4.2,<5.0",
+]
+quality = [
+    {include-group = "test-base"},
 ]
 ci = [
     "tox",

@@ -251,6 +251,15 @@ django42 = [
     { name = "pytest-cov" },
     { name = "pytz" },
 ]
+quality = [
+    { name = "coverage" },
+    { name = "ddt" },
+    { name = "edx-lint" },
+    { name = "mock" },
+    { name = "pycodestyle" },
+    { name = "pytest-cov" },
+    { name = "pytz" },
+]
 test = [
     { name = "coverage" },
     { name = "ddt" },
@@ -300,6 +309,15 @@ django42 = [
     { name = "coverage" },
     { name = "ddt" },
     { name = "django", specifier = ">=4.2,<5.0" },
+    { name = "edx-lint" },
+    { name = "mock" },
+    { name = "pycodestyle" },
+    { name = "pytest-cov" },
+    { name = "pytz" },
+]
+quality = [
+    { name = "coverage" },
+    { name = "ddt" },
     { name = "edx-lint" },
     { name = "mock" },
     { name = "pycodestyle" },
