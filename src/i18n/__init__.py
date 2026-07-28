@@ -4,10 +4,14 @@ Tool to be used by other IDAs for internationalization.
 
 import argparse
 import sys
+from importlib.metadata import PackageNotFoundError, version
 
 from . import config
 
-__version__ = "2.0.0"
+try:
+    __version__ = version("edx-i18n-tools")
+except PackageNotFoundError:
+    __version__ = "unknown"
 
 
 class Runner:

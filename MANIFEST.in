@@ -1,4 +1,10 @@
-include LICENSE.txt
-include README.rst
-include requirements/base.in
-include requirements/constraints.txt
+# Exclude development, test, and documentation folders
+prune .github
+prune docs
+prune tests
+
+# Exclude root level configuration and build files
+exclude Makefile
+exclude conftest.py
+exclude .gitignore
+exclude tox.ini

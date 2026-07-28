@@ -1,0 +1,141 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm>8.1"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "edx-i18n-tools"
+description = "edX Internationalization Tools"
+requires-python = ">=3.12"
+license = "Apache-2.0"
+license-files = ["LICENSE*"]
+authors = [
+    {name = "Open edX Project", email = "oscm@openedx.org"},
+]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Environment :: Web Environment",
+    "Framework :: Django",
+    "Framework :: Django :: 4.2",
+    "Framework :: Django :: 5.2",
+    "Intended Audience :: Developers",
+    "Natural Language :: English",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.12",
+]
+keywords = [
+    "Python",
+    "edx",
+    "i18n",
+]
+
+dynamic = ["readme", "version"]
+
+dependencies = [
+    "Django",
+    "polib",
+    "path",
+    "pyYaml",
+    "lxml[html_clean]",
+]
+
+[project.scripts]
+i18n_tool = "i18n.main:main"
+
+[project.urls]
+Homepage = "https://github.com/openedx/i18n-tools"
+Repository = "https://github.com/openedx/i18n-tools"
+
+[tool.setuptools]
+include-package-data = true
+
+[tool.setuptools.dynamic]
+readme = {file = ["README.rst"], content-type = "text/x-rst"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+"*" = []
+
+[dependency-groups]
+test-base = [
+    "coverage",
+    "ddt",
+    "mock",
+    "pytest-cov",
+    "pycodestyle",
+    "edx-lint",
+    "pytz",
+]
+test = [
+    {include-group = "test-base"},
+    "Django>=5.2,<6.0",
+]
+django42 = [
+    {include-group = "test-base"},
+    "Django>=4.2,<5.0",
+]
+ci = [
+    "tox",
+    "tox-uv",
+]
+dev = [
+    {include-group = "test-base"},
+    {include-group = "ci"},
+]
+
+[tool.setuptools_scm]
+version_scheme = "only-version"
+local_scheme = "no-local-version"
+fallback_version = "0.0.0.dev0"
+
+[tool.semantic_release]
+build_command = "pip install build && SETUPTOOLS_SCM_PRETEND_VERSION=$NEW_VERSION python -m build"
+
+[tool.semantic_release.commit_parser_options]
+minor_tags = ["feat", "docs"]
+
+[tool.uv]
+conflicts = [
+    [{group = "test"}, {group = "django42"}],
+]
+#  DO NOT EDIT constraint-dependencies DIRECTLY.
+#  This list is managed by `edx_lint write_uv_constraints`
+#  and will be overwritten the next time `make upgrade` is run.
+#  - GLOBAL constraints: edit edx_lint/files/common_constraints.txt
+#  - REPO-SPECIFIC constraints: edit [tool.edx_lint].uv_constraints in this file
+constraint-dependencies = [
+    "Django<6.0",
+    "elasticsearch<7.14.0",
+    "path<=16.16.0",
+]
+
+[tool.edx_lint]
+# Repo-specific uv constraints merged with edx-lint's global constraints.
+# Local entries override global ones for the same package.
+# Run `make upgrade` to regenerate [tool.uv].constraint-dependencies.
+uv_constraints = [
+    # Date: 2025-01-01
+    # path 17.0.0 deprecated abspath
+    # https://github.com/jaraco/path/blob/main/NEWS.rst#v1700
+    # See https://github.com/openedx/i18n-tools/issues/147
+    "path<=16.16.0",
+]
+
+[tool.coverage.run]
+branch = true
+source = ["."]
+omit = [
+    "setup.py",
+    "conf/*",
+    ".tox/*",
+]
+
+[tool.coverage.report]
+show_missing = true
+
+[tool.pytest.ini_options]
+addopts = "--cov tests --cov-report term-missing --cov-report xml"
+

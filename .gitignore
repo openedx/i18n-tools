@@ -12,7 +12,6 @@ cover/
 log/
 reports/
 dist/
-/src/
 \#*\#
 *.egg-info
 *.mo
