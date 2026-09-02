@@ -1,0 +1,130 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm>8.1"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "edx-i18n-tools"
+description = "edX Internationalization Tools"
+requires-python = ">=3.12"
+license = "Apache-2.0"
+license-files = ["LICENSE*", "NOTICE*"]
+authors = [
+    {name = "Open edX Project", email = "oscm@openedx.org"},
+]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Environment :: Web Environment",
+    "Framework :: Django",
+    "Framework :: Django :: 4.2",
+    "Framework :: Django :: 5.2",
+    "Intended Audience :: Developers",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.12",
+]
+keywords = [
+    "Python",
+    "edx",
+]
+
+dynamic = ["readme", "version"]
+
+dependencies = [
+    "Django",
+    "polib",
+    "path",
+    "pyYaml",
+    "lxml[html_clean]",
+]
+
+[project.scripts]
+i18n_tool = "i18n.main:main"
+
+[project.urls]
+Homepage = "https://github.com/openedx/i18n-tools"
+Repository = "https://github.com/openedx/i18n-tools"
+
+[dependency-groups]
+test-base = [
+    "coverage",
+    "ddt",
+    "mock",
+    "pytest-cov",
+    "pytz",
+]
+test = [
+    {include-group = "test-base"},
+    "Django>=5.2,<5.3",
+]
+django42 = [
+    {include-group = "test-base"},
+    "Django>=4.2,<4.3",
+]
+quality = [
+    {include-group = "test"},
+    "edx-lint",
+    "pycodestyle",
+]
+ci = [
+    "tox",
+    "tox-uv",
+]
+dev = [
+    {include-group = "quality"},
+    {include-group = "ci"},
+]
+
+[tool.setuptools]
+include-package-data = true
+
+[tool.setuptools.dynamic]
+readme = {file = ["README.rst"], content-type = "text/x-rst"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.semantic_release]
+# We use SETUPTOOLS_SCM_PRETEND_VERSION to pull the version from
+# python-semantic-release instead of pulling it from version control, because
+# the build step happens before the repo gets tagged. Setuptools has no way of
+# overriding the version at build time without a setup.py file, and this avoids
+# the boilerplate.
+build_command = "pip install build && SETUPTOOLS_SCM_PRETEND_VERSION=$NEW_VERSION python -m build"
+
+[tool.setuptools_scm]
+version_scheme = 'only-version'
+local_scheme = 'no-local-version'
+fallback_version = "0.0.0.dev0"
+
+[tool.uv]
+conflicts = [
+    [{group = "test"}, {group = "django42"}],
+]
+constraint-dependencies = [
+    "Django<6.0",
+    "elasticsearch<7.14.0",
+    "social-auth-app-django<6.0.0",
+    "social-auth-core<5.0.0",
+    "pip<26.2.1",
+    "path<=16.16.0",
+]
+
+[tool.edx_lint]
+# Repo-specific uv constraints merged with edx-lint's global constraints.
+# Local entries override global ones for the same package.
+# Run `make upgrade` to regenerate [tool.uv].constraint-dependencies.
+uv_constraints = [
+    # Path 17.0.0 deprecated abspath
+    # https://github.com/jaraco/path/blob/main/NEWS.rst#v1700
+    # See https://github.com/openedx/i18n-tools/issues/147
+    "path<=16.16.0",
+]
+
+[tool.coverage.run]
+branch = true
+source = ["."]
+omit = [
+    "conf/*",
+    ".tox/*",
+]
