@@ -1,4 +1,13 @@
-include LICENSE.txt
-include README.rst
-include requirements/base.in
-include requirements/constraints.txt
+# Exclude development, test, and documentation folders
+prune .github
+prune tests
+
+# Exclude root level configuration and build files
+exclude Makefile
+exclude tox.ini
+exclude .gitignore
+
+# Exclude coverage artifacts
+prune htmlcov
+exclude coverage.xml
+exclude .coverage
