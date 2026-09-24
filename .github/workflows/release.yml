@@ -35,6 +35,7 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           git_committer_name: "github-actions"
           git_committer_email: "actions@users.noreply.github.com"
+          changelog: "false"
           # Commit, tag, push and build, but don't create the GitHub release.
           # We create it ourselves in the next step so that the distributions
           # are attached before the release is published. See that step for why.
@@ -89,4 +90,3 @@ jobs:
 
       - name: Publish to PyPI
         uses: pypa/gh-action-pypi-publish@dc37677b2e1c63e2034f94d8a5b11f265b73ba33 # v1.14.2
-        # No user/password — OIDC trusted publisher (already configured on the repo's PyPI project).
