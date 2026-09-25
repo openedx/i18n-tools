@@ -4,10 +4,11 @@ Tool to be used by other IDAs for internationalization.
 
 import argparse
 import sys
+from importlib.metadata import version
 
 from . import config
 
-__version__ = "2.0.0"
+__version__ = version("edx-i18n-tools")
 
 
 class Runner:
