@@ -117,7 +117,7 @@ uv_constraints = []
 
 [tool.coverage.run]
 branch = true
-source = ["."]
+source_pkgs = ["i18n"]
 omit = [
     "conf/*",
     ".tox/*",
