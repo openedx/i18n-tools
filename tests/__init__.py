@@ -2,12 +2,13 @@
 Initialization for unit tests.
 """
 
+import os
 from path import Path as path
 from unittest import TestCase
 
 from i18n import config
 
-TEST_DATA_DIR = path('.').abspath() / 'tests' / 'data'
+TEST_DATA_DIR = path(os.path.abspath('.')) / 'tests' / 'data'
 MOCK_APPLICATION_DIR = TEST_DATA_DIR / 'mock-application'
 MOCK_DJANGO_APP_DIR = TEST_DATA_DIR / 'mock-django-app'
 
