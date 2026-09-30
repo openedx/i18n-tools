@@ -29,10 +29,10 @@ jobs:
       run: sudo apt install gettext
 
     - name: Install CI dependencies
-      run: uv sync --group ci
+      run: uv sync --locked --group ci
 
     - name: Run Tests
-      run: uv run tox -e ${{ matrix.toxenv }}
+      run: uv run --locked tox -e ${{ matrix.toxenv }}
 
     - name: Upload coverage to CodeCov
       if: matrix.python-version == '3.12' && matrix.toxenv == 'django42'
