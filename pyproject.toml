@@ -115,6 +115,9 @@ constraint-dependencies = [
 # Run `make upgrade` to regenerate [tool.uv].constraint-dependencies.
 uv_constraints = []
 
+[tool.pytest.ini_options]
+addopts = "--cov --cov-report term-missing --cov-report xml"
+
 [tool.coverage.run]
 branch = true
 source = ["src"]
