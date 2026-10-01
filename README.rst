@@ -8,7 +8,7 @@ EdX i18n tools are a set of commands useful for developers and translators to
 extract, compile and validate translations. The edX i18n tools can be installed
 running the following command inside the extracted directory.
 
-``python setup.py install``
+``pip install edx-i18n-tools``
 
 Running
 =======

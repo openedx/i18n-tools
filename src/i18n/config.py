@@ -8,7 +8,7 @@ from path import Path
 
 # BASE_DIR is the working directory to execute django-admin commands from.
 # Typically this should be the 'edx-platform' directory.
-BASE_DIR = Path('.').abspath()
+BASE_DIR = Path(os.path.abspath('.'))
 
 # The base filename for the configuration file.
 BASE_CONFIG_FILENAME = 'config.yaml'
@@ -47,7 +47,7 @@ class Configuration:
         """
         Returns the default name of the configuration file.
         """
-        root_dir = Path(root_dir) if root_dir else Path('.').abspath()
+        root_dir = Path(root_dir) if root_dir else Path(os.path.abspath('.'))
         locale_dir = root_dir / 'locale'
         if not os.path.exists(locale_dir):
             locale_dir = root_dir / 'conf' / 'locale'

@@ -23,6 +23,7 @@ where $DUMMY_LOCALE is the dummy_locale value set in the i18n config
 """
 
 
+import os
 import re
 
 import polib
@@ -216,7 +217,7 @@ def new_filename(original_filename, new_locale):
     """Returns a filename derived from original_filename, using new_locale as the locale"""
     orig_file = Path(original_filename)
     new_file = orig_file.parent.parent.parent / new_locale / orig_file.parent.name / orig_file.name
-    return new_file.abspath()
+    return Path(os.path.abspath(new_file))
 
 
 class DummyCommand(Runner):
