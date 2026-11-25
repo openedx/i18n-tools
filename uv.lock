@@ -1,5 +1,5 @@
 version = 1
-revision = 3
+revision = 5
 requires-python = ">=3.12"
 conflicts = [[
     { package = "edx-i18n-tools", group = "django42" },
@@ -241,7 +241,7 @@ source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "asgiref" },
     { name = "sqlparse" },
-    { name = "tzdata", marker = "(sys_platform == 'win32' and extra == 'group-14-edx-i18n-tools-dev') or (sys_platform == 'win32' and extra != 'group-14-edx-i18n-tools-django42') or (extra == 'group-14-edx-i18n-tools-dev' and extra == 'group-14-edx-i18n-tools-django42') or (extra == 'group-14-edx-i18n-tools-django42' and extra == 'group-14-edx-i18n-tools-quality') or (extra == 'group-14-edx-i18n-tools-django42' and extra == 'group-14-edx-i18n-tools-test')" },
+    { name = "tzdata", marker = "(sys_platform == 'win32' and extra != 'group-14-edx-i18n-tools-django42') or (extra == 'group-14-edx-i18n-tools-dev' and extra == 'group-14-edx-i18n-tools-django42') or (extra == 'group-14-edx-i18n-tools-django42' and extra == 'group-14-edx-i18n-tools-quality') or (extra == 'group-14-edx-i18n-tools-django42' and extra == 'group-14-edx-i18n-tools-test')" },
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/d5/d8/43e9d000519adceb189620b6869ff88031e046df91c2e9da72f8f6918399/django-5.2.17.tar.gz", hash = "sha256:9d4d93be539a18ab80d058eb515900e10951e04c537c5a6b394fc49528d3251f", size = 10889740, upload-time = "2026-08-04T15:04:03.173Z" }
 wheels = [
@@ -253,7 +253,7 @@ name = "edx-i18n-tools"
 source = { editable = "." }
 dependencies = [
     { name = "django", version = "4.2.30", source = { registry = "https://pypi.org/simple" }, marker = "extra == 'group-14-edx-i18n-tools-django42'" },
-    { name = "django", version = "5.2.17", source = { registry = "https://pypi.org/simple" }, marker = "extra == 'group-14-edx-i18n-tools-dev' or extra != 'group-14-edx-i18n-tools-django42' or (extra == 'group-14-edx-i18n-tools-django42' and extra == 'group-14-edx-i18n-tools-quality') or (extra == 'group-14-edx-i18n-tools-django42' and extra == 'group-14-edx-i18n-tools-test')" },
+    { name = "django", version = "5.2.17", source = { registry = "https://pypi.org/simple" }, marker = "extra == 'group-14-edx-i18n-tools-dev' or extra != 'group-14-edx-i18n-tools-django42' or extra == 'group-14-edx-i18n-tools-quality' or extra == 'group-14-edx-i18n-tools-test'" },
     { name = "lxml", extra = ["html-clean"] },
     { name = "path" },
     { name = "polib" },
@@ -741,7 +741,7 @@ wheels = [
 
 [[package]]
 name = "pylint"
-version = "4.0.8"
+version = "4.0.9"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "astroid" },
@@ -752,9 +752,9 @@ dependencies = [
     { name = "platformdirs" },
     { name = "tomlkit" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/5c/2e/424cbfcb3af792a6b7da6e5c640de463b98c8d3a49fbd8882f38e83d4232/pylint-4.0.8.tar.gz", hash = "sha256:1c1b2128bde5ff5e966801413080b6384d42a5782718d528c906dbb6beab94ed", size = 1599177, upload-time = "2026-08-29T12:21:59.188Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/e0/5e/d5ec2c861010cf8577a3e5baaf2405fdf1004f1657d9245c4efb006c1dfd/pylint-4.0.9.tar.gz", hash = "sha256:6f1305780229ae720e89b8aff2b3ff857cbb268fbab98c8b586960267667ad34", size = 1604187, upload-time = "2026-09-23T15:26:43.144Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/2b/ea/9b601859afa055afe659ffe55abdfed6e5f17e17a840d9cd61c54ac89c02/pylint-4.0.8-py3-none-any.whl", hash = "sha256:3341c08c0aabaa4adc71516de0969f3ba5c692b56c75af4dcb4d242823fbe363", size = 540709, upload-time = "2026-08-29T12:21:57.392Z" },
+    { url = "https://files.pythonhosted.org/packages/66/46/12e94ae1f9db89152223bdb17920b12c79e94ac51e19dce1da9fb63627b0/pylint-4.0.9-py3-none-any.whl", hash = "sha256:c4ba5bbaf1e70ecf05f08cd7d6091ea04824b79a2b2d9f5b10dc25fc34cb1124", size = 542068, upload-time = "2026-09-23T15:26:41.626Z" },
 ]
 
 [[package]]
@@ -810,7 +810,7 @@ name = "pytest"
 version = "9.1.1"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
-    { name = "colorama", marker = "sys_platform == 'win32' or (extra == 'group-14-edx-i18n-tools-dev' and extra == 'group-14-edx-i18n-tools-django42') or (extra == 'group-14-edx-i18n-tools-django42' and extra == 'group-14-edx-i18n-tools-quality') or (extra == 'group-14-edx-i18n-tools-django42' and extra == 'group-14-edx-i18n-tools-test')" },
+    { name = "colorama", marker = "sys_platform == 'win32'" },
     { name = "iniconfig" },
     { name = "packaging" },
     { name = "pluggy" },
@@ -982,7 +982,7 @@ dependencies = [
     { name = "pyproject-api" },
     { name = "python-discovery" },
     { name = "tomli-w" },
-    { name = "typing-extensions", marker = "python_full_version < '3.13' or (extra == 'group-14-edx-i18n-tools-dev' and extra == 'group-14-edx-i18n-tools-django42') or (extra == 'group-14-edx-i18n-tools-django42' and extra == 'group-14-edx-i18n-tools-quality') or (extra == 'group-14-edx-i18n-tools-django42' and extra == 'group-14-edx-i18n-tools-test')" },
+    { name = "typing-extensions", marker = "python_full_version < '3.13'" },
     { name = "virtualenv" },
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/c3/8b/2e25d11c05e006438f8a1f20f8814aeb576ec8b3bf157f68454d2dcc09bf/tox-4.61.2.tar.gz", hash = "sha256:463b6eeaaf0929d60b4f7a87b26f4a7a764fe9832a74bf50b4e9d259b6a8e905", size = 306825, upload-time = "2026-08-31T20:19:53.614Z" }
